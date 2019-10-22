@@ -48,9 +48,11 @@ class Sortie
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Etat")
-     * @ORM\Column(type="integer")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $etat;
+
+
 
     /**
      * @return mixed
@@ -164,19 +166,17 @@ class Sortie
         $this->infosSortie = $infosSortie;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getEtat()
+    public function getEtat(): ?Etat
     {
         return $this->etat;
     }
 
-    /**
-     * @param mixed $etat
-     */
-    public function setEtat($etat): void
+    public function setEtat(?Etat $etat): self
     {
         $this->etat = $etat;
+
+        return $this;
     }
+
+
 }
