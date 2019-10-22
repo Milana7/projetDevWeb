@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -45,6 +47,28 @@ class Utilisateur
      * @ORM\Column(type="boolean")
      */
     private $actif;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Sortie", inversedBy="utilisateurs")
+     */
+    private $idSortie;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Sortie", mappedBy="organisateur", orphanRemoval=true)
+     */
+    private $sortieOrg;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Site", mappedBy="utilisateursSite")
+     */
+    private $site;
+
+    public function __construct()
+    {
+        $this->idSortie = new ArrayCollection();
+        $this->sortieOrg = new ArrayCollection();
+        $this->site = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -120,6 +144,94 @@ class Utilisateur
     public function setActif(bool $actif): self
     {
         $this->actif = $actif;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Sortie[]
+     */
+    public function getIdSortie(): Collection
+    {
+        return $this->idSortie;
+    }
+
+    public function addIdSortie(Sortie $idSortie): self
+    {
+        if (!$this->idSortie->contains($idSortie)) {
+            $this->idSortie[] = $idSortie;
+        }
+
+        return $this;
+    }
+
+    public function removeIdSortie(Sortie $idSortie): self
+    {
+        if ($this->idSortie->contains($idSortie)) {
+            $this->idSortie->removeElement($idSortie);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Sortie[]
+     */
+    public function getSortieOrg(): Collection
+    {
+        return $this->sortieOrg;
+    }
+
+    public function addSortieOrg(Sortie $sortieOrg): self
+    {
+        if (!$this->sortieOrg->contains($sortieOrg)) {
+            $this->sortieOrg[] = $sortieOrg;
+            $sortieOrg->setOrganisateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSortieOrg(Sortie $sortieOrg): self
+    {
+        if ($this->sortieOrg->contains($sortieOrg)) {
+            $this->sortieOrg->removeElement($sortieOrg);
+            // set the owning side to null (unless already changed)
+            if ($sortieOrg->getOrganisateur() === $this) {
+                $sortieOrg->setOrganisateur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Site[]
+     */
+    public function getSite(): Collection
+    {
+        return $this->site;
+    }
+
+    public function addSite(Site $site): self
+    {
+        if (!$this->site->contains($site)) {
+            $this->site[] = $site;
+            $site->setUtilisateursSite($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSite(Site $site): self
+    {
+        if ($this->site->contains($site)) {
+            $this->site->removeElement($site);
+            // set the owning side to null (unless already changed)
+            if ($site->getUtilisateursSite() === $this) {
+                $site->setUtilisateursSite(null);
+            }
+        }
 
         return $this;
     }

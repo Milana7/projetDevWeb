@@ -21,6 +21,12 @@ class Site
      */
     private $nom;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Utilisateur", inversedBy="site")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $utilisateursSite;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -34,6 +40,18 @@ class Site
     public function setNom(string $nom): self
     {
         $this->nom = $nom;
+
+        return $this;
+    }
+
+    public function getUtilisateursSite(): ?Utilisateur
+    {
+        return $this->utilisateursSite;
+    }
+
+    public function setUtilisateursSite(?Utilisateur $utilisateursSite): self
+    {
+        $this->utilisateursSite = $utilisateursSite;
 
         return $this;
     }
