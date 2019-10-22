@@ -22,7 +22,7 @@ class Site
     private $nom;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Utilisateur", inversedBy="site")
+     * @ORM\OneToMany(targetEntity="App\Entity\Utilisateur", mappedBy="site")
      * @ORM\JoinColumn(nullable=false)
      */
     private $utilisateursSite;
@@ -44,16 +44,20 @@ class Site
         return $this;
     }
 
-    public function getUtilisateursSite(): ?Utilisateur
+    /**
+     * @return mixed
+     */
+    public function getUtilisateursSite()
     {
         return $this->utilisateursSite;
     }
 
-    public function setUtilisateursSite(?Utilisateur $utilisateursSite): self
+    /**
+     * @param mixed $utilisateursSite
+     */
+    public function setUtilisateursSite($utilisateursSite): void
     {
         $this->utilisateursSite = $utilisateursSite;
-
-        return $this;
     }
 
 }

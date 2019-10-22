@@ -21,6 +21,11 @@ class Utilisateur
     /**
      * @ORM\Column(type="string", length=30)
      */
+    private $pseudo;
+
+    /**
+     * @ORM\Column(type="string", length=30)
+     */
     private $nom;
 
     /**
@@ -59,7 +64,7 @@ class Utilisateur
     private $sortieOrg;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Site", mappedBy="utilisateursSite")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Site", inversedBy="utilisateursSite")
      */
     private $site;
 
@@ -67,12 +72,27 @@ class Utilisateur
     {
         $this->idSortie = new ArrayCollection();
         $this->sortieOrg = new ArrayCollection();
-        $this->site = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPseudo()
+    {
+        return $this->pseudo;
+    }
+
+    /**
+     * @param mixed $pseudo
+     */
+    public function setPseudo($pseudo): void
+    {
+        $this->pseudo = $pseudo;
     }
 
 
@@ -205,34 +225,20 @@ class Utilisateur
         return $this;
     }
 
+
     /**
-     * @return Collection|Site[]
+     * @return mixed
      */
-    public function getSite(): Collection
+    public function getSite()
     {
         return $this->site;
     }
 
-    public function addSite(Site $site): self
+    /**
+     * @param mixed $site
+     */
+    public function setSite($site): void
     {
-        if (!$this->site->contains($site)) {
-            $this->site[] = $site;
-            $site->setUtilisateursSite($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSite(Site $site): self
-    {
-        if ($this->site->contains($site)) {
-            $this->site->removeElement($site);
-            // set the owning side to null (unless already changed)
-            if ($site->getUtilisateursSite() === $this) {
-                $site->setUtilisateursSite(null);
-            }
-        }
-
-        return $this;
+        $this->site = $site;
     }
 }
