@@ -52,6 +52,12 @@ class Sortie
      */
     private $etat;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Lieu", inversedBy="sorties")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $idLieu;
+
 
 
     /**
@@ -174,6 +180,18 @@ class Sortie
     public function setEtat(?Etat $etat): self
     {
         $this->etat = $etat;
+
+        return $this;
+    }
+
+    public function getIdLieu(): ?Lieu
+    {
+        return $this->idLieu;
+    }
+
+    public function setIdLieu(?Lieu $idLieu): self
+    {
+        $this->idLieu = $idLieu;
 
         return $this;
     }

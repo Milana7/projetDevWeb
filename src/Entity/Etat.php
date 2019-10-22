@@ -17,7 +17,6 @@ class Etat
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Sortie", mappedBy="Etat")
      * @ORM\Column(type="string", length=30)
      */
     private $libelle;
