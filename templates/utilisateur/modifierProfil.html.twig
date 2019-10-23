@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="text-center">
+        <h1>Mon Profil</h1>
+    </div>
+
+    {{ form_start(utilisateurForm) }}
+    {{ form_widget(utilisateurForm) }}
+    <button type="submit" class="btn btn-success">Enregistrer</button>
+    <a href="modifierProfil.html.twig">
+        <button type="button" class="btn btn-danger">Annuler</button>
+    </a>
+    <button type="button" class="btn btn-info">Modifier mot de passe</button>
+    <a href="">
+        <button type="button" class="btn btn-warning">Retour</button>
+    </a>
+    {{ form_end(utilisateurForm) }}
+
+    <div class="flashes">
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+        {% endfor %}
+    </div>
+
+{% endblock %}
+
+{% block title %}Modifier votre profil{% endblock %}

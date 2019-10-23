@@ -5,21 +5,35 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ *
+ * @UniqueEntity(fields={"pseudo"}, message="Ce pseudo n'est pas disponible !")
+ *
  * @ORM\Entity(repositoryClass="App\Repository\UtilisateurRepository")
  */
-class Utilisateur
+class Utilisateur implements UserInterface
 {
     /**
      * @ORM\Id()
-     * @ORM\GeneratedValue()
+     * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=30)
+     * @Assert\Length(
+     *      min = 4,
+     *      max = 30,
+     *      minMessage = "Votre pseudo doit contenir minimum {{ limit }} caractères !",
+     *      maxMessage = "Votre pseudo doit contenir au maximum {{ limit }} caractères !"
+     * )
+     * @Assert\Regex(pattern="/^[a-z0-9_-]+$/i", message="Your username must contains only letters, numbers, underscores and dashes!")
+     *
+     * @ORM\Column(type="string", length=30, unique=true)
      */
     private $pseudo;
 
@@ -39,9 +53,23 @@ class Utilisateur
     private $telephone;
 
     /**
-     * @ORM\Column(type="string", length=30)
+     * @ORM\Column(type="string", length=60, unique=true)
      */
     private $mail;
+
+    /**
+     * @Assert\NotBlank(message="Votre mot de passe ne peut pas être vide !")
+     * @Assert\Length(
+     *      min = 6,
+     *      max = 4096,
+     *      minMessage = "Votre mot de passe doit contenir minimum {{ limit }} caractères !",
+     *      maxMessage = "Votre mot de passe doit contenir au maximum {{ limit }} caractères !"
+     * )
+     *
+     * @ORM\Column(type="string", length=255)
+     */
+    private $password;
+
 
     /**
      * @ORM\Column(type="boolean")
@@ -67,6 +95,20 @@ class Utilisateur
      * @ORM\ManyToOne(targetEntity="App\Entity\Site", inversedBy="utilisateursSite")
      */
     private $site;
+
+    /**
+     * @ORM\Column(type="text", length=255, nullable=true)
+     */
+    private $file;
+
+    /**
+     * @Assert\File(
+     *     maxSize = "2Mi",
+     *     uploadErrorMessage="Le fichier n'a pas été téléchargé",
+     *     maxSizeMessage ="Le fichier est trop lourd : {{ limit }} {{ suffix }}",
+     * )
+     */
+    private $fileTemp;
 
     public function __construct()
     {
@@ -144,6 +186,17 @@ class Utilisateur
         return $this;
     }
 
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+
+    public function setPassword($password): void
+    {
+        $this->password = $password;
+    }
+
     public function getAdministrateur(): bool
     {
         return $this->administrateur;
@@ -168,9 +221,36 @@ class Utilisateur
         return $this;
     }
 
-    /**
-     * @return Collection|Sortie[]
-     */
+    public function getSite()
+    {
+        return $this->site;
+    }
+
+    public function setSite($site): void
+    {
+        $this->site = $site;
+    }
+
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    public function setFile($file): void
+    {
+        $this->file = $file;
+    }
+
+    public function getFileTemp()
+    {
+        return $this->fileTemp;
+    }
+
+    public function setFileTemp($fileTemp): void
+    {
+        $this->fileTemp = $fileTemp;
+    }
+
     public function getIdSortie(): Collection
     {
         return $this->idSortie;
@@ -194,9 +274,6 @@ class Utilisateur
         return $this;
     }
 
-    /**
-     * @return Collection|Sortie[]
-     */
     public function getSortieOrg(): Collection
     {
         return $this->sortieOrg;
@@ -227,18 +304,54 @@ class Utilisateur
 
 
     /**
-     * @return mixed
+     * Returns the roles granted to the user.
+     *
+     *     public function getRoles()
+     *     {
+     *         return ['ROLE_USER'];
+     *     }
+     *
+     * Alternatively, the roles might be stored on a ``roles`` property,
+     * and populated in any number of different ways when the user object
+     * is created.
+     *
+     * @return (Role|string)[] The user roles
      */
-    public function getSite()
+    public function getRoles()
     {
-        return $this->site;
+        // TODO: Implement getRoles() method.
     }
 
     /**
-     * @param mixed $site
+     * Returns the salt that was originally used to encode the password.
+     *
+     * This can return null if the password was not encoded using a salt.
+     *
+     * @return string|null The salt
      */
-    public function setSite($site): void
+    public function getSalt()
     {
-        $this->site = $site;
+        // TODO: Implement getSalt() method.
+    }
+
+    /**
+     * Returns the username used to authenticate the user.
+     *
+     * @return string The username
+     */
+    public function getUsername()
+    {
+        // TODO: Implement getUsername() method.
+    }
+
+    /**
+     * Removes sensitive data from the user.
+     *
+     * This is important if, at any given point, sensitive information like
+     * the plain-text password is stored on this object.
+     */
+    public function eraseCredentials()
+    {
+        // TODO: Implement eraseCredentials() method.
     }
 }
