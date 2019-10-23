@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+<h1>{{ utilisateur.getName() }}</h1>
+
+<label>Pseudo : </label>
+<div class="text-center">{{ utilisateur.pseudo }}</div>
+<div class="text-center">{{ utilisateur.nom }}</div>
+<div class="text-center">{{ utilisateur.telephone }}</div>
+<div class="text-center">{{ utilisateur.mail }}</div>
+<div class="text-center">{{ utilisateur.site }}</div>
+
+<a href="">
+    <button type="button" class="btn btn-warning">Retour</button>
+</a>
+
+
+{% endblock %}
+
+{% block title %}Mon profil{% endblock %}
