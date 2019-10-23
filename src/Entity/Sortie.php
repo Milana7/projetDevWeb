@@ -113,7 +113,8 @@ class Sortie
      */
     public function getDateHeureDebut()
     {
-        return $this->dateHeureDebut;
+        if ($this->dateHeureDebut instanceof \DateTime)
+            return $this->dateHeureDebut->format('d/m/Y');
     }
 
     /**
@@ -145,7 +146,8 @@ class Sortie
      */
     public function getDateLimiteInscription()
     {
-        return $this->dateLimiteInscription;
+        if ($this->dateLimiteInscription instanceof \DateTime)
+            return $this->dateLimiteInscription->format('d/m/Y');
     }
 
     /**

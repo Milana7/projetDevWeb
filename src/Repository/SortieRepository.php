@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Sortie;
+use App\Entity\Utilisateur;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -48,8 +49,16 @@ class SortieRepository extends ServiceEntityRepository
     }
     */
 
-/*    public function findAll()
+    /**
+     * @return Sortie[]
+     */
+    public function listeSortiesAll()
     {
-
-    }*/
+        return $this
+            ->createQueryBuilder('sortie')
+            //->from('App:Sortie', 'sortie')
+            ->innerJoin(Utilisateur::class, 'u')
+            ->getQuery()
+            ->getResult();
+    }
 }
