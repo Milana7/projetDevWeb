@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SortieRepository")
@@ -19,22 +20,43 @@ class Sortie
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=30)
+     * @ORM\Column(type="string", length=50)
+     *
+     * @Assert\NotBlank
+     * @Assert\Length(
+     *     min = 5,
+     *     max = 50,
+     *     minMessage = "Le nom de la sortie doit être composé d'au moins {{ limit }} caractères",
+     *     maxMessage = "Le nom de la sortie doit être composé d'au moins {{ limit }} caractères"
+     * )
      */
     private $nom;
 
     /**
      * @ORM\Column(type="datetime")
+     *
+     * @Assert\NotBlank(message="La date de début est obligatoire")
+     * @Assert\DateTime(
+     *     format = "d-m-Y H:i",
+     *     message = "Le format de la date ne correspond pas à celui qui est attenu (jj/mm/aaaa hh:mm)"
+     * )
      */
     private $dateHeureDebut;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     *
      */
     private $duree;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\NotBlank(message="La date limite d'inscription est obligatoire")
+     * @Assert\DateTime(
+     *     format = "d-m-Y H:i",
+     *     message = "Le format de la date ne correspond pas à celui qui est attenu (jj/mm/aaaa hh:mm)"
+     * )
+     *
      */
     private $dateLimiteInscription;
 

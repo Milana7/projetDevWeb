@@ -1,5 +1,16 @@
 @import "~bootstrap/dist/css/bootstrap.css";
 
-body {
-    background-color: lightgray;
+
+
+.row{
+    margin-left: 0;
+}
+
+#creerSortie-btnGroupe {
+    margin: auto;
+}
+
+#creerSortie-btnGroupe .btn {
+    margin : 0 1em;
+    padding : 0.3em 1em;
 }
