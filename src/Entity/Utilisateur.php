@@ -96,6 +96,20 @@ class Utilisateur implements UserInterface
      */
     private $site;
 
+    /**
+     * @ORM\Column(type="text", length=255, nullable=true)
+     */
+    private $file;
+
+    /**
+     * @Assert\File(
+     *     maxSize = "2Mi",
+     *     uploadErrorMessage="Le fichier n'a pas été téléchargé",
+     *     maxSizeMessage ="Le fichier est trop lourd : {{ limit }} {{ suffix }}",
+     * )
+     */
+    private $fileTemp;
+
     public function __construct()
     {
         $this->idSortie = new ArrayCollection();
@@ -215,6 +229,26 @@ class Utilisateur implements UserInterface
     public function setSite($site): void
     {
         $this->site = $site;
+    }
+
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    public function setFile($file): void
+    {
+        $this->file = $file;
+    }
+
+    public function getFileTemp()
+    {
+        return $this->fileTemp;
+    }
+
+    public function setFileTemp($fileTemp): void
+    {
+        $this->fileTemp = $fileTemp;
     }
 
     public function getIdSortie(): Collection
