@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <title>{% block title %}Sortir.com{% endblock %}</title>
 
     {% block stylesheets %}
@@ -14,13 +15,36 @@
 <div class="container">
 
 
+    <nav class="navbar navbar-dark bg-dark">
+        <header>
+            <a class="site-title" href="{# {{ path('main_sortie') }} #}" title="SORTIR.COM | Accueil">
+                <img src="{{ asset('image/sortir.png') }}" alt="SORTIR.COM" width=30 height=30>
+            </a>
+            <nav>
+                <ul>
+                    {% if is_granted("ROLE_ADMIN") %}
+                        <li><a href="{#{{ path("gererSites") }}#}" title="Gérer les Sites">Gérer les Sites</a></li>
+                        <li><a href="{#{{ path("gererUtilisateurs") }}#}" title="Gérer les utilisateurs">Gérer les
+                                utilisateurs</a></li>
+                    {% endif %}
+                    {% if is_granted("ROLE_USER") %}
+                        <li><a href="{#{{ path("sortie") }}#}" title="SORTIR.COM | Home">Accueil</a></li>
+                        <li><a href="{#{{ path("utilisateur_ajouter") }}#}" title="Mon profil">Mon profil</a></li>
+                        <li><a href="{#{{ path("logout") }}#}" title="Logout">Logout</a></li>
+                    {% endif %}
+
+                </ul>
+            </nav>
+        </header>
+    </nav>
+
 
     {% block body %}{% endblock %}
     {% block javascripts %}{% endblock %}
 
     <footer>
         <hr>
-        © {{ "now"|date("Y") }} Sortir.com
+        <div class="text-center"> © {{ "now"|date("Y") }} Sortir.com</div>
     </footer>
 
 </div>
