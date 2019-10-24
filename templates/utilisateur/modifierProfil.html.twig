@@ -3,33 +3,44 @@
 {% block body %}
     <div class="text-center">
         <h1>Mon Profil</h1>
+        <br>
     </div>
+    {# Utilisation des colonnes de bootstrap#}
+    <div class="row">
+        <div class="image col-lg-3 col-md-3 col-sm-3 col-xs-12 mb-4 ml-4 mr-4">
+            <img src="{{ asset('image/sortir.png') }}" class="img-thumbnail rounded">
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            {# Création du formulaire avec certains champs fixes #}
+            {{ form_start(utilisateurForm) }}
+            {{ form_widget(utilisateurForm) }}
+            <br>
+            <button type="submit" class="btn btn-success">Enregistrer</button>
+            <a href="/sortie/sortie.html.twig">
+                <button type="button" class="btn btn-danger">Annuler</button>
+            </a>
+            {# Modale à ouvrir !!#}
+            <button type="button" class="btn btn-info">Modifier mot de passe</button>
 
-    {{ form_start(utilisateurForm) }}
-    {{ form_widget(utilisateurForm) }}
-    <button type="submit" class="btn btn-success">Enregistrer</button>
-    <a href="modifierProfil.html.twig">
-        <button type="button" class="btn btn-danger">Annuler</button>
-    </a>
-    <button type="button" class="btn btn-info">Modifier mot de passe</button>
-    <a href="">
-        <button type="button" class="btn btn-warning">Retour</button>
-    </a>
-    {{ form_end(utilisateurForm) }}
+            {{ form_end(utilisateurForm) }}
 
-    <div class="flashes">
-        {% for label, messages in app.flashes %}
-            {% for message in messages %}
-                <div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
-                    {{ message }}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            {% endfor %}
-        {% endfor %}
+            {# Message flash qui informe que le profil a été modifié#}
+            <div class="flashes">
+                {% for label, messages in app.flashes %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12"></div>
+
     </div>
-
 {% endblock %}
 
 {% block title %}Modifier votre profil{% endblock %}

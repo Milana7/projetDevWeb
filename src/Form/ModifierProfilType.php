@@ -34,7 +34,9 @@ class ModifierProfilType extends AbstractType
                 "label" => "Votre numéro de portable : "
             ])
             ->add('mail', EmailType::class, [
-                "label" => "Votre E-Mail : "
+                "label" => "Votre E-Mail : ",
+                // Permet de ne pas pouvoir changer le mail
+                "disabled" => true
             ])
             ->add('password', RepeatedType::class, array(
                 'type' => PasswordType::class,
@@ -45,6 +47,8 @@ class ModifierProfilType extends AbstractType
             ->add('site', EntityType::class, array('class' => Site::class,
                 // Attribut utilisé pour l'affichage
                 'choice_label' => 'nom',
+                // Permet de ne pas pouvoir changer le site.
+                "disabled" => true,
                 //Fait une requête particulière
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('c')
