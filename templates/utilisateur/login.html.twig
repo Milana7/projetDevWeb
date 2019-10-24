@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Connexion{% endblock %}
+{% block title %}Connexion | {{ parent() }}{% endblock %}
 
-{% block body %}
+{% block main %}
     <form action="{{ path('login') }}" method="post">
         <div>
             <label for="username">Identifiant :</label>
-            <input type="text" id="username" name="_username" value="{{ last_username }}"/>
+            <input type="text" id="username" name="_username" value="{{ last_username }}" placeholder="prenom.nom+annee@campus-eni.fr"/>
         </div>
         <div>
             <label for="password">Mot de passe :</label>
@@ -18,7 +18,7 @@
                 <label for="remember_me" class="form-check-inline">Remember me</label>
             </div>
             <div>
-                <a href="">Mot de passe oublié</a>
+                <a href="">Mot de passe oublié ?</a>
             </div>
         </div>
         {% if error %}
