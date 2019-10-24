@@ -16,8 +16,9 @@ class SortieController extends Controller
 {
 
     /**
-     * @Route("/", name="sortie")
      * Affiche toutes les sorties disponibles
+     *
+     * @Route("/", name="sortie")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -38,23 +39,47 @@ class SortieController extends Controller
     }
 
     /**
-     * @Route("/mesSortiesOrganisees/{idOrg}", name="sortieByIdOrg")
      * Affiche les sorties par identifiant de l'organisateur
+     *
+     * @Route("/mesSortiesOrganisees/{idOrg}", name="sortieByIdOrg")
      * @param Request $request
-     * @param Utilisateur $id
+     * @param Utilisateur $idOrg
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function listSortiesByIdOrg(Request $request)
+    public function listSortiesByIdOrg(Request $request,$idOrg)
     {
         $repository = $this
             ->getDoctrine()
             ->getManager()
             ->getRepository('App:Sortie');
 
-        $listSortie = $repository->listByOrganiser(1);
+        $listSortie = $repository->listByOrganiser($idOrg);
 
 
         return $this->render('sortie/sortiesByOrganiser.html.twig',[
+            'controller_name' => 'SortieController',
+            'listSortie' => $listSortie,
+        ]);
+    }
+
+    /**
+     * Affiche les sorties qui ont une date expirée
+     *
+     * @Route("/sortiesPassees", name="sortiesExpired")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function listSortiesExpired(Request $request)
+    {
+        $repository = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('App:Sortie');
+
+        $listSortie = $repository->listSortiesExpired();
+
+
+        return $this->render('sortie/sortiesExpired.html.twig',[
             'controller_name' => 'SortieController',
             'listSortie' => $listSortie,
         ]);
