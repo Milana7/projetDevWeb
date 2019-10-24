@@ -53,6 +53,9 @@ class Utilisateur implements UserInterface
     private $telephone;
 
     /**
+     * @Assert\NotBlank(message="Your email must ne not blank")
+     * @Assert\Email(message="Your email is not valid!")
+     *
      * @ORM\Column(type="string", length=60, unique=true)
      */
     private $mail;
@@ -70,6 +73,10 @@ class Utilisateur implements UserInterface
      */
     private $password;
 
+    /**
+     * @ORM\Column(type="json_array")
+     */
+    private $roles = [];
 
     /**
      * @ORM\Column(type="boolean")
@@ -319,19 +326,28 @@ class Utilisateur implements UserInterface
      */
     public function getRoles()
     {
-        // TODO: Implement getRoles() method.
+        return $this->roles;
     }
 
-    /**
-     * Returns the salt that was originally used to encode the password.
-     *
-     * This can return null if the password was not encoded using a salt.
-     *
-     * @return string|null The salt
-     */
+    public function setRoles($roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    public function addRole($role): self
+    {
+
+        $roles = $this->roles;
+        $roles[] = $role;
+        $this->roles = array_unique($roles);
+
+        return $this;
+    }
+
     public function getSalt()
     {
-        // TODO: Implement getSalt() method.
     }
 
     /**
@@ -341,7 +357,7 @@ class Utilisateur implements UserInterface
      */
     public function getUsername()
     {
-        // TODO: Implement getUsername() method.
+        return $this->getMail();
     }
 
     /**
@@ -352,6 +368,5 @@ class Utilisateur implements UserInterface
      */
     public function eraseCredentials()
     {
-        // TODO: Implement eraseCredentials() method.
     }
 }
