@@ -47,10 +47,32 @@ class SortieController extends Controller
      * @Route("/mesSortiesOrganisees/{idOrg}", name="sortieByIdOrg")
      * Affiche les sorties par identifiant de l'organisateur
      * @param Request $request
-     * @param Utilisateur $id
+     * @param Utilisateur $idOrg
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function listSortiesByIdOrg(Request $request)
+    public function listSortiesByIdOrg(Request $request,$idOrg)
+    {
+        $repository = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('App:Sortie');
+
+        $listSortie = $repository->listByOrganiser($idOrg);
+
+
+        return $this->render('sortie/sortiesByOrganiser.html.twig',[
+            'controller_name' => 'SortieController',
+            'listSortie' => $listSortie,
+        ]);
+    }
+
+    /**
+     * @Route("/sortiesPassees", name="sortiesExpired")
+     * Affiche les sorties par identifiant de l'organisateur
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function listSortiesExpired(Request $request)
     {
         $repository = $this
             ->getDoctrine()
