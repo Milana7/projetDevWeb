@@ -16,8 +16,9 @@ class SortieController extends Controller
 {
 
     /**
-     * @Route("/", name="sortie")
      * Affiche toutes les sorties disponibles
+     *
+     * @Route("/", name="sortie")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -38,8 +39,9 @@ class SortieController extends Controller
     }
 
     /**
-     * @Route("/mesSortiesOrganisees/{idOrg}", name="sortieByIdOrg")
      * Affiche les sorties par identifiant de l'organisateur
+     *
+     * @Route("/mesSortiesOrganisees/{idOrg}", name="sortieByIdOrg")
      * @param Request $request
      * @param Utilisateur $idOrg
      * @return \Symfony\Component\HttpFoundation\Response
@@ -61,8 +63,9 @@ class SortieController extends Controller
     }
 
     /**
+     * Affiche les sorties qui ont une date expirée
+     *
      * @Route("/sortiesPassees", name="sortiesExpired")
-     * Affiche les sorties par identifiant de l'organisateur
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -73,10 +76,10 @@ class SortieController extends Controller
             ->getManager()
             ->getRepository('App:Sortie');
 
-        $listSortie = $repository->listByOrganiser(1);
+        $listSortie = $repository->listSortiesExpired();
 
 
-        return $this->render('sortie/sortiesByOrganiser.html.twig',[
+        return $this->render('sortie/sortiesExpired.html.twig',[
             'controller_name' => 'SortieController',
             'listSortie' => $listSortie,
         ]);

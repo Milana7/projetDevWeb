@@ -69,14 +69,33 @@ class SortieRepository extends ServiceEntityRepository
      */
     public function listByOrganiser($idOrg)
     {
+
+
         return $this
-            ->createQueryBuilder('sortie')
-            ->innerJoin( Utilisateur::class,'u')
-            ->where('u.id = :id') //ou juste id
+            ->createQueryBuilder('s')
+            ->innerJoin(Utilisateur::class, 'u')
+            ->where('s.organisateur = :id') //ou juste id
+            ->andWhere('u.id = :id')
             ->setParameter('id', $idOrg)
             ->getQuery()
             ->getResult();
 
+    }
 
+
+    /**
+     * Affiche les sorties qui ont une date expirée
+     * @param $idOrg : identifiant de l'organisateur
+     * @return Sortie[]
+     */
+    public function listSortiesExpired()
+    {
+        $date = new \DateTime();
+        return $this
+            ->createQueryBuilder('sortie')
+            ->where('sortie.dateLimiteInscription < :date')
+            ->setParameter('date', $date)
+            ->getQuery()
+            ->getResult();
     }
 }
