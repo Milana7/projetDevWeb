@@ -2,23 +2,48 @@
 
 namespace App\Controller;
 
+use App\Entity\FiltreSortie;
+use App\Entity\Sortie;
 use App\Entity\Utilisateur;
+use App\Form\FiltreSortieType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/sortie", name="sortie")
+ * @Route("/sorties", name="sorties")
  * Class SortieController
  * @package App\Controller
  */
 class SortieController extends Controller
 {
+    /**
+     * Filtrer les sorties sur la page d'accueil
+     *
+     * @Route("/{$nomSortie}", name="sortiesFiltrees")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+/*    public function listSorrfrties(Request $request)
+    {
+        $repository = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('App:Sortie');
+
+        $listSortie = $repository->listSortiesAll();
+        echo "hello";
+
+        return $this->render('sortie/sortie.html.twig',[
+            'controller_name' => 'SortieController',
+            'listSortie' => $listSortie,
+        ]);
+    }*/
 
     /**
      * Affiche toutes les sorties disponibles
      *
-     * @Route("/", name="sortie")
+     * @Route("/")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -31,10 +56,14 @@ class SortieController extends Controller
 
         $listSortie = $repository->listSortiesAll();
 
+        $filtre = new FiltreSortie();
+        $filtre =  $this->createForm(FiltreSortieType::class, $filtre);
+
 
         return $this->render('sortie/sortie.html.twig',[
             'controller_name' => 'SortieController',
             'listSortie' => $listSortie,
+            'filtre' => $filtre->createView()
         ]);
     }
 
