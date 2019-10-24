@@ -4,43 +4,42 @@
 
 {% block main %}
     <div class="row">
-    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12"></div>
-    <div class="ConnexionBlock col-lg-6 col-md-6 col-sm-6 col-xs-6 " >
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12"></div>
+        <div class="ConnexionBlock col-lg-6 col-md-6 col-sm-6 col-xs-6 ">
 
-    <form action="{{ path('login') }}" method="post">
+            <form action="{{ path('login') }}" method="post">
 
-            <div>
-                <label for="username">Identifiant :</label>
-                <input type="text" id="username" name="_username" value="{{ last_username }}"
-                       placeholder="E-Mail de l'ENI"/>
-            </div>
-            <div>
-                <label for="password">Mot de passe :</label>
-                <input type="password" id="password" name="_password"/>
-            </div>
-            <div class="row">
                 <div>
-                    <input type="checkbox" id="remember_me" name="_remember_me" checked/>
-                    <label for="remember_me" class="form-check-inline">Remember me</label>
+                    <label for="username">Identifiant :</label>
+                    <input class="saisiUser" type="text" id="username" name="_username" value="{{ last_username }}"
+                           placeholder="E-Mail de l'ENI"/>
                 </div>
                 <div>
-                    <a href="">Mot de passe oublié ?</a>
+                    <label for="password">Mot de passe :</label>
+                    <input type="password" id="password" name="_password"/>
                 </div>
-            </div>
-            {% if error %}
-                <div>
-                    <ul>
-                        <li>{{ error.messageKey|trans(error.messageData, 'security') }}</li>
-                    </ul>
+                <div class="row">
+                    <div>
+                        <input type="checkbox" id="remember_me" name="_remember_me" checked/>
+                        <label for="remember_me" class="form-check-inline">Remember me</label>
+                    </div>
+                    <div>
+                        <a href="">Mot de passe oublié ?</a>
+                    </div>
                 </div>
-            {% endif %}
+                {% if error %}
+                    <div>
+                        <ul>
+                            <li>{{ error.messageKey|trans(error.messageData, 'security') }}</li>
+                        </ul>
+                    </div>
+                {% endif %}
 
-            <button type="submit">Connexion</button>
+                <button class="boutonValider" type="submit">Connexion</button>
 
 
-
-    </form>
-    </div>
-    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12"></div>
+            </form>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12"></div>
     </div>
 {% endblock %}
