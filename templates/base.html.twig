@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="icon" href="{{ asset('image/sortir.png') }}">
     <link rel="icon" href=" {{ asset('image/user.jpg') }} ">
     <title>{% block title %}Sortir.com{% endblock %}</title>
@@ -19,21 +18,21 @@
 
     <nav   class="navbar navbar-dark bg-dark">
         <header>
-            <a class="site-title" href="{# {{ path('main_sortie') }} #}" title="SORTIR.COM | Accueil">
+            <a class="site-title" href="{{ path('sortiesortie') }}" title="SORTIR.COM | Accueil">
                 <img class="imageSortir" src="{{ asset('image/sortir.png') }}" alt="SORTIR.COM" width="100" height="100">
                 <img class="imageUSer" src="{{ asset('image/user.jpg') }}" width="100" height="100">
             </a>
             <nav>
                 <ul>
                     {% if is_granted("ROLE_ADMIN") %}
-                        <li><a href="{#{{ path("gererSites") }}#}" title="Gérer les Sites">Gérer les Sites</a></li>
-                        <li><a href="{#{{ path("gererUtilisateurs") }}#}" title="Gérer les utilisateurs">Gérer les
+                        <li><a href="{{ path("gererSites") }}" title="Gérer l es Sites">Gérer les Sites</a></li>
+                        <li><a href="{{ path("gererUtilisateurs") }}" title="Gérer les utilisateurs">Gérer les
                                 utilisateurs</a></li>
                     {% endif %}
                     {% if is_granted("ROLE_USER") %}
-                        <li><a href="{#{{ path("sortie") }}#}" title="SORTIR.COM | Home">Accueil</a></li>
-                        <li><a href="{#{{ path("utilisateur_ajouter") }}#}" title="Mon profil">Mon profil</a></li>
-                        <li><a href="{#{{ path("logout") }}#}" title="Logout">Logout</a></li>
+                        <li><a href="{{ path("sortiesortie") }}" title="SORTIR.COM | Home">Accueil</a></li>
+                        <li><a href="{{ path("utilisateur_ajouter") }}#}" title="Mon profil">Mon profil</a></li>
+                        <li><a href="{{ path("logout") }}" title="Logout">Logout</a></li>
                     {% endif %}
 
                 </ul>
