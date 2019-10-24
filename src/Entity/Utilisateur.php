@@ -326,7 +326,8 @@ class Utilisateur implements UserInterface
      */
     public function getRoles()
     {
-        return $this->roles;
+        //return $this->roles;
+        return ['ROLE_USER'];
     }
 
     public function setRoles($roles): self
@@ -350,11 +351,19 @@ class Utilisateur implements UserInterface
     {
     }
 
+    public function setUsername($username): self
+    {
+        $this->username = $username;
+
+        return $this;
+    }
+
     /**
      * Returns the username used to authenticate the user.
      *
      * @return string The username
      */
+
     public function getUsername()
     {
         return $this->getMail();
