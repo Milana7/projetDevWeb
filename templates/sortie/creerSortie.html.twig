@@ -62,8 +62,8 @@
                     {{ form_widget(form.idLieu, {'attr': {'class': 'form-control'}}) }}
                 </div>
             </div>
-            <div for="rue" class="form-group row">
-                <label class="col-sm-3 offset-sm-1 col-form-label">Rue</label>
+            <div class="form-group row">
+                <label for="rue" class="col-sm-3 offset-sm-1 col-form-label">Rue</label>
                 <div class="col-sm-6">
                     <input id="rue" type="text" class="form-control" readonly value="TEST">
                 </div>
@@ -97,4 +97,43 @@
         </div>
         {{ form_end(form) }}
     </div>
+{% endblock %}
+{% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
+    <script>
+        $(document).on('change', '#creer_sortie_villes', function(){
+            $idVille = $('#creer_sortie_villes option:selected').val();
+            getLieuxByIdVille($idVille);
+        });
+        $(document).on('change', '#creer_sortie_idLieu', function(){
+            $idLieu = $('#creer_sortie_idLieu option:selected').val();
+            getDetailsLieu($idLieu);
+        });
+        function getLieuxByIdVille($idVille){
+            $.get("./getLieuxByVille", { idVille : $idVille },
+                function(data){
+                    var $dropdown = $("#creer_sortie_idLieu");
+                    $dropdown.empty();
+                    $.each(data, function() {
+                        $dropdown.append($("<option />").val(this.id).text(this.nom));
+                    });
+                    $idLieu = $('#creer_sortie_idLieu option:selected').val();
+                    getDetailsLieu($idLieu);
+                });
+        }
+
+        function getDetailsLieu($idLieu){
+            console.log('idLieu : '+ $idLieu);
+            $.get("./getDetailsLieu", { idLieu : $idLieu },
+                function(data){
+                    console.log(data);
+                    $('#rue').val(data[0].rue);
+                    $('#codePostal').val(data[0].idVille.codePostal);
+                    $('#latitude').val(data[0].latitude);
+                    $('#longitude').val(data[0].longitude);
+                    console.log(data[0].rue);
+                });
+        }
+
+    </script>
 {% endblock %}

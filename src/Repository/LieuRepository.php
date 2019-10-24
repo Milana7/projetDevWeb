@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\Lieu;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * @method Lieu|null find($id, $lockMode = null, $lockVersion = null)
@@ -17,6 +19,27 @@ class LieuRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Lieu::class);
+    }
+
+    public function findByIdVille($idVille)
+    {
+        return $this->createQueryBuilder('l')
+            ->andWhere('l.idVille = :val')
+            ->setParameter('val', $idVille)
+            ->getQuery()
+            ->getArrayResult()
+            ;
+    }
+
+    public function findById($idLieu){
+        return $this->createQueryBuilder('l')
+            ->select(array('l', 'v'))
+            ->andWhere('l.id = :val')
+            ->setParameter('val', $idLieu)
+            ->join('l.idVille', 'v')
+            ->getQuery()
+            ->getArrayResult()
+            ;
     }
 
     // /**

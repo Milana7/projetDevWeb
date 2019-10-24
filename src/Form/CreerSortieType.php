@@ -66,16 +66,17 @@ class CreerSortieType extends AbstractType
                 'class' => Ville::class,
                 'choice_label' => 'nom',
                 'error_bubbling' => true,
-                'placeholder' => 'Sélectionner une ville',
+                'placeholder' => 'Sélectionnez une ville',
             ])
-/*            ->add('idLieu', EntityType::class, [
+            ->add('idLieu', EntityType::class, [
 
                 'label' => 'Lieu',
                 'class' => Lieu::class,
                 'choices' => array(),
+                'placeholder' => 'Sélectionnez une ville',
                 'choice_label' => 'nom',
                 'error_bubbling' => true
-            ])*/
+            ])
             ->add('save', SubmitType::class ,[
                 'label' => 'Enregistrer'
             ])
@@ -83,46 +84,6 @@ class CreerSortieType extends AbstractType
                 'label' => 'Publier'
             ])
         ;
-        $builder->addEventListener(FormEvents::PRE_SET_DATA, array($this, 'onPreSetData'));
-        $builder->addEventListener(FormEvents::PRE_SUBMIT, array($this, 'onPreSubmit'));
-    }
-
-    public function addElements(FormInterface $form, Ville $ville = null) {
-        $lieux = array();
-
-        if ($ville) {
-            $lieux = $this->em->createQueryBuilder("q")
-                ->where("q.idVille = :idVille")
-                ->setParameter("idVille", $ville->getId())
-                ->getQuery()
-                ->getResult();
-        }
-
-        $form->add('idLieu', EntityType::class, [
-            'label' => 'Lieu',
-            'class' => Lieu::class,
-            'choices' => $lieux,
-            'choice_label' => 'nom',
-            'error_bubbling' => true
-        ]);
-
-    }
-
-    function onPreSubmit(FormEvent $event) {
-        $form = $event->getForm();
-        $selectedVille = $form->get('villes')->getData();
-        var_dump($selectedVille);
-
-        $ville = $this->em->getRepository(Ville::class)->find('villes');
-        $this->addElements($form, $ville);
-    }
-
-    function onPreSetData(FormEvent $event) {
-        $form = $event->getForm();
-        $selectedVille = $form->get('villes')->getData();
-        var_dump($selectedVille);
-        $ville = $this->em->getRepository(Ville::class)->find('villes');
-        $this->addElements($form, $ville);
     }
 
     public function configureOptions(OptionsResolver $resolver)

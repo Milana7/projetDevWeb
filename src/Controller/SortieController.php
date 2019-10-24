@@ -2,10 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\Lieu;
 use App\Entity\Sortie;
 use App\Form\CreerSortieType;
 use App\Entity\Utilisateur;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -64,7 +68,8 @@ class SortieController extends Controller
 
     /**
      * @Route("/creerSortie", name="creer_sortie")
-    */
+     * Traitement du formulaire de création de sortie (affichage vue ou création en base)
+     */
     public function creerSortie(Request $request)
     {
         $nouvelleSortie = new Sortie();
@@ -81,5 +86,35 @@ class SortieController extends Controller
         }
 
         return $this->render('sortie/creerSortie.html.twig', ['form' => $form->createView()]);
+    }
+
+    /**
+     * Retourne la liste des lieux en fonction de l'id passé en paramètre
+     * Retour au format json
+     * @Route("/getLieuxByVille", name="_getLieuxByVille", methods={"GET"})
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function getLieuxByVilleId(Request $request){
+        $idVille = $request->query->get('idVille');
+        $repo = $this->getDoctrine()->getRepository(Lieu::class);
+        $listeLieux = $repo->findByIdVille($idVille);
+
+        return new JsonResponse($listeLieux);
+    }
+
+    /**
+     * Retourne les détails du lieu dont l'id est passé en paramètre
+     * Retour au format json
+     * @Route("/getDetailsLieu", name="_getDetailsLieu", methods={"GET"})
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function getDetailsLieux(Request $request){
+        $idLieu = $request->query->get('idLieu');
+        $repo = $this->getDoctrine()->getRepository(Lieu::class);
+        $detailsLieu = $repo->findById($idLieu);
+
+        return new JsonResponse($detailsLieu);
     }
 }

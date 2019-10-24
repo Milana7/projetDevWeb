@@ -13,7 +13,9 @@
 <div class="container">
     {% block header %}{% endblock %}
     {% block body %}{% endblock %}
-    {% block javascripts %}{% endblock %}
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+    {% endblock %}
     <footer>
         <hr>
         © {{ "now"|date("Y") }} Sortir.com
