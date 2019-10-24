@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class MainController extends Controller
 {
     /**
-     * @Route("/main/index.html.twig", name="main")
+     * @Route("/main", name="main")
      */
     public function index()
     {
