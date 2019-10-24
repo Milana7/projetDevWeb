@@ -5,30 +5,33 @@
 {% block main %}
     <form action="{{ path('login') }}" method="post">
         <div>
-            <label for="username">Identifiant :</label>
-            <input type="text" id="username" name="_username" value="{{ last_username }}" placeholder="prenom.nom+annee@campus-eni.fr"/>
-        </div>
-        <div>
-            <label for="password">Mot de passe :</label>
-            <input type="password" id="password" name="_password"/>
-        </div>
-        <div class="row">
             <div>
-                <input type="checkbox" id="remember_me" name="_remember_me" checked/>
-                <label for="remember_me" class="form-check-inline">Remember me</label>
+                <label for="username">Identifiant :</label>
+                <input type="text" id="username" name="_username" value="{{ last_username }}"
+                       placeholder="E-Mail de l'ENI"/>
             </div>
             <div>
-                <a href="">Mot de passe oublié ?</a>
+                <label for="password">Mot de passe :</label>
+                <input type="password" id="password" name="_password"/>
             </div>
-        </div>
-        {% if error %}
-            <div>
-                <ul>
-                    <li>{{ error.messageKey|trans(error.messageData, 'security') }}</li>
-                </ul>
+            <div class="row">
+                <div>
+                    <input type="checkbox" id="remember_me" name="_remember_me" checked/>
+                    <label for="remember_me" class="form-check-inline">Remember me</label>
+                </div>
+                <div>
+                    <a href="">Mot de passe oublié ?</a>
+                </div>
             </div>
-        {% endif %}
+            {% if error %}
+                <div>
+                    <ul>
+                        <li>{{ error.messageKey|trans(error.messageData, 'security') }}</li>
+                    </ul>
+                </div>
+            {% endif %}
 
-        <button type="submit">Connexion</button>
+            <button type="submit">Connexion</button>
+        </div>
     </form>
 {% endblock %}
