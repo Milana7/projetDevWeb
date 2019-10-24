@@ -50,15 +50,33 @@ class SortieRepository extends ServiceEntityRepository
     */
 
     /**
+     * Affiche toutes les sorties
      * @return Sortie[]
      */
-    public function listeSortiesAll()
+    public function listSortiesAll()
     {
         return $this
             ->createQueryBuilder('sortie')
-            //->from('App:Sortie', 'sortie')
             ->innerJoin(Utilisateur::class, 'u')
             ->getQuery()
             ->getResult();
+    }
+
+    /**
+     * Affiche les sorties par l'id d'organisateur de la sortie
+     * @param $idOrg : identifiant de l'organisateur
+     * @return Sortie[]
+     */
+    public function listByOrganiser($idOrg)
+    {
+        return $this
+            ->createQueryBuilder('sortie')
+            ->innerJoin( Utilisateur::class,'u')
+            ->where('u.id = :id') //ou juste id
+            ->setParameter('id', $idOrg)
+            ->getQuery()
+            ->getResult();
+
+
     }
 }

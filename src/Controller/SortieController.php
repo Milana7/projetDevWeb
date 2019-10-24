@@ -2,32 +2,61 @@
 
 namespace App\Controller;
 
+use App\Entity\Utilisateur;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @Route("/sortie", name="sortie")
+ * Class SortieController
+ * @package App\Controller
+ */
 class SortieController extends Controller
 {
 
     /**
-     * @Route("/sortie", name="sortie")
+     * @Route("/", name="sortie")
      * Affiche toutes les sorties disponibles
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function afficherSortiesAction(Request $request)
+    public function listSorties(Request $request)
     {
         $repository = $this
             ->getDoctrine()
             ->getManager()
             ->getRepository('App:Sortie');
 
-        $listeSortie = $repository->listeSortiesAll();
+        $listSortie = $repository->listSortiesAll();
 
 
-        return $this->render('sortie.html.twig', [
+        return $this->render('sortie/sortie.html.twig',[
             'controller_name' => 'SortieController',
-            'listeSortie' => $listeSortie,
+            'listSortie' => $listSortie,
+        ]);
+    }
+
+    /**
+     * @Route("/mesSortiesOrganisees/{idOrg}", name="sortieByIdOrg")
+     * Affiche les sorties par identifiant de l'organisateur
+     * @param Request $request
+     * @param Utilisateur $id
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function listSortiesByIdOrg(Request $request)
+    {
+        $repository = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('App:Sortie');
+
+        $listSortie = $repository->listByOrganiser(1);
+
+
+        return $this->render('sortie/sortiesByOrganiser.html.twig',[
+            'controller_name' => 'SortieController',
+            'listSortie' => $listSortie,
         ]);
     }
 }
