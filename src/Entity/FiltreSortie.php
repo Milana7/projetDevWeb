@@ -3,14 +3,14 @@
 namespace App\Entity;
 
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * Class FiltreSortie
  * @package App\Entity
  */
 class FiltreSortie
 {
-    private $id;
-
     private $nomSite;
 
     private $nomSortie;

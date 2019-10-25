@@ -6,12 +6,13 @@ use App\Entity\FiltreSortie;
 use App\Entity\Sortie;
 use App\Entity\Utilisateur;
 use App\Form\FiltreSortieType;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/sorties", name="sorties")
+ * @Route("/", name="sorties")
  * Class SortieController
  * @package App\Controller
  */
@@ -48,30 +49,25 @@ class SortieController extends Controller
      */
     public function listSorties(Request $request)
     {
-        /**
-         * @var FiltreSortieType $filtre
-         */
         $filtre = new FiltreSortie();
-       // $form = $this->createFormBuilder(FiltreSortieType::class)->getData();
 
-        $filtre = $this->createForm(FiltreSortieType::class, $filtre);
+        $form = $this->createForm(FiltreSortieType::class, $filtre);
 
-        /*if($request->isMethod('POST'))
+        if($request->isMethod('POST'))
         {
             $form->handleRequest($request);
-        }*/
-
+        }
         $repository = $this
             ->getDoctrine()
             ->getManager()
             ->getRepository('App:Sortie');
 
-        $listSortie = $repository->listSortiesAll();
+        $listSortie = $repository->listSortiesAll($filtre);
 
         return $this->render('sortie/sortie.html.twig', [
             'controller_name' => 'SortieController',
             'listSortie' => $listSortie,
-            'filtre' => $filtre->createView(),
+            'filtre' => $form->createView(),
         ]);
     }
 

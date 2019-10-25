@@ -18,35 +18,45 @@ class FiltreSortieType extends AbstractType
         $builder
             ->add('nomSite', TextType::class,
                 [
-                    'label' => 'Site'
+                    'label' => 'Site',
+                    'required' => false,
                 ])
             ->add('nomSortie', TextType::class,
                 [
-                    'label' => 'Le nom de la sortie contient:'
+                    'label' => 'Le nom de la sortie contient:',
+                    'required' => false,
                 ])
             ->add('dateDebut', DateType::class,
                 [
-                    'label' => 'Entre'
+                    'label' => 'Entre',
+                    'required' => false,
+                    'widget'=>'single_text',
                 ])
             ->add('datefin', DateType::class,
                 [
-                    'label' => ' et'
+                    'label' => ' et',
+                    'required' => false,
+                    'widget'=>'single_text',
                 ])
             ->add('mesSortiesOrg', CheckboxType::class,
                 [
-                    'label' => 'Sorties dont je suis l\'organisateur/trice.'
+                    'label' => 'Sorties dont je suis l\'organisateur/trice.',
+                    'required' => false,
                 ])
             ->add('mesSortiesInscr', CheckboxType::class,
                 [
-                    'label' => 'Sorties auxquelles je suis inscrit/e.'
+                    'label' => 'Sorties auxquelles je suis inscrit/e.',
+                    'required' => false,
                 ])
             ->add('sortiesNonInscr', CheckboxType::class,
                 [
-                    'label' => 'Sorties auxquelles je ne suis pas inscrit/e.'
+                    'label' => 'Sorties auxquelles je ne suis pas inscrit/e.',
+                    'required' => false,
                 ])
             ->add('sortiesExpirees', CheckboxType::class,
                 [
-                    'label' => 'Sorties passées.'
+                    'label' => 'Sorties passées.',
+                    'required' => false,
                 ])
             ->add('Rechercher', SubmitType::class);
     }
