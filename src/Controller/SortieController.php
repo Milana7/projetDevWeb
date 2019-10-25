@@ -2,32 +2,71 @@
 
 namespace App\Controller;
 
+use App\Entity\FiltreSortie;
+use App\Entity\Sortie;
 use App\Entity\Etat;
 use App\Entity\Lieu;
 use App\Entity\Sortie;
 use App\Form\CreerSortieType;
 use App\Entity\Utilisateur;
+use App\Form\FiltreSortieType;
+use App\Form\CreerSortieType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/sortie", name="sortie")
+ * @Route("/sorties", name="sorties")
  * Class SortieController
  * @package App\Controller
  */
 class SortieController extends Controller
 {
-
     /**
-     * @Route("/", name="_sortie")
-     * Affiche toutes les sorties disponibles
+     * Filtrer les sorties sur la page d'accueil
+     *
+     * @Route("/sortiesFiltrees", name="sortiesFiltrees")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function listSorties()
+    /*    public function listSortiesFiltrated(Request $request)
+        {
+            $repository = $this
+                ->getDoctrine()
+                ->getManager()
+                ->getRepository('App:Sortie');
+
+            $listSortie = $repository->listSortiesAll();
+
+            return $this->render('sortie/sortie.html.twig',[
+                'controller_name' => 'SortieController',
+                'listSortie' => $listSortie,
+            ]);
+        }*/
+
+    /**
+     * Affiche toutes les sorties disponibles
+     *
+     * @Route("/")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function listSorties(Request $request)
     {
+        /**
+         * @var FiltreSortieType $filtre
+         */
+        $filtre = new FiltreSortie();
+       // $form = $this->createFormBuilder(FiltreSortieType::class)->getData();
+
+        $filtre = $this->createForm(FiltreSortieType::class, $filtre);
+
+        /*if($request->isMethod('POST'))
+        {
+            $form->handleRequest($request);
+        }*/
+
         $repository = $this
             ->getDoctrine()
             ->getManager()
@@ -35,22 +74,24 @@ class SortieController extends Controller
 
         $listSortie = $repository->listSortiesAll();
 
-
-        return $this->render('sortie/sortie.html.twig',[
+        return $this->render('sortie/sortie.html.twig', [
             'controller_name' => 'SortieController',
             'listSortie' => $listSortie,
+            'filtre' => $filtre->createView(),
         ]);
     }
 
     /**
-     * @Route("/mesSortiesOrganisees/{idOrg}", name="sortieByIdOrg")
      * Affiche les sorties par identifiant de l'organisateur
+     *
+     * @Route("/mesSortiesOrganisees/{idOrg}", name="sortieByIdOrg")
      * @param Request $request
      * @param Utilisateur $idOrg
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function listSortiesByIdOrg(Request $request,$idOrg)
+    public function listSortiesByIdOrg(Request $request, $idOrg)
     {
+
         $repository = $this
             ->getDoctrine()
             ->getManager()
@@ -59,15 +100,16 @@ class SortieController extends Controller
         $listSortie = $repository->listByOrganiser($idOrg);
 
 
-        return $this->render('sortie/sortiesByOrganiser.html.twig',[
+        return $this->render('sortie/sortiesByOrganiser.html.twig', [
             'controller_name' => 'SortieController',
             'listSortie' => $listSortie,
         ]);
     }
 
     /**
+     * Affiche les sorties qui ont une date expirée
+     *
      * @Route("/sortiesPassees", name="sortiesExpired")
-     * Affiche les sorties par identifiant de l'organisateur
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -78,10 +120,10 @@ class SortieController extends Controller
             ->getManager()
             ->getRepository('App:Sortie');
 
-        $listSortie = $repository->listByOrganiser(1);
+        $listSortie = $repository->listSortiesExpired();
 
 
-        return $this->render('sortie/sortiesByOrganiser.html.twig',[
+        return $this->render('sortie/sortiesExpired.html.twig', [
             'controller_name' => 'SortieController',
             'listSortie' => $listSortie,
         ]);

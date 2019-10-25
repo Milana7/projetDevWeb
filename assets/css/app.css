@@ -1,17 +1,53 @@
 @import "~bootstrap/dist/css/bootstrap.css";
 
-
+/* GLOBAL */
+.container-fluid {
+    padding: 0;
+}
 
 .row{
     margin-left: 0;
 }
+
+/* HEADER */
+.imageSortir {
+    width: 100px;
+    height: 110px;
+    padding-top: 10px;
+}
+
+.imageUser {
+    padding-top: 10px;
+    width: 100px;
+    height: 100px;
+    right: 10px;
+    position: absolute;
+}
+
+/* FOOTER */
+footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+/* CONNEXION */
+#formulaireContainer {
+    margin-top: 150px;
+}
+
+#btnConnexion {
+    margin-top: 1em;
+}
+
+/* CREER SORTIE */
 
 #creerSortie-btnGroupe {
     margin: auto;
 }
 
 #creerSortie-btnGroupe .btn {
-    margin : 0 1em;
-    padding : 0.3em 1em;
+    margin: 0 1em;
+    padding: 0.3em 1em;
 }
-

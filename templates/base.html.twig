@@ -11,25 +11,26 @@
     {% endblock %}
 </head>
 <body>
-<div class="container">
+<div class="container-fluid">
 
 
-    <nav class="navbar navbar-dark bg-dark">
+    <nav   class="navbar navbar-dark bg-dark">
         <header>
-            <a class="site-title" href="{# {{ path('main_sortie') }} #}" title="SORTIR.COM | Accueil">
-                <img src="{{ asset('image/sortir.png') }}" alt="SORTIR.COM" width=30 height=30>
+            <a class="site-title" href="{{ path('sortiesapp_sortie_listsorties') }}" title="SORTIR.COM | Accueil">
+                <img class="imageSortir" src="{{ asset('image/sortir.png') }}" alt="SORTIR.COM">
+                <img class="imageUser" src="{{ asset('image/user.jpg') }}" >
             </a>
             <nav>
                 <ul>
                     {% if is_granted("ROLE_ADMIN") %}
-                        <li><a href="{#{{ path("gererSites") }}#}" title="Gérer les Sites">Gérer les Sites</a></li>
-                        <li><a href="{#{{ path("gererUtilisateurs") }}#}" title="Gérer les utilisateurs">Gérer les
+                        <li><a href="{{ path("gererSites") }}" title="Gérer les Sites">Gérer les Sites</a></li>
+                        <li><a href="{{ path("gererUtilisateurs") }}" title="Gérer les utilisateurs">Gérer les
                                 utilisateurs</a></li>
                     {% endif %}
                     {% if is_granted("ROLE_USER") %}
-                        <li><a href="{#{{ path("sortie") }}#}" title="SORTIR.COM | Home">Accueil</a></li>
-                        <li><a href="{#{{ path("utilisateur_ajouter") }}#}" title="Mon profil">Mon profil</a></li>
-                        <li><a href="{#{{ path("logout") }}#}" title="Logout">Logout</a></li>
+                        <li><a href="{{ path("sortiesapp_sortie_listsorties") }}" title="SORTIR.COM | Home">Accueil</a></li>
+                        <li><a href="{{ path("utilisateur_ajouter") }}#}" title="Mon profil">Mon profil</a></li>
+                        <li><a href="{{ path("logout") }}" title="Logout">Logout</a></li>
                     {% endif %}
 
                 </ul>

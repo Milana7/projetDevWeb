@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion | {{ parent() }}
+{% endblock %}
+
+{% block main %}
+            <form action="{{ path('login') }}" method="post" class="col-sm-6 offset-sm-3" id="formulaireContainer"  class="row">
+                <div class="row form-group offset-sm-1" >
+                    <label for="username" class="col-sm-3">Identifiant :</label>
+                    <div class="col-sm-7">
+                        <input  type="text" id="username" name="_username" value="{{ last_username }}"
+                                placeholder="E-Mail de l'ENI" class="form-control"/>
+                    </div>
+                </div>
+                <div class="row form-group offset-sm-1">
+                    <label for="password" class="col-sm-3">Mot de passe :</label>
+                    <div class="col-sm-7">
+                        <input  type="text" id="password" name="_password"
+                                placeholder="Mot de passe" class="form-control"/>
+                    </div>
+                </div>
+                <div class="row col-sm-3  mx-auto">
+                    <div class="col-sm-12">
+                        <input type="checkbox" id="remember_me" name="_remember_me" checked/>
+                        <label for="remember_me" class="form-check-inline">Remember me</label>
+                    </div>
+                    <div  class="col-sm-12">
+                        <a href="">Mot de passe oublié ?</a>
+                    </div>
+                </div>
+
+                {% if error %}
+                    <div>
+                        <ul>
+                            <li>{{ error.messageKey|trans(error.messageData, 'security') }}</li>
+                        </ul>
+                    </div>
+                {% endif %}
+                <div class="row">
+                <button class=" btn btn-outline-success col-sm-4 mx-auto " id="btnConnexion" type="submit">Connexion</button>
+                </div>
+            </form>
+{% endblock %}

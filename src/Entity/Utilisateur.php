@@ -31,7 +31,7 @@ class Utilisateur implements UserInterface
      *      minMessage = "Votre pseudo doit contenir minimum {{ limit }} caractères !",
      *      maxMessage = "Votre pseudo doit contenir au maximum {{ limit }} caractères !"
      * )
-     * @Assert\Regex(pattern="/^[a-z0-9_-]+$/i", message="Your username must contains only letters, numbers, underscores and dashes!")
+     * @Assert\Regex(pattern="/^[a-z0-9_-]+$/i", message="Votre pseudo doit seulement contenir des lettres, des chiffres, des underscores et des tirets !")
      *
      * @ORM\Column(type="string", length=30, unique=true)
      */
@@ -48,11 +48,14 @@ class Utilisateur implements UserInterface
     private $prenom;
 
     /**
-     * @ORM\Column(type="string", length=15)
+     * @ORM\Column(type="string", length=10)
      */
     private $telephone;
 
     /**
+     * @Assert\NotBlank(message="Votre mail ne doit pas être vide !")
+     * @Assert\Email(message="Votre mail n'est pas valide !")
+     *
      * @ORM\Column(type="string", length=60, unique=true)
      */
     private $mail;
@@ -70,6 +73,10 @@ class Utilisateur implements UserInterface
      */
     private $password;
 
+    /**
+     * @ORM\Column(type="json_array")
+     */
+    private $roles = [];
 
     /**
      * @ORM\Column(type="boolean")
@@ -104,8 +111,8 @@ class Utilisateur implements UserInterface
     /**
      * @Assert\File(
      *     maxSize = "2Mi",
-     *     uploadErrorMessage="Le fichier n'a pas été téléchargé",
-     *     maxSizeMessage ="Le fichier est trop lourd : {{ limit }} {{ suffix }}",
+     *     uploadErrorMessage="Le fichier n'a pas été téléchargé !",
+     *     maxSizeMessage ="Le fichier est trop lourd : {{ limit }} {{ suffix }} !",
      * )
      */
     private $fileTemp;
@@ -319,19 +326,36 @@ class Utilisateur implements UserInterface
      */
     public function getRoles()
     {
-        // TODO: Implement getRoles() method.
+        //return $this->roles;
+        return ['ROLE_USER'];
     }
 
-    /**
-     * Returns the salt that was originally used to encode the password.
-     *
-     * This can return null if the password was not encoded using a salt.
-     *
-     * @return string|null The salt
-     */
+    public function setRoles($roles): ?self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    public function addRole($role): ?self
+    {
+
+        $roles = $this->roles;
+        $roles[] = $role;
+        $this->roles = array_unique($roles);
+
+        return $this;
+    }
+
     public function getSalt()
     {
-        // TODO: Implement getSalt() method.
+    }
+
+    public function setUsername($username): self
+    {
+        $this->username = $username;
+
+        return $this;
     }
 
     /**
@@ -339,9 +363,10 @@ class Utilisateur implements UserInterface
      *
      * @return string The username
      */
+
     public function getUsername()
     {
-        // TODO: Implement getUsername() method.
+        return $this->getMail();
     }
 
     /**
@@ -352,6 +377,5 @@ class Utilisateur implements UserInterface
      */
     public function eraseCredentials()
     {
-        // TODO: Implement eraseCredentials() method.
     }
 }

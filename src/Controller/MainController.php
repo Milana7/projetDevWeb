@@ -8,12 +8,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class MainController extends Controller
 {
     /**
-     * @Route("/main/index.html.twig", name="main")
+     * @Route("/", name="main")
      */
     public function index()
     {
-        return $this->render('main/index.html.twig', [
-            'controller_name' => 'MainController',
-        ]);
+
+        return $this->redirectToRoute('sortiesapp_sortie_listsorties');
+
     }
 }

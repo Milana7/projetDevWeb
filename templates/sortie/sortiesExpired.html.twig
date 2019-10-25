@@ -1,5 +1,4 @@
 {% extends 'base.html.twig' %}
-
 {% block title %}Liste des sorties{% endblock %}
 
 {% block body %}
@@ -20,13 +19,8 @@
     <div class="example-wrapper">
         <h1>Liste des sorties </h1>
 
-        <h5>Filtrer les sorties </h5>
-       {{ form(filtre) }}
-        <br>
-        <br>
-        <br>
         <div id="tableSorties">
-            <table border="1">
+            <table border="1" >
                 <tr>
                     <td height="100px">Nom de la sortie</td>
                     <td>Date de la sortie</td>
@@ -42,7 +36,7 @@
                         <td>{{ sortie.dateHeureDebut }} </td>
                         <td>{{ sortie.dateLimiteInscription }} </td>
                         <td>nbPlaces</td>
-                        <td>{{ sortie.etat.libelle }}</td>
+                        <td>{{ sortie.etat.libelle }}</td> {#   {{ sortie.organisateur.nom }}</td>#}
                         <td> O/N</td>
                         <td> {{ sortie.organisateur.nom }}</td>
                     </tr>

@@ -6,6 +6,7 @@ use App\Entity\Sortie;
 use App\Entity\Utilisateur;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * @method Sortie|null find($id, $lockMode = null, $lockVersion = null)
@@ -20,46 +21,21 @@ class SortieRepository extends ServiceEntityRepository
         parent::__construct($registry, Sortie::class);
     }
 
-    // /**
-    //  * @return Sortie[] Returns an array of Sortie objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('s.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Sortie
-    {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
-
     /**
      * Affiche toutes les sorties
      * @return Sortie[]
      */
     public function listSortiesAll()
     {
-        return $this
+
+
+        $requete = $this
             ->createQueryBuilder('sortie')
             ->innerJoin(Utilisateur::class, 'u')
             ->getQuery()
             ->getResult();
+
+        return $requete;
     }
 
     /**
@@ -69,14 +45,50 @@ class SortieRepository extends ServiceEntityRepository
      */
     public function listByOrganiser($idOrg)
     {
+
+        //TODO à modifier une fois que la connexion admin est créée
         return $this
-            ->createQueryBuilder('sortie')
-            ->innerJoin( Utilisateur::class,'u')
-            ->where('u.id = :id') //ou juste id
+            ->createQueryBuilder('s')
+            ->innerJoin(Utilisateur::class, 'u')
+            ->where('s.organisateur = :id') //ou juste id
+            ->andWhere('u.id = :id')
             ->setParameter('id', $idOrg)
             ->getQuery()
             ->getResult();
+    }
+
+    /**
+     * Affiche les sorties auxquelles l'utilisateur(connecté) est inscrit
+     * @param $idUti : identifiant de l'utilisateur
+     * @return Sortie[]
+     */
+    public function listSortiesByUser($idOrg)
+    {
+        //TODO à modifier une fois que la connexion admin est créée
+        return $this
+            ->createQueryBuilder('s')
+            ->innerJoin(Utilisateur::class, 'u')
+            ->where('s.organisateur = :id') //ou juste id
+            ->andWhere('u.id = :id')
+            ->setParameter('id', $idOrg)
+            ->getQuery()
+            ->getResult();
+    }
 
 
+    /**
+     * Affiche les sorties qui ont une date expirée
+     * @param $idOrg : identifiant de l'organisateur
+     * @return Sortie[]
+     */
+    public function listSortiesExpired()
+    {
+        $date = new \DateTime();
+        return $this
+            ->createQueryBuilder('sortie')
+            ->where('sortie.dateLimiteInscription < :date')
+            ->setParameter('date', $date)
+            ->getQuery()
+            ->getResult();
     }
 }
