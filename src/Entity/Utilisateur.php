@@ -31,7 +31,7 @@ class Utilisateur implements UserInterface
      *      minMessage = "Votre pseudo doit contenir minimum {{ limit }} caractères !",
      *      maxMessage = "Votre pseudo doit contenir au maximum {{ limit }} caractères !"
      * )
-     * @Assert\Regex(pattern="/^[a-z0-9_-]+$/i", message="Your username must contains only letters, numbers, underscores and dashes!")
+     * @Assert\Regex(pattern="/^[a-z0-9_-]+$/i", message="Votre pseudo doit seulement contenir des lettres, des chiffres, des underscores et des tirets !")
      *
      * @ORM\Column(type="string", length=30, unique=true)
      */
@@ -48,13 +48,13 @@ class Utilisateur implements UserInterface
     private $prenom;
 
     /**
-     * @ORM\Column(type="string", length=15)
+     * @ORM\Column(type="string", length=10)
      */
     private $telephone;
 
     /**
-     * @Assert\NotBlank(message="Your email must ne not blank")
-     * @Assert\Email(message="Your email is not valid!")
+     * @Assert\NotBlank(message="Votre mail ne doit pas être vide !")
+     * @Assert\Email(message="Votre mail n'est pas valide !")
      *
      * @ORM\Column(type="string", length=60, unique=true)
      */
@@ -111,8 +111,8 @@ class Utilisateur implements UserInterface
     /**
      * @Assert\File(
      *     maxSize = "2Mi",
-     *     uploadErrorMessage="Le fichier n'a pas été téléchargé",
-     *     maxSizeMessage ="Le fichier est trop lourd : {{ limit }} {{ suffix }}",
+     *     uploadErrorMessage="Le fichier n'a pas été téléchargé !",
+     *     maxSizeMessage ="Le fichier est trop lourd : {{ limit }} {{ suffix }} !",
      * )
      */
     private $fileTemp;
@@ -330,14 +330,14 @@ class Utilisateur implements UserInterface
         return ['ROLE_USER'];
     }
 
-    public function setRoles($roles): self
+    public function setRoles($roles): ?self
     {
         $this->roles = $roles;
 
         return $this;
     }
 
-    public function addRole($role): self
+    public function addRole($role): ?self
     {
 
         $roles = $this->roles;

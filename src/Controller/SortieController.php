@@ -20,25 +20,24 @@ class SortieController extends Controller
     /**
      * Filtrer les sorties sur la page d'accueil
      *
-     * @Route("/{$nomSortie}", name="sortiesFiltrees")
+     * @Route("/sortiesFiltrees", name="sortiesFiltrees")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-/*    public function listSorrfrties(Request $request)
-    {
-        $repository = $this
-            ->getDoctrine()
-            ->getManager()
-            ->getRepository('App:Sortie');
+    /*    public function listSortiesFiltrated(Request $request)
+        {
+            $repository = $this
+                ->getDoctrine()
+                ->getManager()
+                ->getRepository('App:Sortie');
 
-        $listSortie = $repository->listSortiesAll();
-        echo "hello";
+            $listSortie = $repository->listSortiesAll();
 
-        return $this->render('sortie/sortie.html.twig',[
-            'controller_name' => 'SortieController',
-            'listSortie' => $listSortie,
-        ]);
-    }*/
+            return $this->render('sortie/sortie.html.twig',[
+                'controller_name' => 'SortieController',
+                'listSortie' => $listSortie,
+            ]);
+        }*/
 
     /**
      * Affiche toutes les sorties disponibles
@@ -49,6 +48,19 @@ class SortieController extends Controller
      */
     public function listSorties(Request $request)
     {
+        /**
+         * @var FiltreSortieType $filtre
+         */
+        $filtre = new FiltreSortie();
+       // $form = $this->createFormBuilder(FiltreSortieType::class)->getData();
+
+        $filtre = $this->createForm(FiltreSortieType::class, $filtre);
+
+        /*if($request->isMethod('POST'))
+        {
+            $form->handleRequest($request);
+        }*/
+
         $repository = $this
             ->getDoctrine()
             ->getManager()
@@ -56,14 +68,10 @@ class SortieController extends Controller
 
         $listSortie = $repository->listSortiesAll();
 
-        $filtre = new FiltreSortie();
-        $filtre =  $this->createForm(FiltreSortieType::class, $filtre);
-
-
-        return $this->render('sortie/sortie.html.twig',[
+        return $this->render('sortie/sortie.html.twig', [
             'controller_name' => 'SortieController',
             'listSortie' => $listSortie,
-            'filtre' => $filtre->createView()
+            'filtre' => $filtre->createView(),
         ]);
     }
 
@@ -75,8 +83,9 @@ class SortieController extends Controller
      * @param Utilisateur $idOrg
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function listSortiesByIdOrg(Request $request,$idOrg)
+    public function listSortiesByIdOrg(Request $request, $idOrg)
     {
+
         $repository = $this
             ->getDoctrine()
             ->getManager()
@@ -85,7 +94,7 @@ class SortieController extends Controller
         $listSortie = $repository->listByOrganiser($idOrg);
 
 
-        return $this->render('sortie/sortiesByOrganiser.html.twig',[
+        return $this->render('sortie/sortiesByOrganiser.html.twig', [
             'controller_name' => 'SortieController',
             'listSortie' => $listSortie,
         ]);
@@ -108,7 +117,7 @@ class SortieController extends Controller
         $listSortie = $repository->listSortiesExpired();
 
 
-        return $this->render('sortie/sortiesExpired.html.twig',[
+        return $this->render('sortie/sortiesExpired.html.twig', [
             'controller_name' => 'SortieController',
             'listSortie' => $listSortie,
         ]);

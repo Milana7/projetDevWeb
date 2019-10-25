@@ -6,6 +6,7 @@ use App\Entity\Sortie;
 use App\Entity\Utilisateur;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * @method Sortie|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,17 +20,22 @@ class SortieRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Sortie::class);
     }
+
     /**
      * Affiche toutes les sorties
      * @return Sortie[]
      */
     public function listSortiesAll()
     {
-        return $this
+
+
+        $requete = $this
             ->createQueryBuilder('sortie')
             ->innerJoin(Utilisateur::class, 'u')
             ->getQuery()
             ->getResult();
+
+        return $requete;
     }
 
     /**
@@ -39,6 +45,7 @@ class SortieRepository extends ServiceEntityRepository
      */
     public function listByOrganiser($idOrg)
     {
+
         //TODO à modifier une fois que la connexion admin est créée
         return $this
             ->createQueryBuilder('s')
