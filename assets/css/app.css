@@ -4,10 +4,17 @@ body {
     background-color: lightgray;
 }
 
-.imageSortir{
+.imageSortir {
 
     padding-top: 10px;
 
+}
+
+.imageUSer {
+
+    padding-top: 10px;
+    position: relative;
+    left: 427%;
 }
 
 
@@ -17,9 +24,17 @@ body {
     padding-bottom: 250px;
 
 
- }
+}
 
-.close{
+.boutonValider {
+
+    display: block;
+    margin : auto;
+
+}
+
+.saisiUser {
+
 
 
 }
