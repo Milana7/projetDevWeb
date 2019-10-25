@@ -4,8 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="{{ asset('image/sortir.png') }}">
-    <link rel="icon" href=" {{ asset('image/user.jpg') }} ">
     <title>{% block title %}Sortir.com{% endblock %}</title>
 
     {% block stylesheets %}
@@ -13,19 +11,19 @@
     {% endblock %}
 </head>
 <body>
-<div class="container">
+<div class="container-fluid">
 
 
     <nav   class="navbar navbar-dark bg-dark">
         <header>
             <a class="site-title" href="{{ path('sortiesapp_sortie_listsorties') }}" title="SORTIR.COM | Accueil">
-                <img class="imageSortir" src="{{ asset('image/sortir.png') }}" alt="SORTIR.COM" width="100" height="100">
-                <img class="imageUSer" src="{{ asset('image/user.jpg') }}" width="100" height="100">
+                <img class="imageSortir" src="{{ asset('image/sortir.png') }}" alt="SORTIR.COM">
+                <img class="imageUser" src="{{ asset('image/user.jpg') }}" >
             </a>
             <nav>
                 <ul>
                     {% if is_granted("ROLE_ADMIN") %}
-                        <li><a href="{{ path("gererSites") }}" title="Gérer l es Sites">Gérer les Sites</a></li>
+                        <li><a href="{{ path("gererSites") }}" title="Gérer les Sites">Gérer les Sites</a></li>
                         <li><a href="{{ path("gererUtilisateurs") }}" title="Gérer les utilisateurs">Gérer les
                                 utilisateurs</a></li>
                     {% endif %}
@@ -58,13 +56,13 @@
     </main>
 
     {% block body %}{% endblock %}
-    {% block javascripts %}{% endblock %}
-
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+    {% endblock %}
     <footer>
         <hr>
         <div class="text-center"> © {{ "now"|date("Y") }} Sortir.com</div>
     </footer>
-
 </div>
 </body>
 </html>

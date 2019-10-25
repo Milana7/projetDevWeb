@@ -53,6 +53,8 @@ Encore
         corejs: 3
     })
 
+    .autoProvidejQuery()
+
     // enables Sass/SCSS support
     //.enableSassLoader()
 
