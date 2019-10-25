@@ -12,7 +12,7 @@ class ConnexionController extends Controller
      */
     public function index()
     {
-        return $this->render('connexion/index.html.twig', [
+        return $this->render('connexion/gestionSites.html.twig', [
             'controller_name' => 'ConnexionController',
         ]);
     }

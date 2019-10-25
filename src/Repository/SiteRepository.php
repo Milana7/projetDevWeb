@@ -47,4 +47,13 @@ class SiteRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    // Methode affichage de tout les Sites
+    public  function listSites()
+    {
+        return $this
+            ->createQueryBuilder('s')
+            ->getQuery()
+            ->getResult();
+    }
 }
