@@ -3,20 +3,20 @@
 {% block title %}Connexion | {{ parent() }}{% endblock %}
 
 {% block main %}
-    <div class="row">
+    <div class="row" >
         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12"></div>
-        <div class="ConnexionBlock col-lg-6 col-md-6 col-sm-6 col-xs-6 ">
+        <div class="ConnexionBlock col-lg-6 col-md-6 col-sm-6 col-xs-6" >
 
             <form action="{{ path('login') }}" method="post">
 
                 <div>
                     <label for="username">Identifiant :</label>
-                    <input class="saisiUser" type="text" id="username" name="_username" value="{{ last_username }}"
+                    <input class="d-flex justify-content-center" type="text" id="username" name="_username" value="{{ last_username }}"
                            placeholder="E-Mail de l'ENI"/>
                 </div>
                 <div>
                     <label for="password">Mot de passe :</label>
-                    <input type="password" id="password" name="_password"/>
+                    <input class="d-flex justify-content-center" type="password" id="password" name="_password"/>
                 </div>
                 <div class="row">
                     <div>
@@ -27,6 +27,7 @@
                         <a href="">Mot de passe oublié ?</a>
                     </div>
                 </div>
+
                 {% if error %}
                     <div>
                         <ul>
@@ -35,7 +36,7 @@
                     </div>
                 {% endif %}
 
-                <button class="boutonValider" type="submit">Connexion</button>
+                <button  class="d-flex justify-content-center" type="submit">Connexion</button>
 
 
             </form>
