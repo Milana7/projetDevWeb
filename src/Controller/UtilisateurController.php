@@ -36,7 +36,6 @@ class UtilisateurController extends Controller
         $utilisateurForm->handleRequest($request);
 
         if ($utilisateurForm->isSubmitted() && $utilisateurForm->isValid()) {
-            $utilisateur->setUser($this->getUser());
 
             $error = false;
 
