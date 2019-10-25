@@ -96,7 +96,7 @@
         <div id="creerSortie-btnGroupe">
             {{ form_widget(form.save, {'attr': {'class': 'btn btn-outline-success'}}) }}
             {{ form_widget(form.publish, {'attr': {'class': 'btn btn-outline-primary'}}) }}
-            <a href="{{ path('sortie_sortie') }}" class="btn btn-outline-danger">Annuler</a>
+            <a href="{{ path('sortiesapp_sortie_listsorties')}}" class="btn btn-outline-danger">Annuler</a>
         </div>
         {{ form_end(form) }}
     </div>
@@ -108,14 +108,16 @@
             $idVille = $('#creer_sortie_villes option:selected').val();
             getLieuxByIdVille($idVille);
         });
+
         $(document).on('change', '#selectLieu', function(){
             $idLieu = $('#selectLieu option:selected').val();
             getDetailsLieu($idLieu);
         });
+
         function getLieuxByIdVille($idVille){
             $.get("./getLieuxByVille", { idVille : $idVille },
                 function(data){
-                    var $dropdown = $("#selectLieu");
+                    let $dropdown = $("#selectLieu");
                     $dropdown.empty();
                     $.each(data, function() {
                         $dropdown.append($("<option />").val(this.id).text(this.nom));

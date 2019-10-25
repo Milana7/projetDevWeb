@@ -6,11 +6,9 @@ use App\Entity\FiltreSortie;
 use App\Entity\Sortie;
 use App\Entity\Etat;
 use App\Entity\Lieu;
-use App\Entity\Sortie;
 use App\Form\CreerSortieType;
 use App\Entity\Utilisateur;
 use App\Form\FiltreSortieType;
-use App\Form\CreerSortieType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -165,7 +163,7 @@ class SortieController extends Controller
             $em->persist($sortie);
             $em->flush();
 
-            return $this->redirectToRoute('sortie_sortie');
+            return $this->redirectToRoute('sorties');
         }
 
         return $this->render('sortie/creerSortie.html.twig', ['form' => $form->createView()]);
