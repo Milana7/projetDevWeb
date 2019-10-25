@@ -11,9 +11,7 @@
 
 /* HEADER */
 .imageSortir {
-    width: 100px;
-    height: 110px;
-    padding-top: 10px;
+    width: 4em;
 }
 
 .imageUser {
@@ -43,8 +41,14 @@ footer {
 
 /* CREER SORTIE */
 
+#creerSortieContainer{
+    margin: 2em 0;
+    width: 100%;
+}
+
 #creerSortie-btnGroupe {
-    margin: auto;
+    margin: 1em auto;
+
 }
 
 #creerSortie-btnGroupe .btn {
