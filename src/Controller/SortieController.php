@@ -2,14 +2,13 @@
 
 namespace App\Controller;
 
-use App\Entity\FiltreSortie;
-use App\Entity\Sortie;
 use App\Entity\Etat;
+use App\Entity\FiltreSortie;
 use App\Entity\Lieu;
-use App\Form\CreerSortieType;
+use App\Entity\Sortie;
 use App\Entity\Utilisateur;
+use App\Form\CreerSortieType;
 use App\Form\FiltreSortieType;
-use Doctrine\ORM\QueryBuilder;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
