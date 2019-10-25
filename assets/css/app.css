@@ -1,13 +1,14 @@
 @import "~bootstrap/dist/css/bootstrap.css";
 
-body {
-    background-color: lightgray;
-}
 .container-fluid {
     padding: 0;
 }
-
-
+footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
 .imageSortir {
     width: 100px;
     height: 110px;
@@ -22,4 +23,12 @@ body {
     position: absolute;
 }
 
+#formulaireContainer {
+    margin-top: 150px;
+}
+
+#btnConnexion {
+
+    margin-top:1em;
+}
 
