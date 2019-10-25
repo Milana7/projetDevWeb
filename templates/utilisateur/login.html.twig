@@ -1,22 +1,24 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Connexion | {{ parent() }}{% endblock %}
+{% block title %}Connexion | {{ parent() }}
+{% endblock %}
 
 {% block main %}
-    <div class="row" >
-        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12"></div>
-        <div class="ConnexionBlock col-lg-6 col-md-6 col-sm-6 col-xs-6" >
-
-            <form action="{{ path('login') }}" method="post">
-
-                <div>
-                    <label for="username">Identifiant :</label>
-                    <input class="d-flex justify-content-center" type="text" id="username" name="_username" value="{{ last_username }}"
-                           placeholder="E-Mail de l'ENI"/>
+    <div class="row">
+            <form action="{{ path('login') }}" method="post" class="col-sm-6 offset-sm-3">
+                <div class="row form-group">
+                    <label for="username" class="col-sm-3">Identifiant :</label>
+                    <div class="col-sm-7">
+                        <input  type="text" id="username" name="_username" value="{{ last_username }}"
+                                placeholder="E-Mail de l'ENI" class="form-control"/>
+                    </div>
                 </div>
-                <div>
-                    <label for="password">Mot de passe :</label>
-                    <input class="d-flex justify-content-center" type="password" id="password" name="_password"/>
+                <div class="row form-group">
+                    <label for="password" class="col-sm-3">Mot de passe :</label>
+                    <div class="col-sm-7">
+                        <input  type="text" id="password" name="_password"
+                                placeholder="Mot de passe" class="form-control"/>
+                    </div>
                 </div>
                 <div class="row">
                     <div>
@@ -36,11 +38,7 @@
                     </div>
                 {% endif %}
 
-                <button  class="d-flex justify-content-center" type="submit">Connexion</button>
-
-
+                <button   type="submit">Connexion</button>
             </form>
-        </div>
-        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12"></div>
     </div>
 {% endblock %}

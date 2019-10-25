@@ -3,26 +3,23 @@
 body {
     background-color: lightgray;
 }
+.container-fluid {
+    padding: 0;
+}
+
 
 .imageSortir {
-
+    width: 100px;
+    height: 110px;
     padding-top: 10px;
-
 }
 
-.imageUSer {
-
+.imageUser {
     padding-top: 10px;
-    position: relative;
-    left: 427%;
+    width: 100px;
+    height: 100px;
+    right: 10px;
+    position: absolute;
 }
 
-
-.ConnexionBlock {
-
-    padding-top: 250px;
-    padding-bottom: 250px;
-
-
-}
 
