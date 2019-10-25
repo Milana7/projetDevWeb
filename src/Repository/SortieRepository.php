@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\FiltreSortie;
 use App\Entity\Sortie;
 use App\Entity\Utilisateur;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -25,17 +26,53 @@ class SortieRepository extends ServiceEntityRepository
      * Affiche toutes les sorties
      * @return Sortie[]
      */
-    public function listSortiesAll()
+    public function listSortiesAll(FiltreSortie $filtreSortie)
     {
-
+        /*        $requete = $this
+                    ->createQueryBuilder('sortie')
+                    ->innerJoin(Utilisateur::class, 'u')
+                    ->where('sortie.nom = ?')
+                    ->setParameter('nomSite', !assert($filtreSortie->getNomSite()))
+                    ->getQuery()
+                    ->getResult();*/
 
         $requete = $this
-            ->createQueryBuilder('sortie')
-            ->innerJoin(Utilisateur::class, 'u')
-            ->getQuery()
-            ->getResult();
+            ->createQueryBuilder('s')
+            ->innerJoin('s.organisateur', 'o')
+            ->join('o.site', 'si');
 
-        return $requete;
+        if ($filtreSortie->getNomSite() != null) {
+            $requete
+                ->where('si.nom LIKE :nomSite')
+                ->setParameter('nomSite', '%' . $filtreSortie->getNomSite() . '%');
+        }
+
+        if ($filtreSortie->getNomSortie() != null) {
+            $requete
+                ->andwhere('s.nom LIKE :nomSortie')
+                ->setParameter('nomSortie', '%' . $filtreSortie->getNomSortie() . '%');
+        }
+
+        if ($filtreSortie->getDateDebut() != null) {
+            $requete
+                ->andwhere('s.dateHeureDebut >= :dateDebut')
+                ->setParameter('dateDebut', $filtreSortie->getDateDebut());
+        }
+
+        if ($filtreSortie->getDatefin() != null) {
+            $requete
+                ->andwhere('s.dateLimiteInscription <= :dateFin')
+                ->setParameter('dateFin', $filtreSortie->getDatefin());
+        }
+
+        if ($filtreSortie->getSortiesExpirees() == true) {
+            $date = new \DateTime();
+            $requete
+                ->andwhere('s.dateLimiteInscription < :date')
+                ->setParameter('date', $date);
+        }
+
+        return $requete->getQuery()->getResult();
     }
 
     /**
@@ -45,7 +82,6 @@ class SortieRepository extends ServiceEntityRepository
      */
     public function listByOrganiser($idOrg)
     {
-
         //TODO à modifier une fois que la connexion admin est créée
         return $this
             ->createQueryBuilder('s')

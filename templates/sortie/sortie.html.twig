@@ -1,7 +1,6 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Liste des sorties{% endblock %}
-
 {% block body %}
     <style>
         .example-wrapper {
@@ -21,7 +20,9 @@
         <h1>Liste des sorties </h1>
 
         <h5>Filtrer les sorties </h5>
-       {{ form(filtre) }}
+       {{ form_start(filtre) }}
+
+        {{ form_end(filtre) }}
         <br>
         <br>
         <br>
@@ -49,7 +50,6 @@
                 {% endfor %}
             </table>
         </div>
-
-
     </div>
+    <a href="{{ path('sortiescreer_sortie') }}" class="btn btn-outline-primary">Créer une sortie</a>
 {% endblock %}

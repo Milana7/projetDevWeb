@@ -12,31 +12,30 @@
 </head>
 <body>
 <div class="container-fluid">
-
-
-    <nav   class="navbar navbar-dark bg-dark">
-        <header>
-            <a class="site-title" href="{{ path('sortiesapp_sortie_listsorties') }}" title="SORTIR.COM | Accueil">
+    {% block header %}
+    <header>
+        <nav class="navbar navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="{{ path('sortiesapp_sortie_listsorties') }}" title="SORTIR.COM | Accueil">
                 <img class="imageSortir" src="{{ asset('image/sortir.png') }}" alt="SORTIR.COM">
-                <img class="imageUser" src="{{ asset('image/user.jpg') }}" >
+                {#<img class="imageUser" src="{{ asset('image/user.jpg') }}" >#}
             </a>
-            <nav>
-                <ul>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
                     {% if is_granted("ROLE_ADMIN") %}
-                        <li><a href="{{ path("gererSites") }}" title="Gérer les Sites">Gérer les Sites</a></li>
-                        <li><a href="{{ path("gererUtilisateurs") }}" title="Gérer les utilisateurs">Gérer les
+                        <li class="nav-item"><a href="{{ path("gererSites") }}" title="Gérer les Sites">Gérer les Sites</a></li>
+                        <li class="nav-item"><a href="{{ path("gererUtilisateurs") }}" title="Gérer les utilisateurs">Gérer les
                                 utilisateurs</a></li>
                     {% endif %}
                     {% if is_granted("ROLE_USER") %}
-                        <li><a href="{{ path("sortiesapp_sortie_listsorties") }}" title="SORTIR.COM | Home">Accueil</a></li>
-                        <li><a href="{{ path("utilisateur_ajouter") }}#}" title="Mon profil">Mon profil</a></li>
-                        <li><a href="{{ path("logout") }}" title="Logout">Logout</a></li>
+                        <li class="nav-item"><a href="{{ path("sortiesapp_sortie_listsorties") }}" class="nav-link" title="SORTIR.COM | Home">Accueil</a></li>
+                        <li class="nav-item"><a href="{{ path("utilisateur_ajouter") }}#}" class="nav-link" title="Mon profil">Mon profil</a></li>
+                        <li class="nav-item"><a href="{{ path("logout") }}" class="nav-link" title="Logout">Logout</a></li>
                     {% endif %}
-
                 </ul>
-            </nav>
-        </header>
-    </nav>
+            </div>
+        </nav>
+    </header>
+    {% endblock %}
     <main>
         <div class="flashes">
             {% for label, messages in app.flashes %}
@@ -56,13 +55,13 @@
     </main>
 
     {% block body %}{% endblock %}
-    {% block javascripts %}{% endblock %}
-
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+    {% endblock %}
     <footer>
         <hr>
         <div class="text-center"> © {{ "now"|date("Y") }} Sortir.com</div>
     </footer>
-
 </div>
 </body>
 </html>
