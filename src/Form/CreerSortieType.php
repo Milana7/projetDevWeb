@@ -2,22 +2,19 @@
 
 namespace App\Form;
 
-use App\Entity\Lieu;
 use App\Entity\Sortie;
 use App\Entity\Ville;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\FormEvents;
 
 class CreerSortieType extends AbstractType
 {
@@ -39,7 +36,7 @@ class CreerSortieType extends AbstractType
                 'label' => 'Date et heure de la sortie',
                 'widget' => 'single_text',
                 'html5' => true,
-                'error_bubbling' => true
+                'error_bubbling' => true,
             ])
             ->add('dateLimiteInscription', DateTimeType::class, [
                 'label' => 'Date limite d\'inscription',
@@ -68,13 +65,7 @@ class CreerSortieType extends AbstractType
                 'error_bubbling' => true,
                 'placeholder' => 'Sélectionnez une ville',
             ])
-            ->add('idLieu', EntityType::class, [
-
-                'label' => 'Lieu',
-                'class' => Lieu::class,
-                'choices' => array(),
-                'placeholder' => 'Sélectionnez une ville',
-                'choice_label' => 'nom',
+            ->add('idLieu', HiddenType::class, [
                 'error_bubbling' => true
             ])
             ->add('save', SubmitType::class ,[

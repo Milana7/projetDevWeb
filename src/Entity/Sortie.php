@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -33,32 +34,46 @@ class Sortie
     private $nom;
 
     /**
+     * @var datetime
      * @ORM\Column(type="datetime")
      *
      * @Assert\NotBlank(message="La date de début est obligatoire")
+     * @Assert\Type("DateTime")
      * @Assert\DateTime(
      *     format = "d-m-Y H:i",
-     *     message = "Le format de la date ne correspond pas à celui qui est attenu (jj/mm/aaaa hh:mm)"
+     *     message = "Le format de la date ne correspond pas à celui attendu (jj/mm/aaaa hh:mm)"
+     * )
+     * @Assert\Expression(
+     *     "value > this.getDateLimiteInscription()",
+     *     message = "La date de début de la sortie doit être supérieure à la date de fermeture des inscriptions"
+     * )
+     * @Assert\GreaterThan(
+     *     "now",
+     *     message = "La sortie ne peut pas commencer avant sa création"
      * )
      */
     private $dateHeureDebut;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
-     *
      */
     private $duree;
 
     /**
+     * @var datetime
      * @ORM\Column(type="datetime")
      * @Assert\NotBlank(message="La date limite d'inscription est obligatoire")
+     * @Assert\Type("DateTime")
      * @Assert\DateTime(
      *     format = "d-m-Y H:i",
-     *     message = "Le format de la date ne correspond pas à celui qui est attenu (jj/mm/aaaa hh:mm)"
+     *     message = "Le format de la date ne correspond pas à celui attendu (jj/mm/aaaa hh:mm)"
      * )
-     *
+     * @Assert\GreaterThan(
+     *     "now",
+     *     message = "Les inscriptions ne peuvent être fermées avant la création de la sortie"
+     * )
      */
-    private $dateLimiteInscription;
+    protected $dateLimiteInscription;
 
     /**
      * @ORM\Column(type="integer")
@@ -76,11 +91,13 @@ class Sortie
      */
     private $etat;
 
+    private $idLieu;
+
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Lieu", inversedBy="sorties")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $idLieu;
+    private $lieu;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Utilisateur", mappedBy="idSortie")
@@ -224,16 +241,36 @@ class Sortie
         return $this;
     }
 
-    public function getIdLieu(): ?Lieu
+    /**
+     * @return mixed
+     */
+    public function getIdLieu()
     {
         return $this->idLieu;
     }
 
-    public function setIdLieu(?Lieu $idLieu): self
+    /**
+     * @param mixed $idLieu
+     */
+    public function setIdLieu(int $idLieu): void
     {
         $this->idLieu = $idLieu;
+    }
 
-        return $this;
+    /**
+     * @return mixed
+     */
+    public function getLieu() :Lieu
+    {
+        return $this->lieu;
+    }
+
+    /**
+     * @param mixed $lieu
+     */
+    public function setLieu(Lieu $lieu): void
+    {
+        $this->lieu = $lieu;
     }
 
     /**

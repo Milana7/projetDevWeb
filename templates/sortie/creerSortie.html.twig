@@ -7,37 +7,37 @@
         <div class="col-sm-6">
             {{ form_start(form) }}
             <div class="form-group row">
-                {{ form_label(form.nom, null, {'label_attr': {'class': 'col-sm-3 offset-sm-2 col-form-label'}}) }}
+                {{ form_label(form.nom, null, {'label_attr': {'class': 'col-sm-4 offset-sm-2 col-form-label'}}) }}
                 <div class="col-sm-6">
                     {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
                 </div>
             </div>
             <div class="form-group row">
-                {{ form_label(form.dateHeureDebut, null, {'label_attr': {'class': 'col-sm-3 offset-sm-2 col-form-label'}}) }}
+                {{ form_label(form.dateHeureDebut, null, {'label_attr': {'class': 'col-sm-4 offset-sm-2 col-form-label'}}) }}
                 <div class="col-sm-6">
                     {{ form_widget(form.dateHeureDebut, {'attr': {'class': 'form-control'}}) }}
                 </div>
             </div>
             <div class="form-group row">
-                {{ form_label(form.dateLimiteInscription, null, {'label_attr': {'class': 'col-sm-3 offset-sm-2 col-form-label'}}) }}
+                {{ form_label(form.dateLimiteInscription, null, {'label_attr': {'class': 'col-sm-4 offset-sm-2 col-form-label'}}) }}
                 <div class="col-sm-6">
                     {{ form_widget(form.dateLimiteInscription, {'attr': {'class': 'form-control'}}) }}
                 </div>
             </div>
             <div class="form-group row">
-                {{ form_label(form.nbInscriptionsMax, null, {'label_attr': {'class': 'col-sm-3 offset-sm-2 col-form-label'}}) }}
+                {{ form_label(form.nbInscriptionsMax, null, {'label_attr': {'class': 'col-sm-4 offset-sm-2 col-form-label'}}) }}
                 <div class="col-sm-6">
                     {{ form_widget(form.nbInscriptionsMax, {'attr': {'class': 'form-control'}}) }}
                 </div>
             </div>
             <div class="form-group row">
-                {{ form_label(form.duree, null, {'label_attr': {'class': 'col-sm-3 offset-sm-2 col-form-label'}}) }}
+                {{ form_label(form.duree, null, {'label_attr': {'class': 'col-sm-4 offset-sm-2 col-form-label'}}) }}
                 <div class="col-sm-6">
                     {{ form_widget(form.duree, {'attr': {'class': 'form-control'}}) }}
                 </div>
             </div>
             <div class="form-group row">
-                {{ form_label(form.infosSortie, null, {'label_attr': {'class': 'col-sm-3 offset-sm-2 col-form-label'}}) }}
+                {{ form_label(form.infosSortie, null, {'label_attr': {'class': 'col-sm-4 offset-sm-2 col-form-label'}}) }}
                 <div class="col-sm-6">
                     {{ form_widget(form.infosSortie, {'attr': {'class': 'form-control', 'rows': 4}}) }}
                 </div>
@@ -45,45 +45,48 @@
         </div>
         <div class="col-sm-6">
             <div class="form-group row">
-                <label for="villeOrganisatrice" class="col-sm-3 offset-sm-1 col-form-label">Ville organisatrice</label>
+                <label for="villeOrganisatrice" class="col-sm-4 offset-sm-1 col-form-label">Ville organisatrice</label>
                 <div class="col-sm-6">
                     <input id="villeOrganisatrice" type="text" class="form-control" readonly value="TEST">
                 </div>
             </div>
             <div class="form-group row">
-                {{ form_label(form.villes, null, {'label_attr': {'class': 'col-sm-3 offset-sm-1 col-form-label'}}) }}
+                {{ form_label(form.villes, null, {'label_attr': {'class': 'col-sm-4 offset-sm-1 col-form-label'}}) }}
                 <div class="col-sm-6">
                     {{ form_widget(form.villes, {'attr': {'class': 'form-control'}}) }}
                 </div>
             </div>
             <div class="form-group row">
-                {{ form_label(form.idLieu, null, {'label_attr': {'class': 'col-sm-3 offset-sm-1 col-form-label'}}) }}
+                <label for="selectLieu" class="col-sm-4 offset-sm-1 col-form-label">Lieu</label>
                 <div class="col-sm-6">
+                    <select class="form-control" id="selectLieu">
+                        <option>Sélectionner une ville</option>
+                    </select>
                     {{ form_widget(form.idLieu, {'attr': {'class': 'form-control'}}) }}
                 </div>
             </div>
             <div class="form-group row">
-                <label for="rue" class="col-sm-3 offset-sm-1 col-form-label">Rue</label>
+                <label for="rue" class="col-sm-4 offset-sm-1 col-form-label">Rue</label>
                 <div class="col-sm-6">
-                    <input id="rue" type="text" class="form-control" readonly value="TEST">
+                    <input id="rue" type="text" class="form-control-plaintext" value="">
                 </div>
             </div>
             <div class="form-group row">
-                <label for="codePostal" class="col-sm-3 offset-sm-1 col-form-label">Code postal</label>
+                <label for="codePostal" class="col-sm-4 offset-sm-1 col-form-label">Code postal</label>
                 <div class="col-sm-6">
-                    <input id="codePostal" type="text" class="form-control" readonly value="TEST">
+                    <input id="codePostal" type="text" class="form-control-plaintext" value="">
                 </div>
             </div>
             <div class="form-group row">
-                <label for="latitude" class="col-sm-3 offset-sm-1 col-form-label">Latitude</label>
+                <label for="latitude" class="col-sm-4 offset-sm-1 col-form-label">Latitude</label>
                 <div class="col-sm-6">
-                    <input id="latitude" type="text" class="form-control" readonly value="TEST">
+                    <input id="latitude" type="text" class="form-control-plaintext" value="">
                 </div>
             </div>
             <div class="form-group row">
-                <label for="longitude" class="col-sm-3 offset-sm-1 col-form-label">Longitude</label>
+                <label for="longitude" class="col-sm-4 offset-sm-1 col-form-label">Longitude</label>
                 <div class="col-sm-6">
-                    <input id="longitude" type="text" class="form-control" readonly value="TEST">
+                    <input id="longitude" type="text" class="form-control-plaintext" value="">
                 </div>
             </div>
         </div>
@@ -91,9 +94,9 @@
             {{ form_errors(form, {'attr': {'class': 'form-control'}})}}
         </div>
         <div id="creerSortie-btnGroupe">
-            {{ form_widget(form.save, {'attr': {'class': 'btn btn-outline-secondary'}}) }}
-            {{ form_widget(form.publish, {'attr': {'class': 'btn btn-outline-secondary'}}) }}
-            <a href="#" class="btn btn-outline-danger">Annuler</a>
+            {{ form_widget(form.save, {'attr': {'class': 'btn btn-outline-success'}}) }}
+            {{ form_widget(form.publish, {'attr': {'class': 'btn btn-outline-primary'}}) }}
+            <a href="{{ path('sortie_sortie') }}" class="btn btn-outline-danger">Annuler</a>
         </div>
         {{ form_end(form) }}
     </div>
@@ -105,19 +108,19 @@
             $idVille = $('#creer_sortie_villes option:selected').val();
             getLieuxByIdVille($idVille);
         });
-        $(document).on('change', '#creer_sortie_idLieu', function(){
-            $idLieu = $('#creer_sortie_idLieu option:selected').val();
+        $(document).on('change', '#selectLieu', function(){
+            $idLieu = $('#selectLieu option:selected').val();
             getDetailsLieu($idLieu);
         });
         function getLieuxByIdVille($idVille){
             $.get("./getLieuxByVille", { idVille : $idVille },
                 function(data){
-                    var $dropdown = $("#creer_sortie_idLieu");
+                    var $dropdown = $("#selectLieu");
                     $dropdown.empty();
                     $.each(data, function() {
                         $dropdown.append($("<option />").val(this.id).text(this.nom));
                     });
-                    $idLieu = $('#creer_sortie_idLieu option:selected').val();
+                    $idLieu = $('#selectLieu option:selected').val();
                     getDetailsLieu($idLieu);
                 });
         }
@@ -126,12 +129,11 @@
             console.log('idLieu : '+ $idLieu);
             $.get("./getDetailsLieu", { idLieu : $idLieu },
                 function(data){
-                    console.log(data);
                     $('#rue').val(data[0].rue);
                     $('#codePostal').val(data[0].idVille.codePostal);
                     $('#latitude').val(data[0].latitude);
                     $('#longitude').val(data[0].longitude);
-                    console.log(data[0].rue);
+                    $('#creer_sortie_idLieu').val(data[0].id);
                 });
         }
 

@@ -2,12 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Etat;
 use App\Entity\Lieu;
 use App\Entity\Sortie;
 use App\Form\CreerSortieType;
 use App\Entity\Utilisateur;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,12 +21,12 @@ class SortieController extends Controller
 {
 
     /**
-     * @Route("/", name="sortie")
+     * @Route("/", name="_sortie")
      * Affiche toutes les sorties disponibles
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function listSorties(Request $request)
+    public function listSorties()
     {
         $repository = $this
             ->getDoctrine()
@@ -97,14 +96,34 @@ class SortieController extends Controller
         $nouvelleSortie = new Sortie();
 
         $form = $this->createForm(CreerSortieType::class, $nouvelleSortie);
-
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            $sortie = $form->getData();
-            // TODO Sauvegarder les données en base
+            //TODO A modifier pour récupérer l'utilisateur en session
+            $organisateur = $this->getDoctrine()->getRepository(Utilisateur::class)->find(1);
 
-            return $this->redirectToRoute('sortie');
+            // On adapte l'état en fonction du bouton sélectionné (publier/enregistrer)
+            if ($form->getClickedButton() && 'save' === $form->getClickedButton()->getName()){
+                $etat = $this->getDoctrine()->getRepository(Etat::class)->find(1);
+            }
+            if($form->getClickedButton() && 'publish' === $form->getClickedButton()->getName()){
+                $etat = $this->getDoctrine()->getRepository(Etat::class)->find(2);
+            }
+
+            $lieu = $this->getDoctrine()->getRepository(Lieu::class)->find($form->get('idLieu')->getData());
+
+            // Construction de la sortie à insérer en base
+            $sortie = $form->getData();
+            $sortie->setOrganisateur($organisateur);
+            $sortie->setEtat($etat);
+            $sortie->setLieu($lieu);
+
+            // Ajout en BDD
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($sortie);
+            $em->flush();
+
+            return $this->redirectToRoute('sortie_sortie');
         }
 
         return $this->render('sortie/creerSortie.html.twig', ['form' => $form->createView()]);
@@ -120,6 +139,7 @@ class SortieController extends Controller
     public function getLieuxByVilleId(Request $request){
         $idVille = $request->query->get('idVille');
         $repo = $this->getDoctrine()->getRepository(Lieu::class);
+
         $listeLieux = $repo->findByIdVille($idVille);
 
         return new JsonResponse($listeLieux);
@@ -132,9 +152,10 @@ class SortieController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function getDetailsLieux(Request $request){
+    public function getDetailsLieu(Request $request){
         $idLieu = $request->query->get('idLieu');
         $repo = $this->getDoctrine()->getRepository(Lieu::class);
+
         $detailsLieu = $repo->findById($idLieu);
 
         return new JsonResponse($detailsLieu);

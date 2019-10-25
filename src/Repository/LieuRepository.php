@@ -5,8 +5,6 @@ namespace App\Repository;
 use App\Entity\Lieu;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * @method Lieu|null find($id, $lockMode = null, $lockVersion = null)
@@ -21,6 +19,9 @@ class LieuRepository extends ServiceEntityRepository
         parent::__construct($registry, Lieu::class);
     }
 
+    /**
+     * Retourne la liste des lieux appartenant à la ville dont l'id est passé en paramètre
+     */
     public function findByIdVille($idVille)
     {
         return $this->createQueryBuilder('l')
@@ -31,6 +32,9 @@ class LieuRepository extends ServiceEntityRepository
             ;
     }
 
+    /**
+     * Retourne le lieu (+ sa ville) dont l'id est passé en paramètre
+     */
     public function findById($idLieu){
         return $this->createQueryBuilder('l')
             ->select(array('l', 'v'))

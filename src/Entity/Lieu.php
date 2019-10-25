@@ -45,7 +45,7 @@ class Lieu
     private $idVille;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Sortie", mappedBy="idLieu")
+     * @ORM\OneToMany(targetEntity="App\Entity\Sortie", mappedBy="lieu")
      */
     private $sorties;
 
@@ -151,5 +151,6 @@ class Lieu
 
         return $this;
     }
+
 
 }
