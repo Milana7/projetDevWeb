@@ -5,33 +5,60 @@
         <h1>{{ utilisateur.nom }}</h1>
     </div>
     <br>
+    <div class="row">
+        <div class="row col-sm-3"></div>
 
-    <div class="row, col-sm-6 offset-sm-3" id="formulaireContainer">
-        <div class="row form-group offset-sm-1">
-            <label for="pseudo" class="col-sm-3">Pseudo : </label>
-            {{ utilisateur.pseudo }}
-        </div>
+        <div class="row, col-sm-6 offset-sm-1" id="formulaireContainer">
+            <div class="row form-group offset-sm-1">
+                <label for="pseudo" class="col-sm-3">Pseudo : </label>
+                <div class="card">
+                    <div class="card-body">
+                        {{ utilisateur.pseudo }}
+                    </div>
+                </div>
+            </div>
 
-        <div class="row form-group offset-sm-1">
-            <label for="nom" class="col-sm-3">Nom : </label>
-            {{ utilisateur.nom }}
-        </div>
+            <div class="row form-group offset-sm-1">
+                <label for="nom" class="col-sm-3">Nom : </label>
+                <div class="card">
+                    <div class="card-body">
+                        {{ utilisateur.nom }}
+                    </div>
+                </div>
+            </div>
 
-        <div class="row form-group offset-sm-1">
-            <label for="telephone" class="col-sm-3">Prénom : </label>
-            {{ utilisateur.telephone }}
-        </div>
+            <div class="row form-group offset-sm-1">
+                <label for="telephone" class="col-sm-3">Prénom : </label>
+                <div class="card">
+                    <div class="card-body">
+                        {{ utilisateur.telephone }}
+                    </div>
+                </div>
+            </div>
 
-        <div class="row form-group offset-sm-1">
-            <label for="mail" class="col-sm-3">E-Mail : </label>
-            {{ utilisateur.mail }}
-        </div>
-        <div class="row form-group offset-sm-1">
-            <label for="nomSite" class="col-sm-3">Site : </label>
-            {{ utilisateur.site.nom }}
+            <div class="row form-group offset-sm-1">
+                <label for="mail" class="col-sm-3">E-Mail : </label>
+                <div class="card">
+                    <div class="card-body">
+                        {{ utilisateur.mail }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="row form-group offset-sm-1">
+                <label for="nomSite" class="col-sm-3">Site : </label>
+                <div class="card">
+                    <div class="card-body">
+                        {{ utilisateur.site.nom }}
+                    </div>
+                </div>
+            </div>
+
+            <a href="{{ path('sortiesapp_sortie_listsorties') }}">
+                <button type="button" class="btn btn-outline-warning col-sm-4 mx-auto">Retour</button>
+            </a>
         </div>
     </div>
-
 {% endblock %}
 
 {% block title %}Mon profil{% endblock %}
