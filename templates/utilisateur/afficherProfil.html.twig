@@ -6,16 +6,31 @@
     </div>
     <br>
 
-    <div class="text-center"><label>Pseudo : </label> {{ utilisateur.pseudo }}</div>
-    <div class="text-center"><label>Nom : </label> {{ utilisateur.nom }}</div>
-    <div class="text-center"><label>Prénom : </label> {{ utilisateur.telephone }}</div>
-    <div class="text-center"><label>E-Mail : </label> {{ utilisateur.mail }}</div>
-    <div class="text-center"><label>Site : </label> {{ utilisateur.site.nom }}</div>
-    <br>
-    <a href="{{ path('sortiesapp_sortie_listsorties') }}">
-        <button type="button" class="btn btn-warning">Retour</button>
-    </a>
+    <div class="row, col-sm-6 offset-sm-3" id="formulaireContainer">
+        <div class="row form-group offset-sm-1">
+            <label for="pseudo" class="col-sm-3">Pseudo : </label>
+            {{ utilisateur.pseudo }}
+        </div>
 
+        <div class="row form-group offset-sm-1">
+            <label for="nom" class="col-sm-3">Nom : </label>
+            {{ utilisateur.nom }}
+        </div>
+
+        <div class="row form-group offset-sm-1">
+            <label for="telephone" class="col-sm-3">Prénom : </label>
+            {{ utilisateur.telephone }}
+        </div>
+
+        <div class="row form-group offset-sm-1">
+            <label for="mail" class="col-sm-3">E-Mail : </label>
+            {{ utilisateur.mail }}
+        </div>
+        <div class="row form-group offset-sm-1">
+            <label for="nomSite" class="col-sm-3">Site : </label>
+            {{ utilisateur.site.nom }}
+        </div>
+    </div>
 
 {% endblock %}
 
