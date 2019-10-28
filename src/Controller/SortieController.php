@@ -22,26 +22,26 @@ use Symfony\Component\Routing\Annotation\Route;
 class SortieController extends Controller
 {
     /**
-     * Filtrer les sorties sur la page d'accueil
+     * Les inscriptions
      *
-     * @Route("/sortiesFiltrees", name="sortiesFiltrees")
+     * @Route("/inscriptions", name="sortiesFiltrees")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    /*    public function listSortiesFiltrated(Request $request)
-        {
-            $repository = $this
-                ->getDoctrine()
-                ->getManager()
-                ->getRepository('App:Sortie');
+    public function inscriptions(Request $request)
+    {
+        $repository = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('App:Sortie');
 
-            $listSortie = $repository->listSortiesAll();
+        $listSortie = $repository->listSortiesAll();
 
-            return $this->render('sortie/sortie.html.twig',[
-                'controller_name' => 'SortieController',
-                'listSortie' => $listSortie,
-            ]);
-        }*/
+        return $this->render('sortie/sortie.html.twig', [
+            'controller_name' => 'SortieController',
+            'listSortie' => $listSortie,
+        ]);
+    }
 
     /**
      * Affiche toutes les sorties disponibles
@@ -56,20 +56,33 @@ class SortieController extends Controller
 
         $form = $this->createForm(FiltreSortieType::class, $filtre);
 
-        if($request->isMethod('POST'))
-        {
+        if ($request->isMethod('POST')) {
             $form->handleRequest($request);
         }
-        $repository = $this
+
+        $repositoryS = $this
             ->getDoctrine()
             ->getManager()
             ->getRepository('App:Sortie');
 
-        $listSortie = $repository->listSortiesAll($filtre);
+        $listSortie = $repositoryS->listSortiesAll($filtre);
+
+        $user = new Sortie();
+        $u = $user->getUtilisateurs()->current();
+
+        $repositoryU = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('App:Utilisateur');
+
+        $listUser = $repositoryU->findAll();
+        $dateJour = new \DateTime('now');
 
         return $this->render('sortie/sortie.html.twig', [
             'controller_name' => 'SortieController',
             'listSortie' => $listSortie,
+            'listUser' => $listUser,
+            'dateJour' => $dateJour,
             'filtre' => $form->createView(),
         ]);
     }
@@ -79,18 +92,23 @@ class SortieController extends Controller
      *
      * @Route("/mesSortiesOrganisees/{idOrg}", name="sortieByIdOrg")
      * @param Request $request
-     * @param Utilisateur $idOrg
+     * @param int $idOrg
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function listSortiesByIdOrg(Request $request, $idOrg)
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        /**
+         * @var Utilisateur $user
+         */
+        $user = $this->getUser();
 
         $repository = $this
             ->getDoctrine()
             ->getManager()
             ->getRepository('App:Sortie');
 
-        $listSortie = $repository->listByOrganiser($idOrg);
+        $listSortie = $repository->listByOrganiser($user->getId());
 
 
         return $this->render('sortie/sortiesByOrganiser.html.twig', [
@@ -133,15 +151,15 @@ class SortieController extends Controller
         $form = $this->createForm(CreerSortieType::class, $nouvelleSortie);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             //TODO A modifier pour récupérer l'utilisateur en session
             $organisateur = $this->getDoctrine()->getRepository(Utilisateur::class)->find(1);
 
             // On adapte l'état en fonction du bouton sélectionné (publier/enregistrer)
-            if ($form->getClickedButton() && 'save' === $form->getClickedButton()->getName()){
+            if ($form->getClickedButton() && 'save' === $form->getClickedButton()->getName()) {
                 $etat = $this->getDoctrine()->getRepository(Etat::class)->find(1);
             }
-            if($form->getClickedButton() && 'publish' === $form->getClickedButton()->getName()){
+            if ($form->getClickedButton() && 'publish' === $form->getClickedButton()->getName()) {
                 $etat = $this->getDoctrine()->getRepository(Etat::class)->find(2);
             }
 
@@ -171,7 +189,8 @@ class SortieController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function getLieuxByVilleId(Request $request){
+    public function getLieuxByVilleId(Request $request)
+    {
         $idVille = $request->query->get('idVille');
         $repo = $this->getDoctrine()->getRepository(Lieu::class);
 
@@ -187,7 +206,8 @@ class SortieController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function getDetailsLieu(Request $request){
+    public function getDetailsLieu(Request $request)
+    {
         $idLieu = $request->query->get('idLieu');
         $repo = $this->getDoctrine()->getRepository(Lieu::class);
 

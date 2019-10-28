@@ -20,7 +20,7 @@
         <h1>Liste des sorties </h1>
 
         <h5>Filtrer les sorties </h5>
-       {{ form_start(filtre) }}
+        {{ form_start(filtre) }}
 
         {{ form_end(filtre) }}
         <br>
@@ -32,20 +32,44 @@
                     <td height="100px">Nom de la sortie</td>
                     <td>Date de la sortie</td>
                     <td>Clôture</td>
-                    <td>inscrits/places</td>
+                    <td>Inscrits/Places</td>
                     <td>Etat</td>
                     <td>Inscrit</td>
                     <td>Organisateur</td>
+                    <td>Actions</td>
                 </tr>
                 {% for sortie in listSortie %}
                     <tr>
                         <td>{{ sortie.nom }} </td>
                         <td>{{ sortie.dateHeureDebut }} </td>
                         <td>{{ sortie.dateLimiteInscription }} </td>
-                        <td>nbPlaces</td>
+                        <td>{{ sortie.utilisateurs.count }} / {{ sortie.nbInscriptionsMax }}</td>
                         <td>{{ sortie.etat.libelle }}</td>
-                        <td> O/N</td>
-                        <td> {{ sortie.organisateur.nom }}</td>
+                        <td>{% for user in sortie.utilisateurs %}
+                                {% if (user.id == app.user.id) %}
+                                    X
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td> {{ sortie.organisateur.prenom }} {{ sortie.organisateur.nom|first }}.</td>
+                        <td>
+                            <a href=""> Afficher</a>
+                                {% for utilInscrits in sortie.utilisateurs %}
+                                    {% if (utilInscrits.id != null and sortie.etat.id != 3) %} {# si on est déjà inscrit à la sortie (donc on est pas l'organisateur) #}
+                                        <a href=""> Se désister</a>
+                                    {% endif %}
+                                {% endfor %}
+
+                                {% if (sortie.organisateur.id != app.user.id and sortie.etat.id == 2
+                                        and sortie.utilisateurs.count < sortie.nbInscriptionsMax
+                                        and sortie.dateLimiteInscription < dateJour) %} {# on peut s'inscrire si on et pas l'utilisateur, s'il reste de la place et si la sortie n'est pas fermée ou expirée #}
+                                    <a href="">S'inscrire</a>
+                                {% endif %}
+
+                                {% if (sortie.organisateur.id == app.user.id and sortie.etat.id == 1) %} {# si on est l'organisateur de la sortie, on peut la modifier #}
+                                    <a href="">Modifier</a>
+                                {% endif %}
+                        </td>
                     </tr>
                 {% endfor %}
             </table>
