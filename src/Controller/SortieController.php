@@ -9,8 +9,10 @@ use App\Entity\Site;
 use App\Entity\Sortie;
 use App\Entity\Utilisateur;
 use App\Entity\Ville;
+use App\Form\AnnulerSortieType;
 use App\Form\CreerSortieType;
 use App\Form\FiltreSortieType;
+use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -61,8 +63,7 @@ class SortieController extends Controller
 
         $form = $this->createForm(FiltreSortieType::class, $filtre);
 
-        if($request->isMethod('POST'))
-        {
+        if ($request->isMethod('POST')) {
             $form->handleRequest($request);
         }
         $repository = $this
@@ -146,17 +147,16 @@ class SortieController extends Controller
         if(!$form->isSubmitted())
         {
             $site = $this->getDoctrine()->getRepository(Site::class)->find($organisateur->getSite())->getNom();
-            dump($site);
             $form->get('villeOrganisatrice')->setData($site);
         }
 
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
 
             // On adapte l'état en fonction du bouton sélectionné (publier/enregistrer)
-            if ($form->getClickedButton() && 'save' === $form->getClickedButton()->getName()){
+            if ($form->getClickedButton() && 'save' === $form->getClickedButton()->getName()) {
                 $etat = $this->getDoctrine()->getRepository(Etat::class)->find(1);
             }
-            if($form->getClickedButton() && 'publish' === $form->getClickedButton()->getName()){
+            if ($form->getClickedButton() && 'publish' === $form->getClickedButton()->getName()) {
                 $etat = $this->getDoctrine()->getRepository(Etat::class)->find(2);
             }
 
@@ -186,7 +186,8 @@ class SortieController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function getLieuxByVilleId(Request $request){
+    public function getLieuxByVilleId(Request $request)
+    {
         $idVille = $request->query->get('idVille');
         $repo = $this->getDoctrine()->getRepository(Lieu::class);
 
@@ -202,7 +203,8 @@ class SortieController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function getDetailsLieu(Request $request){
+    public function getDetailsLieu(Request $request)
+    {
         $idLieu = $request->query->get('idLieu');
         $repo = $this->getDoctrine()->getRepository(Lieu::class);
 
@@ -287,5 +289,44 @@ class SortieController extends Controller
             // TODO renvoyer une erreur
             return null;
         }
+    }
+
+    /**
+     * @Route("/annulerSortie/{id}", name="sortie_annulerSortie")
+     */
+    public function annulerSortie(int $id, Request $request, EntityManagerInterface $em)
+    {
+        $repo = $em->getRepository(Sortie::class);
+        $sortie = $repo->find($id);
+        dump($sortie);
+
+        $sortieForm = $this->createForm(AnnulerSortieType::class, $sortie);
+        $sortieForm->handleRequest($request);
+
+        if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
+            $sortie = $sortieForm->getData();
+
+            $repo = $em->getRepository(Etat::class);
+            $etat = $repo->find(6);
+            $sortie->setEtat($etat);
+
+            dump($sortie);
+
+            $sortie->setId(6);
+
+            $error = false;
+
+            if (!$error) {
+                $em->persist($sortie);
+                $em->flush();
+
+                $this->addFlash("success", "La sortie a été annulée !");
+                return $this->redirectToRoute("sortiesapp_sortie_listsorties", ["id" => $sortie->getId()]);
+            }
+        }
+        return $this->render("sortie/annulerSortie.html.twig", [
+            "sortieForm" => $sortieForm->createView(),
+            "sortie" => $sortie
+        ]);
     }
 }
