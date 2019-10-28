@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class UtilisateurController extends Controller
@@ -28,7 +29,7 @@ class UtilisateurController extends Controller
     /**
      * @Route("/utilisateur/ajouter", name="utilisateur_ajouter")
      */
-    public function ajouter(Request $request, EntityManagerInterface $em)
+    public function ajouter(Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $passwordEncoder)
     {
         $utilisateur = $this->getUser();
 
@@ -36,7 +37,8 @@ class UtilisateurController extends Controller
         $utilisateurForm->handleRequest($request);
 
         if ($utilisateurForm->isSubmitted() && $utilisateurForm->isValid()) {
-
+            $password = $passwordEncoder->encodePassword($utilisateur, $utilisateur->getPassword());
+            $utilisateur->setPassword($password);
             $error = false;
 
             //file

@@ -30,7 +30,7 @@ class ModifierProfilType extends AbstractType
             ->add('prenom', TextType::class, [
                 "label" => "Votre Prénom : "
             ])
-            ->add('telephone', NumberType::class, [
+            ->add('telephone', TextType::class, [
                 "label" => "Votre numéro de portable : "
             ])
             ->add('mail', EmailType::class, [

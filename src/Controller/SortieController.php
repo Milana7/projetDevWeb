@@ -2,14 +2,14 @@
 
 namespace App\Controller;
 
-use App\Entity\FiltreSortie;
-use App\Entity\Sortie;
 use App\Entity\Etat;
+use App\Entity\FiltreSortie;
 use App\Entity\Lieu;
-use App\Form\CreerSortieType;
+use App\Entity\Sortie;
 use App\Entity\Utilisateur;
+use App\Entity\Ville;
+use App\Form\CreerSortieType;
 use App\Form\FiltreSortieType;
-use Doctrine\ORM\QueryBuilder;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -129,14 +129,21 @@ class SortieController extends Controller
      */
     public function creerSortie(Request $request)
     {
+        // Récupération de l'organisateur (utilisateur en session)
+        $organisateur = $this->getDoctrine()->getRepository(Utilisateur::class)->find($this->getUser()->getId());
+
         $nouvelleSortie = new Sortie();
 
         $form = $this->createForm(CreerSortieType::class, $nouvelleSortie);
         $form->handleRequest($request);
 
+        if(!$form->isSubmitted())
+        {
+            $site = $this->getDoctrine()->getRepository(Ville::class)->find($organisateur->getSite())->getNom();
+            $form->get('villeOrganisatrice')->setData($site);
+        }
+
         if($form->isSubmitted() && $form->isValid()){
-            //TODO A modifier pour récupérer l'utilisateur en session
-            $organisateur = $this->getDoctrine()->getRepository(Utilisateur::class)->find(1);
 
             // On adapte l'état en fonction du bouton sélectionné (publier/enregistrer)
             if ($form->getClickedButton() && 'save' === $form->getClickedButton()->getName()){
@@ -159,7 +166,7 @@ class SortieController extends Controller
             $em->persist($sortie);
             $em->flush();
 
-            return $this->redirectToRoute('sorties');
+            return $this->redirectToRoute('sortiesapp_sortie_listsorties');
         }
 
         return $this->render('sortie/creerSortie.html.twig', ['form' => $form->createView()]);
