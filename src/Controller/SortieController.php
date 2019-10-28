@@ -213,11 +213,20 @@ class SortieController extends Controller
     {
         $repo = $em->getRepository(Sortie::class);
         $sortie = $repo->find($id);
+        dump($sortie);
 
         $sortieForm = $this->createForm(AnnulerSortieType::class, $sortie);
         $sortieForm->handleRequest($request);
 
-        /*if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
+        if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
+            $sortie = $sortieForm->getData();
+
+            $repo = $em->getRepository(Etat::class);
+            $etat = $repo->find(6);
+            $sortie->setEtat($etat);
+
+            dump($sortie);
+
             $sortie->setId(6);
 
             $error = false;
@@ -229,9 +238,10 @@ class SortieController extends Controller
                 $this->addFlash("success", "La sortie a été annulée !");
                 return $this->redirectToRoute("sortiesapp_sortie_listsorties", ["id" => $sortie->getId()]);
             }
-        }*/
-        return $this->render("sortie/sortie.html.twig", [
-            "sortieForm" => $sortieForm->createView()
+        }
+        return $this->render("sortie/annulerSortie.html.twig", [
+            "sortieForm" => $sortieForm->createView(),
+            "sortie" => $sortie
         ]);
     }
 }

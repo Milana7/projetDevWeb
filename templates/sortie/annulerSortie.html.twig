@@ -7,10 +7,10 @@
         <br>
     </div>
 
-    <div class="text-center"><label>Nom de la sortie </label> {{ sortie.nom }}</div>
-    <div class="text-center"><label>Date de la sortie </label> {{ sortie.dateHeureDebut }}</div>
-    <div class="text-center"><label>Ville organisatrice : </label> {{ sortie.site.nom }}</div>
-    <div class="text-center"><label>Lieu : </label> {{ sortie.lieu }}</div>
+    <div class="text-center"><label>Nom de la sortie : </label> {{ sortie.nom }}</div>
+    <div class="text-center"><label>Date de la sortie : </label> {{ sortie.dateHeureDebut }}</div>
+    <div class="text-center"><label>Ville organisatrice : </label> {{ sortie.organisateur.site.id}}</div>
+    <div class="text-center"><label>Lieu : </label> {{ sortie.lieu.id }}</div>
 
     {# Création du formulaire avec certains champs fixes #}
     {{ form_start(sortieForm) }}
