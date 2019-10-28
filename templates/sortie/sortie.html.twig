@@ -54,8 +54,8 @@
                         <td> {{ sortie.organisateur.prenom }} {{ sortie.organisateur.nom|first }}.</td>
                         <td>
                             <a href=""> Afficher</a>
-                                {% for utilInscrits in sortie.utilisateurs %}
-                                    {% if (utilInscrits.id != null and sortie.etat.id != 3) %} {# si on est déjà inscrit à la sortie (donc on est pas l'organisateur) #}
+                                {% for utilInscrits in sortie.utilisateurs %} {# utilisateurs inscrits #}
+                                    {% if (utilInscrits.id != null and sortie.etat.id != 3 and app.user.id != sortie.organisateur.id) %} {# si on est déjà inscrit à la sortie (donc on est pas l'organisateur) #}
                                         <a href=""> Se désister</a>
                                     {% endif %}
                                 {% endfor %}
@@ -69,6 +69,20 @@
                                 {% if (sortie.organisateur.id == app.user.id and sortie.etat.id == 1) %} {# si on est l'organisateur de la sortie, on peut la modifier #}
                                     <a href="">Modifier</a>
                                 {% endif %}
+
+                                {% if (sortie.organisateur.id == app.user.id and sortie.utilisateurs.count == 0) %} {# si on est l'organisateur de la sortie et s'il y a 0 inscrits on peut annuler #}
+                                    <a href="">Annuler</a>
+                                {% endif %}
+
+                                {# Pour s'inscrire : - je ne dois pas être l'organisateur
+                                                     - etat = Ouvert
+                                                     - date non dépassée
+                                                     - il doit rester au moins une place
+                                                     - je ne dois pas être déjà inscrit
+                                 #}
+                                {% if (sortie.organisateur.id == app.user.id and sortie.utilisateurs.count == 0) %}
+                                    <a href="">S'inscrire</a>
+                                {% endif %}
                         </td>
                     </tr>
                 {% endfor %}
@@ -76,7 +90,7 @@
         </div>
     </div>
     <a href="{{ path('sortiescreer_sortie') }}" class="btn btn-outline-primary">Créer une sortie</a>
-    <a href="{{ path('sorties_inscription', {'sortieId': 4}) }}" class="btn btn-outline-primary">S'inscrire</a>
-    <a href="{{ path('sorties_desistement', {'sortieId': 4}) }}" class="btn btn-outline-primary">Se désister</a>
-    <a href="{{ path('sorties_afficherSortie', {'sortieId': 4}) }}" class="btn btn-outline-primary">Afficher sortie</a>
+    <a href="{{ path('sorties_inscription', {'sortieId': 2}) }}" class="btn btn-outline-primary">S'inscrire</a>
+    <a href="{{ path('sorties_desistement', {'sortieId': 2}) }}" class="btn btn-outline-primary">Se désister</a>
+    <a href="{{ path('sorties_afficherSortie', {'sortieId': 2}) }}" class="btn btn-outline-primary">Afficher sortie</a>
 {% endblock %}

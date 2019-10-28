@@ -263,11 +263,11 @@ class SortieController extends Controller
     public function inscription($sortieId){
         $sortie = $this->getDoctrine()->getRepository(Sortie::class)->find($sortieId);
         $utilisateur = $this->getDoctrine()->getRepository(Utilisateur::class)->find($this->getUser()->getId());
-
-        if($sortie->getEtat()->getid() == 2){
+        $etat = $sortie->getEtat();
+        if($etat->getId() === 2){
             $now = new \DateTime('now');
             // TODO verification sur nb max d'inscriptions + nb inscription en cours
-            if($sortie->getDateLimiteInscription() < $now){
+            if($sortie->getDateLimiteInscription() > $now){
 
                 $sortie->addUtilisateur($utilisateur);
 
@@ -277,10 +277,9 @@ class SortieController extends Controller
 
                 return $this->redirectToRoute('sortiesapp_sortie_listsorties');
             }
-        } else {
-            // TODO renvoyer une erreur
-            return null;
         }
+        // TODO return errorMsg
+        return "ERROR";
     }
 
     /**
@@ -294,7 +293,7 @@ class SortieController extends Controller
         $utilisateur = $this->getDoctrine()->getRepository(Utilisateur::class)->find($this->getUser()->getId());
 
         $now = new \DateTime('now');
-        if($sortie->getDateHeureDebut() < $now){
+        if($sortie->getDateHeureDebut() > $now){
 
             $sortie->removeUtilisateur($utilisateur);
 
@@ -303,10 +302,9 @@ class SortieController extends Controller
             $em->flush();
 
             return $this->redirectToRoute('sortiesapp_sortie_listsorties');
-        } else{
-            // TODO renvoyer une erreur
-            return null;
         }
+        // TODO return errorMsg
+        return "ERROR";
     }
 
     /**
