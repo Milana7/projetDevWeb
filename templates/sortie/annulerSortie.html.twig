@@ -9,7 +9,7 @@
     <div class="row, col-sm-6 offset-sm-3" id="formulaireContainer">
         <div class="row form-group offset-sm-1">
             <label for="nomSortie" class="col-sm-3">Nom de la sortie : </label>
-         <div class="form-control">{{ sortie.nom }}</div>
+            <div>{{ sortie.nom }}</div>
         </div>
 
         <div class="row form-group offset-sm-1">
@@ -19,12 +19,12 @@
 
         <div class="row form-group offset-sm-1">
             <label for="villeOrga" class="col-sm-3">Ville organisatrice : </label>
-            {{ sortie.organisateur.site.id }}
+            {{ sortie.organisateur.site.nom }}
         </div>
 
         <div class="row form-group offset-sm-1">
             <label for="lieuSortie" class="col-sm-3">Lieu : </label>
-            {{ sortie.lieu.id }}
+            {{ sortie.lieu.nom }}
         </div>
 
 
