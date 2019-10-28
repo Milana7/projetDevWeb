@@ -27,6 +27,9 @@ class CreerSortieType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        dump($builder);
+        dump($options);
+
         $builder
             ->add('nom', TextType::class, [
                 'label' => 'Nom de la sortie',
@@ -56,6 +59,10 @@ class CreerSortieType extends AbstractType
                 'label' => 'Description et infos',
                 'required' => false,
                 'error_bubbling' => true
+            ])
+            ->add('villeOrganisatrice', TextType::class, [
+                'mapped' => false,
+                'label' => 'Ville organisatrice'
             ])
             -> add('villes', EntityType::class, [
                 'mapped' => false,
