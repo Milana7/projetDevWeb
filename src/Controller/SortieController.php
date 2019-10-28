@@ -5,14 +5,18 @@ namespace App\Controller;
 use App\Entity\Etat;
 use App\Entity\FiltreSortie;
 use App\Entity\Lieu;
+use App\Entity\Site;
 use App\Entity\Sortie;
 use App\Entity\Utilisateur;
 use App\Entity\Ville;
 use App\Form\CreerSortieType;
 use App\Form\FiltreSortieType;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -27,7 +31,7 @@ class SortieController extends Controller
      *
      * @Route("/sortiesFiltrees", name="sortiesFiltrees")
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     /*    public function listSortiesFiltrated(Request $request)
         {
@@ -49,7 +53,7 @@ class SortieController extends Controller
      *
      * @Route("/")
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function listSorties(Request $request)
     {
@@ -81,7 +85,7 @@ class SortieController extends Controller
      * @Route("/mesSortiesOrganisees/{idOrg}", name="sortieByIdOrg")
      * @param Request $request
      * @param Utilisateur $idOrg
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function listSortiesByIdOrg(Request $request, $idOrg)
     {
@@ -105,7 +109,7 @@ class SortieController extends Controller
      *
      * @Route("/sortiesPassees", name="sortiesExpired")
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function listSortiesExpired(Request $request)
     {
@@ -123,6 +127,8 @@ class SortieController extends Controller
         ]);
     }
 
+    // CREATION SORTIE
+
     /**
      * @Route("/creerSortie", name="creer_sortie")
      * Traitement du formulaire de création de sortie (affichage vue ou création en base)
@@ -139,7 +145,8 @@ class SortieController extends Controller
 
         if(!$form->isSubmitted())
         {
-            $site = $this->getDoctrine()->getRepository(Ville::class)->find($organisateur->getSite())->getNom();
+            $site = $this->getDoctrine()->getRepository(Site::class)->find($organisateur->getSite())->getNom();
+            dump($site);
             $form->get('villeOrganisatrice')->setData($site);
         }
 
@@ -202,5 +209,83 @@ class SortieController extends Controller
         $detailsLieu = $repo->findById($idLieu);
 
         return new JsonResponse($detailsLieu);
+    }
+
+    // AFFICHER UNE SORTIE
+
+    /**
+     * @Route("/afficherSortie/{sortieId}", name="_afficherSortie")
+     * Affichage d'une sortie
+     * @param Request $request
+     * @param $sortieId
+     * @return Response
+     */
+    public function afficherSortie(Request $request, $sortieId)
+    {
+        $sortie = $this->getDoctrine()->getRepository(Sortie::class)->find($sortieId);
+        dump($sortie);
+        $form = $this->createForm(CreerSortieType::class, $sortie);
+        $site = $sortie->getOrganisateur()->getSite();
+        dump($site);
+        $form->get('villeOrganisatrice')->setData($this->getDoctrine()->getRepository(Site::class)->find($site)->getNom());
+        $form->handleRequest($request);
+        return $this->render('sortie/creerSortie.html.twig', ['form' => $form->createView()]);
+    }
+
+    // INSCRIPTION/DESISTEMENT
+
+    /**
+     * Inscris un utilisateur a une sortie
+     * @Route("/inscription/{sortieId}", name="_inscription", methods={"GET"})
+     * @return RedirectResponse
+     * @throws Exception
+     */
+    public function inscription($sortieId){
+        $sortie = $this->getDoctrine()->getRepository(Sortie::class)->find($sortieId);
+        $utilisateur = $this->getDoctrine()->getRepository(Utilisateur::class)->find($this->getUser()->getId());
+
+        if($sortie->getEtat()->getid() == 2){
+            $now = new \DateTime('now');
+            // TODO verification sur nb max d'inscriptions + nb inscription en cours
+            if($sortie->getDateLimiteInscription() < $now){
+
+                $sortie->addUtilisateur($utilisateur);
+
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($sortie);
+                $em->flush();
+
+                return $this->redirectToRoute('sortiesapp_sortie_listsorties');
+            }
+        } else {
+            // TODO renvoyer une erreur
+            return null;
+        }
+    }
+
+    /**
+     * Supprime l'inscription d'un utilisateur a une sortie
+     * @Route("/desistement/{sortieId}", name="_desistement", methods={"GET"})
+     * @return RedirectResponse
+     * @throws Exception
+     */
+    public function desistement($sortieId){
+        $sortie = $this->getDoctrine()->getRepository(Sortie::class)->find($sortieId);
+        $utilisateur = $this->getDoctrine()->getRepository(Utilisateur::class)->find($this->getUser()->getId());
+
+        $now = new \DateTime('now');
+        if($sortie->getDateHeureDebut() < $now){
+
+            $sortie->removeUtilisateur($utilisateur);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($sortie);
+            $em->flush();
+
+            return $this->redirectToRoute('sortiesapp_sortie_listsorties');
+        } else{
+            // TODO renvoyer une erreur
+            return null;
+        }
     }
 }
