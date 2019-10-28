@@ -57,6 +57,10 @@ class CreerSortieType extends AbstractType
                 'required' => false,
                 'error_bubbling' => true
             ])
+            ->add('villeOrganisatrice', TextType::class, [
+                'mapped' => false,
+                'label' => 'Ville organisatrice'
+            ])
             -> add('villes', EntityType::class, [
                 'mapped' => false,
                 'label' => 'Ville',

@@ -110,6 +110,12 @@ class Sortie
      */
     private $organisateur;
 
+    /**
+     * @ORM\Column(type="string", length=500, nullable=true)
+     */
+    private $motif;
+
+
     public function __construct()
     {
         $this->utilisateurs = new ArrayCollection();
@@ -149,11 +155,11 @@ class Sortie
 
     /**
      * @return mixed
+     * @throws \Exception
      */
     public function getDateHeureDebut()
     {
-        if ($this->dateHeureDebut instanceof \DateTime)
-            return $this->dateHeureDebut->format('d/m/Y');
+        return $this->dateHeureDebut;
     }
 
     /**
@@ -185,8 +191,7 @@ class Sortie
      */
     public function getDateLimiteInscription()
     {
-        if ($this->dateLimiteInscription instanceof \DateTime)
-            return $this->dateLimiteInscription->format('d/m/Y');
+     return $this->dateLimiteInscription;
     }
 
     /**
@@ -260,7 +265,7 @@ class Sortie
     /**
      * @return mixed
      */
-    public function getLieu() :Lieu
+    public function getLieu(): Lieu
     {
         return $this->lieu;
     }
@@ -271,6 +276,22 @@ class Sortie
     public function setLieu(Lieu $lieu): void
     {
         $this->lieu = $lieu;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMotif()
+    {
+        return $this->motif;
+    }
+
+    /**
+     * @param mixed $motif
+     */
+    public function setMotif($motif): void
+    {
+        $this->motif = $motif;
     }
 
     /**
@@ -312,6 +333,4 @@ class Sortie
 
         return $this;
     }
-
-
 }

@@ -9,7 +9,6 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -30,7 +29,7 @@ class ModifierProfilType extends AbstractType
             ->add('prenom', TextType::class, [
                 "label" => "Votre Prénom : "
             ])
-            ->add('telephone', NumberType::class, [
+            ->add('telephone', TextType::class, [
                 "label" => "Votre numéro de portable : "
             ])
             ->add('mail', EmailType::class, [

@@ -15,12 +15,10 @@
             {{ form_start(utilisateurForm) }}
             {{ form_widget(utilisateurForm) }}
             <br>
-            <button type="submit" class="btn btn-success">Enregistrer</button>
-            <a href="/sortie/sortie.html.twig">
-                <button type="button" class="btn btn-danger">Annuler</button>
+            <button type="submit" class="btn btn-outline-success">Enregistrer</button>
+            <a href="{{ path('sortiesapp_sortie_listsorties') }}">
+                <button type="button" class="btn btn-outline-danger">Annuler</button>
             </a>
-            {# Modale à ouvrir !!#}
-            <button type="button" class="btn btn-info">Modifier mot de passe</button>
 
             {{ form_end(utilisateurForm) }}
 

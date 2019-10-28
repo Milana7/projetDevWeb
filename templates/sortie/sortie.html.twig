@@ -41,8 +41,8 @@
                 {% for sortie in listSortie %}
                     <tr>
                         <td>{{ sortie.nom }} </td>
-                        <td>{{ sortie.dateHeureDebut }} </td>
-                        <td>{{ sortie.dateLimiteInscription }} </td>
+                        <td>{{ sortie.dateHeureDebut | date('d/m/Y H:i') }} </td>
+                        <td>{{ sortie.dateLimiteInscription | date('d/m/Y H:i') }} </td>
                         <td>{{ sortie.utilisateurs.count }} / {{ sortie.nbInscriptionsMax }}</td>
                         <td>{{ sortie.etat.libelle }}</td>
                         <td>{% for user in sortie.utilisateurs %}
@@ -76,4 +76,7 @@
         </div>
     </div>
     <a href="{{ path('sortiescreer_sortie') }}" class="btn btn-outline-primary">Créer une sortie</a>
+    <a href="{{ path('sorties_inscription', {'sortieId': 4}) }}" class="btn btn-outline-primary">S'inscrire</a>
+    <a href="{{ path('sorties_desistement', {'sortieId': 4}) }}" class="btn btn-outline-primary">Se désister</a>
+    <a href="{{ path('sorties_afficherSortie', {'sortieId': 4}) }}" class="btn btn-outline-primary">Afficher sortie</a>
 {% endblock %}
