@@ -18,6 +18,10 @@ class Site
 
     /**
      * @ORM\Column(type="string", length=30)
+     * @Assert\Length(
+     *  max = 30,
+     * maxMessage = "Votre mot de passe doit contenir au maximum {{ limit }} caractères !"
+     * )
      */
     private $nom;
 
