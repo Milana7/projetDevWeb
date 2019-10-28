@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+{% block title %}Annuler une sortie | {{ parent }}{% endblock %}
+
+{% block body %}
+    <div class="text-center">
+        <h1>Annuler une sortie</h1>
+        <br>
+    </div>
+
+    <div class="text-center"><label>Nom de la sortie </label> {{ sortie.nom }}</div>
+    <div class="text-center"><label>Date de la sortie </label> {{ sortie.dateHeureDebut }}</div>
+    <div class="text-center"><label>Ville organisatrice : </label> {{ sortie.site.nom }}</div>
+    <div class="text-center"><label>Lieu : </label> {{ sortie.lieu }}</div>
+
+    {# Création du formulaire avec certains champs fixes #}
+    {{ form_start(sortieForm) }}
+    {{ form_widget(sortieForm) }}
+    <br>
+    <button type="submit" class="btn btn-success">Enregistrer</button>
+    <a href="{{ path('sortiesapp_sortie_listsorties') }}">
+        <button type="button" class="btn btn-warning">Retour</button>
+    </a>
+    {{ form_end(sortieForm) }}
+{% endblock %}
