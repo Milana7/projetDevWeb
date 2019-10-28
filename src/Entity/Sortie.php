@@ -155,11 +155,11 @@ class Sortie
 
     /**
      * @return mixed
+     * @throws \Exception
      */
     public function getDateHeureDebut()
     {
-        if ($this->dateHeureDebut instanceof \DateTime)
-            return $this->dateHeureDebut->format('d/m/Y');
+        return $this->dateHeureDebut;
     }
 
     /**
@@ -191,8 +191,7 @@ class Sortie
      */
     public function getDateLimiteInscription()
     {
-        if ($this->dateLimiteInscription instanceof \DateTime)
-            return $this->dateLimiteInscription->format('d/m/Y');
+     return $this->dateLimiteInscription;
     }
 
     /**
