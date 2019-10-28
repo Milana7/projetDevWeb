@@ -20,7 +20,7 @@
         <h1>Liste des sorties </h1>
 
         <h5>Filtrer les sorties </h5>
-       {{ form_start(filtre) }}
+        {{ form_start(filtre) }}
 
         {{ form_end(filtre) }}
         <br>
@@ -32,27 +32,65 @@
                     <td height="100px">Nom de la sortie</td>
                     <td>Date de la sortie</td>
                     <td>Clôture</td>
-                    <td>inscrits/places</td>
+                    <td>Inscrits/Places</td>
                     <td>Etat</td>
                     <td>Inscrit</td>
                     <td>Organisateur</td>
+                    <td>Actions</td>
                 </tr>
                 {% for sortie in listSortie %}
                     <tr>
                         <td>{{ sortie.nom }} </td>
                         <td>{{ sortie.dateHeureDebut | date('d/m/Y H:i') }} </td>
                         <td>{{ sortie.dateLimiteInscription | date('d/m/Y H:i') }} </td>
-                        <td>nbPlaces</td>
+                        <td>{{ sortie.utilisateurs.count }} / {{ sortie.nbInscriptionsMax }}</td>
                         <td>{{ sortie.etat.libelle }}</td>
-                        <td> O/N</td>
-                        <td> {{ sortie.organisateur.nom }}</td>
+                        <td>{% for user in sortie.utilisateurs %}
+                                {% if (user.id == app.user.id) %}
+                                    X
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td> {{ sortie.organisateur.prenom }} {{ sortie.organisateur.nom|first }}.</td>
+                        <td>
+                            <a href=""> Afficher</a>
+                                {% for utilInscrits in sortie.utilisateurs %} {# utilisateurs inscrits #}
+                                    {% if (utilInscrits.id != null and sortie.etat.id != 3 and app.user.id != sortie.organisateur.id) %} {# si on est déjà inscrit à la sortie (donc on est pas l'organisateur) #}
+                                        <a href=""> Se désister</a>
+                                    {% endif %}
+                                {% endfor %}
+
+                                {% if (sortie.organisateur.id != app.user.id and sortie.etat.id == 2
+                                        and sortie.utilisateurs.count < sortie.nbInscriptionsMax
+                                        and sortie.dateLimiteInscription < dateJour) %} {# on peut s'inscrire si on et pas l'utilisateur, s'il reste de la place et si la sortie n'est pas fermée ou expirée #}
+                                    <a href="">S'inscrire</a>
+                                {% endif %}
+
+                                {% if (sortie.organisateur.id == app.user.id and sortie.etat.id == 1) %} {# si on est l'organisateur de la sortie, on peut la modifier #}
+                                    <a href="">Modifier</a>
+                                {% endif %}
+
+                                {% if (sortie.organisateur.id == app.user.id and sortie.utilisateurs.count == 0) %} {# si on est l'organisateur de la sortie et s'il y a 0 inscrits on peut annuler #}
+                                    <a href="">Annuler</a>
+                                {% endif %}
+
+                                {# Pour s'inscrire : - je ne dois pas être l'organisateur
+                                                     - etat = Ouvert
+                                                     - date non dépassée
+                                                     - il doit rester au moins une place
+                                                     - je ne dois pas être déjà inscrit
+                                 #}
+                                {% if (sortie.organisateur.id == app.user.id and sortie.utilisateurs.count == 0) %}
+                                    <a href="">S'inscrire</a>
+                                {% endif %}
+                        </td>
                     </tr>
                 {% endfor %}
             </table>
         </div>
     </div>
     <a href="{{ path('sortiescreer_sortie') }}" class="btn btn-outline-primary">Créer une sortie</a>
-    <a href="{{ path('sorties_inscription', {'sortieId': 4}) }}" class="btn btn-outline-primary">S'inscrire</a>
-    <a href="{{ path('sorties_desistement', {'sortieId': 4}) }}" class="btn btn-outline-primary">Se désister</a>
-    <a href="{{ path('sorties_afficherSortie', {'sortieId': 4}) }}" class="btn btn-outline-primary">Afficher sortie</a>
+    <a href="{{ path('sorties_inscription', {'sortieId': 2}) }}" class="btn btn-outline-primary">S'inscrire</a>
+    <a href="{{ path('sorties_desistement', {'sortieId': 2}) }}" class="btn btn-outline-primary">Se désister</a>
+    <a href="{{ path('sorties_afficherSortie', {'sortieId': 2}) }}" class="btn btn-outline-primary">Afficher sortie</a>
 {% endblock %}
