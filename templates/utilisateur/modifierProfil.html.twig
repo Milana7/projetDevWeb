@@ -22,35 +22,42 @@
                 {{ form_label(utilisateurForm.nom, null, {'label_attr': {'class': 'col-sm-4 offset-sm-2 col-form-label bg-light'}}) }}
                 <div class="col-sm-6">
                     {{ form_widget(utilisateurForm.nom, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(utilisateurForm.nom) }}
                 </div>
             </div>
             <div class="form-group row">
                 {{ form_label(utilisateurForm.prenom, null, {'label_attr': {'class': 'col-sm-4 offset-sm-2 col-form-label bg-light'}}) }}
                 <div class="col-sm-6">
                     {{ form_widget(utilisateurForm.prenom, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(utilisateurForm.prenom) }}
                 </div>
             </div>
             <div class="form-group row">
                 {{ form_label(utilisateurForm.telephone, null, {'label_attr': {'class': 'col-sm-4 offset-sm-2 col-form-label bg-light'}}) }}
                 <div class="col-sm-6">
                     {{ form_widget(utilisateurForm.telephone, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(utilisateurForm.telephone) }}
                 </div>
             </div>
             <div class="form-group row">
                 {{ form_label(utilisateurForm.mail, null, {'label_attr': {'class': 'col-sm-4 offset-sm-2 col-form-label bg-light'}}) }}
                 <div class="col-sm-6">
                     {{ form_widget(utilisateurForm.mail, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(utilisateurForm.mail) }}
                 </div>
             </div>
             <div class="form-group row">
                 {{ form_label(utilisateurForm.password, null, {'label_attr': {'class': 'col-sm-4 offset-sm-2 col-form-label bg-light'}}) }}
                 <div class="col-sm-6">
                     {{ form_widget(utilisateurForm.password.first, { 'attr': {'class': 'form-control', 'placeholder': 'Mot de passe'}}) }}
+                    {{ form_errors(utilisateurForm.password.first) }}
                 </div>
             </div>
             <div class="form-group row">
                 <div class="col-sm-6 offset-sm-6">
                     {{ form_widget(utilisateurForm.password.second, { 'attr': {'class': 'form-control', 'placeholder': 'Confirmer le mot de passe'}}) }}
+                    {{ form_errors(utilisateurForm.password.second) }}
+
                 </div>
             </div>
             <br>
@@ -58,6 +65,7 @@
                 {{ form_label(utilisateurForm.site, null, {'label_attr': {'class': 'col-sm-4 offset-sm-2 col-form-label bg-light'}}) }}
                 <div class="col-sm-6">
                     {{ form_widget(utilisateurForm.site, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(utilisateurForm.site) }}
                 </div>
             </div>
             <br>
@@ -76,7 +84,7 @@
                 </a>
             </div>
 
-            {# Message flash qui informe que le profil a été modifié#}
+            {# Message flash qui informe que le profil a été modifié #}
             <div class="flashes">
                 {% for label, messages in app.flashes %}
                     {% for message in messages %}
