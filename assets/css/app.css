@@ -48,7 +48,6 @@ footer {
 
 #creerSortie-btnGroupe {
     margin: 1em auto;
-
 }
 
 #creerSortie-btnGroupe .btn {
@@ -62,16 +61,22 @@ footer {
      overflow-y: scroll;
  }
 
-
 /* GERER SITES */
 .deleteLink{
     cursor: pointer;
     color: red;
 }
+
 .deleteLink:hover{
     text-decoration: underline;
 }
 
+/* MODIFIER SITE */
+
+#modifierSiteContainer{
+    margin: 2em 0;
+    width: 100%;
+}
 
 /* MODIFIER PROFIL */
 
@@ -82,5 +87,4 @@ footer {
 
 #modifierProfil-btnGroupe {
     margin: 1em auto;
-
 }
