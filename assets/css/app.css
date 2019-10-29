@@ -56,6 +56,13 @@ footer {
     padding: 0.3em 1em;
 }
 
+/* AFFICHER SORTIE */
+ #inscriptionsTable {
+     height: 15em;
+     overflow-y: scroll;
+ }
+
+
 /* GERER SITES */
 .deleteLink{
     cursor: pointer;
