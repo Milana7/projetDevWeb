@@ -24,9 +24,10 @@ class SortieRepository extends ServiceEntityRepository
 
     /**
      * Affiche toutes les sorties
+     * @param int $userId
      * @return Sortie[]
      */
-    public function listSortiesAll(FiltreSortie $filtreSortie)
+    public function listSortiesAll(FiltreSortie $filtreSortie, $userId)
     {
         /*        $requete = $this
                     ->createQueryBuilder('sortie')
@@ -39,82 +40,64 @@ class SortieRepository extends ServiceEntityRepository
         $requete = $this
             ->createQueryBuilder('s')
             ->innerJoin('s.organisateur', 'o')
+            ->leftJoin('s.utilisateurs', 'su')
             ->join('o.site', 'si');
 
-        if ($filtreSortie->getNomSite() != null) {
+        if ($filtreSortie->getNomSite() !== null) {
             $requete
-                ->where('dateLimiteInscription < :date')
+                ->andwhere('dateLimiteInscription < :date')
                 ->setParameter('nomSite', '%' . $filtreSortie->getNomSite() . '%');
         }
 
-        if ($filtreSortie->getNomSortie() != null) {
+        if ($filtreSortie->getNomSortie() !== null) {
             $requete
                 ->andwhere('s.nom LIKE :nomSortie')
                 ->setParameter('nomSortie', '%' . $filtreSortie->getNomSortie() . '%');
         }
 
-        if ($filtreSortie->getDateDebut() != null) {
+        if ($filtreSortie->getDateDebut() !== null) {
             $requete
                 ->andwhere('s.dateHeureDebut >= :dateDebut')
                 ->setParameter('dateDebut', $filtreSortie->getDateDebut());
         }
 
-        if ($filtreSortie->getDatefin() != null) {
+        if ($filtreSortie->getDatefin() !== null) {
             $requete
                 ->andwhere('s.dateLimiteInscription <= :dateFin')
                 ->setParameter('dateFin', $filtreSortie->getDatefin());
         }
 
-/*        if ($filtreSortie->getMesSortiesOrg() == true) {
+        if ($filtreSortie->getMesSortiesOrg() === true) {
             $requete
-                ->andwhere('s.organisateur');
-        }*/
+                ->andwhere('o.id = :id')
+                ->setParameter('id', $userId);
+        }
 
-        if ($filtreSortie->getSortiesExpirees() == true) {
+        if ($filtreSortie->getSortiesExpirees() === true) {
             $date = new \DateTime();
             $requete
                 ->andwhere('s.dateLimiteInscription < :date')
                 ->setParameter('date', $date);
         }
 
+        if ($filtreSortie->getMesSortiesInscr() === true) {
+            $requete
+                ->andWhere('su.id = :id')
+                ->setParameter('id', $userId);
+        }
+
+        if ($filtreSortie->getSortiesNonInscr() === true)
+        {
+            $requete
+                ->andWhere('su.id != :id')
+                ->setParameter('id', $userId);
+        }
+        //dump($requete->getQuery()->getSQL());
+
+
         return $requete->getQuery()->getResult();
     }
 
-    /**
-     * Affiche les sorties par l'id d'organisateur de la sortie
-     * @param $idOrg : identifiant de l'organisateur
-     * @return Sortie[]
-     */
-    public function listByOrganiser($idOrg)
-    {
-        //TODO à modifier une fois que la connexion admin est créée
-        return $this
-            ->createQueryBuilder('s')
-            ->innerJoin('s.organisateur', 'u')
-            ->where('s.organisateur = :id') //ou juste id
-            ->andWhere('u.id = :id')
-            ->setParameter('id', $idOrg)
-            ->getQuery()
-            ->getResult();
-    }
-
-    /**
-     * Affiche les sorties auxquelles l'utilisateur(connecté) est inscrit
-     * @param $idUti : identifiant de l'utilisateur
-     * @return Sortie[]
-     */
-    public function listSortiesByUser($idOrg)
-    {
-        //TODO à modifier une fois que la connexion admin est créée
-        return $this
-            ->createQueryBuilder('s')
-            ->innerJoin(Utilisateur::class, 'u')
-            ->where('s.organisateur = :id') //ou juste id
-            ->andWhere('u.id = :id')
-            ->setParameter('id', $idOrg)
-            ->getQuery()
-            ->getResult();
-    }
 
 
     /**
