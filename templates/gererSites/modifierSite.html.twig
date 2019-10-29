@@ -1,20 +1,29 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<div>
 
-    {{ form_start(form) }}
+    <h1 class="text-center">Modifier le nom du site</h1>
+    <br>
+    <div class="row" id="modifierSiteContainer">
 
-    <div class="form-group">
-        {{ form_label(form.nom) }}
-        {{ form_widget(form.nom) }}
-        {{ form_errors(form.nom) }}
+        <div class="col-sm-6 offset-3">
+            {{ form_start(form) }}
+            <div class="form-group row">
+                {{ form_label(form.nom, null, {'label_attr': {'class': 'col-sm-4 offset-sm-2 col-form-label bg-light'}}) }}
+                <div class="col-sm-6">
+                    {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.nom) }}
+                </div>
+            </div>
+            <br>
+            <div id="modifierProfil-btnGroupe">
+                <button type="submit" class="btn btn-outline-success offset-5">Enregistrer</button>
+                <a href="{{ path('gererSites') }}">
+                    <button type="button" class="btn btn-outline-danger">Annuler</button>
+                </a>
+            </div>
+            {{ form_end(form) }}
+        </div>
     </div>
-
-    <button type="submit"> valider</button>
-    {{ form_end(form) }}
-
-
-</div>
 
 {% endblock %}

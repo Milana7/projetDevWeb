@@ -102,7 +102,7 @@ class Utilisateur implements UserInterface
     private $sortieOrg;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Site", inversedBy="utilisateursSite")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Site", inversedBy="utilisateursSite", fetch="EAGER")
      */
     private $site;
 
