@@ -9,8 +9,6 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -37,12 +35,6 @@ class ModifierProfilType extends AbstractType
                 // Permet de ne pas pouvoir changer le mail
                 "disabled" => true
             ])
-            ->add('password', RepeatedType::class, array(
-                'type' => PasswordType::class,
-                'first_options' => array('label' => 'Votre mot de passe : '),
-                'second_options' => array('label' => 'Répéter le mot de passe : '),
-                'invalid_message' => 'Vos mots de passe ne concordent pas !'
-            ))
             ->add('site', EntityType::class, array('class' => Site::class,
                 // Attribut utilisé pour l'affichage
                 'choice_label' => 'nom',

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Utilisateur;
+use App\Form\ModifierMotDePasseType;
 use App\Form\ModifierProfilType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -29,7 +30,7 @@ class UtilisateurController extends Controller
     /**
      * @Route("/utilisateur/modifierProfil", name="utilisateur_modifierProfil")
      */
-    public function modifierProfil(Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $passwordEncoder)
+    public function modifierProfil(Request $request, EntityManagerInterface $em)
     {
         $utilisateur = $this->getUser();
 
@@ -37,8 +38,7 @@ class UtilisateurController extends Controller
         $utilisateurForm->handleRequest($request);
 
         if ($utilisateurForm->isSubmitted() && $utilisateurForm->isValid()) {
-            $password = $passwordEncoder->encodePassword($utilisateur, $utilisateur->getPassword());
-            $utilisateur->setPassword($password);
+
             $error = false;
 
             //file
@@ -74,6 +74,36 @@ class UtilisateurController extends Controller
             "utilisateurForm" => $utilisateurForm->createView()
         ]);
     }
+
+    /**
+     * @Route("/utilisateur/modifierMotDePasse", name="utilisateur_modifierMotDePasse")
+     */
+    public function modifierMotDePasse(Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $passwordEncoder)
+    {
+        $utilisateur = $this->getUser();
+
+        $motDePasseForm = $this->createForm(ModifierMotDePasseType::class, $utilisateur);
+        $motDePasseForm->handleRequest($request);
+
+        if ($motDePasseForm->isSubmitted() && $motDePasseForm->isValid()) {
+            $password = $passwordEncoder->encodePassword($utilisateur, $utilisateur->getPassword());
+            $utilisateur->setPassword($password);
+            $error = false;
+
+            if (!$error) {
+                $em->persist($utilisateur);
+                $em->flush();
+
+                $this->addFlash("success", "Le mot de passe a été modifié !");
+                return $this->redirectToRoute("utilisateur_detailProfil", ["id" => $utilisateur->getId()]);
+            }
+        }
+
+        return $this->render("utilisateur/modifierMotDePasse.html.twig", [
+            "motDePasseForm" => $motDePasseForm->createView()
+        ]);
+    }
+
 
     /**
      * @Route("/login", name="login")
