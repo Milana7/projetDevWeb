@@ -330,7 +330,7 @@ class Utilisateur implements UserInterface
     public function getRoles()
     {
         //return $this->roles;
-        return ['ROLE_USER'];
+        return $this->roles;
     }
 
     public function setRoles($roles): ?self
