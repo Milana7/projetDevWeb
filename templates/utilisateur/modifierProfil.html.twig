@@ -1,26 +1,78 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="text-center">
-        <h1>Mon Profil</h1>
-        <br>
-    </div>
-    {# Utilisation des colonnes de bootstrap#}
-    <div class="row">
-        <div class="image col-lg-3 col-md-3 col-sm-3 col-xs-12 mb-4 ml-4 mr-4">
+
+    <h1 class="text-center">Mon Profil</h1>
+    <br>
+    <div class="row" id="modifierProfilContainer">
+        <div class="image col-sm-3 col-xs-12 mb-4 ml-4 mr-4">
             <img src="{{ asset('image/profil.jpg') }}" class="img-thumbnail rounded">
         </div>
-        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-            {# Création du formulaire avec certains champs fixes #}
-            {{ form_start(utilisateurForm) }}
-            {{ form_widget(utilisateurForm) }}
-            <br>
-            <button type="submit" class="btn btn-outline-success">Enregistrer</button>
-            <a href="{{ path('sortiesapp_sortie_listsorties') }}">
-                <button type="button" class="btn btn-outline-danger">Annuler</button>
-            </a>
 
-            {{ form_end(utilisateurForm) }}
+        <div class="col-sm-6">
+            {{ form_start(utilisateurForm) }}
+            <div class="form-group row">
+                {{ form_label(utilisateurForm.pseudo, null, {'label_attr': {'class': 'col-sm-4 offset-sm-2 col-form-label bg-light'}}) }}
+                <div class="col-sm-6">
+                    {{ form_widget(utilisateurForm.pseudo, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+            <div class="form-group row">
+                {{ form_label(utilisateurForm.nom, null, {'label_attr': {'class': 'col-sm-4 offset-sm-2 col-form-label bg-light'}}) }}
+                <div class="col-sm-6">
+                    {{ form_widget(utilisateurForm.nom, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+            <div class="form-group row">
+                {{ form_label(utilisateurForm.prenom, null, {'label_attr': {'class': 'col-sm-4 offset-sm-2 col-form-label bg-light'}}) }}
+                <div class="col-sm-6">
+                    {{ form_widget(utilisateurForm.prenom, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+            <div class="form-group row">
+                {{ form_label(utilisateurForm.telephone, null, {'label_attr': {'class': 'col-sm-4 offset-sm-2 col-form-label bg-light'}}) }}
+                <div class="col-sm-6">
+                    {{ form_widget(utilisateurForm.telephone, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+            <div class="form-group row">
+                {{ form_label(utilisateurForm.mail, null, {'label_attr': {'class': 'col-sm-4 offset-sm-2 col-form-label bg-light'}}) }}
+                <div class="col-sm-6">
+                    {{ form_widget(utilisateurForm.mail, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+            <div class="form-group row">
+                {{ form_label(utilisateurForm.password, null, {'label_attr': {'class': 'col-sm-4 offset-sm-2 col-form-label bg-light'}}) }}
+                <div class="col-sm-6">
+                    {{ form_widget(utilisateurForm.password.first, { 'attr': {'class': 'form-control', 'placeholder': 'Mot de passe'}}) }}
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-6 offset-sm-6">
+                    {{ form_widget(utilisateurForm.password.second, { 'attr': {'class': 'form-control', 'placeholder': 'Confirmer le mot de passe'}}) }}
+                </div>
+            </div>
+            <br>
+            <div class="form-group row">
+                {{ form_label(utilisateurForm.site, null, {'label_attr': {'class': 'col-sm-4 offset-sm-2 col-form-label bg-light'}}) }}
+                <div class="col-sm-6">
+                    {{ form_widget(utilisateurForm.site, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+            <br>
+            {# FICHIER #}
+            <div class="form-group row">
+                {{ form_label(utilisateurForm.fileTemp, null, {'label_attr': {'class': 'col-sm-4 offset-sm-2 col-form-label bg-light'}}) }}
+                <div class="col-sm-6">
+                    {{ form_widget(utilisateurForm.fileTemp, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+            <div id="modifierProfil-btnGroupe">
+                <button type="submit" class="btn btn-outline-success offset-6">Enregistrer</button>
+                <a href="{{ path('sortiesapp_sortie_listsorties') }}">
+                    <button type="button" class="btn btn-outline-danger">Annuler</button>
+                </a>
+            </div>
 
             {# Message flash qui informe que le profil a été modifié#}
             <div class="flashes">
@@ -36,9 +88,9 @@
                 {% endfor %}
             </div>
         </div>
-        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12"></div>
-
+        {{ form_end(utilisateurForm) }}
     </div>
+
 {% endblock %}
 
 {% block title %}Modifier votre profil{% endblock %}

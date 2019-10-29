@@ -28,7 +28,7 @@
                     {% endif %}
                     {% if is_granted("ROLE_USER") %}
                         <li class="nav-item"><a href="{{ path("sortiesapp_sortie_listsorties") }}" class="nav-link" title="SORTIR.COM | Home">Accueil</a></li>
-                        <li class="nav-item"><a href="{{ path("utilisateur_ajouter") }}#}" class="nav-link" title="Mon profil">Mon profil</a></li>
+                        <li class="nav-item"><a href="{{ path("utilisateur_modifierProfil") }}#}" class="nav-link" title="Mon profil">Mon profil</a></li>
                         <li class="nav-item"><a href="{{ path("logout") }}" class="nav-link" title="Logout">Logout</a></li>
                     {% endif %}
                 </ul>
