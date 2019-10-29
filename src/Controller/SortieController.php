@@ -203,7 +203,7 @@ class SortieController extends Controller
             }
         } else {
             return
-                $this->addFlash('warning','Vous ne pouvez pas vous inscire à cette sortie');
+                $this->addFlash('warning','Vous ne pouvez pas vous inscrire à cette sortie');
         }
         // TODO return errorMsg
 

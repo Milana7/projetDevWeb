@@ -2,40 +2,51 @@
 {% block title %}Annuler une sortie | {{ parent() }}{% endblock %}
 
 {% block body %}
-    <div class="text-center">
-        <h1>Annuler une sortie</h1>
-    </div>
+
+    <h1 class="text-center">Annuler une sortie</h1>
     <br>
-    <div class="row, col-sm-6 offset-sm-3" id="formulaireContainer">
-        <div class="row form-group offset-sm-1">
-            <label for="nomSortie" class="col-sm-3">Nom de la sortie : </label>
-            <div>{{ sortie.nom }}</div>
+    <div class="row" id="annulerSortieContainer">
+
+    <div class="col-sm-6">
+        <div class="form-group row">
+            <label for="nomSortie" class="col-sm-4 offset-sm-2 col-form-label bg-light">Nom de la sortie : </label>
+            <div class="col-sm-6 form-control">
+                {{ sortie.nom }}
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="dateSortie" class="col-sm-4 offset-sm-2 col-form-label bg-light">Date de la sortie : </label>
+            <div class="col-sm-6 form-control">
+                {{ sortie.dateHeureDebut }}
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="villeOrga" class="col-sm-4 offset-sm-2 col-form-label bg-light">Ville organisatrice : </label>
+            <div class="col-sm-6 form-control">
+                {{ sortie.organisateur.site.nom }}
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="lieuSortie" class="col-sm-4 offset-sm-2 col-form-label bg-light">Lieu : </label>
+            <div class="col-sm-6 form-control">
+                {{ sortie.lieu.nom }}
+            </div>
         </div>
 
-        <div class="row form-group offset-sm-1">
-            <label for="dateSortie" class="col-sm-3">Date de la sortie : </label>
-            {{ sortie.dateHeureDebut }}
+        <div class="col-sm-6">
+            {{ form_start(sortieForm) }}
+            <div class="form-group row">
+                {{ form_label(sortieForm.nom, null, {'label_attr': {'class': 'col-sm-4 offset-sm-2 col-form-label bg-light'}}) }}
+                <div class="col-sm-6">
+                    {{ form_widget(sortieForm.nom, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+            <br>
+            <button type="submit" class="btn btn-outline-success col-sm-4 mx-auto">Enregistrer</button>
+            <a href="{{ path('sortiesapp_sortie_listsorties') }}">
+                <button type="button" class="btn btn-outline-warning col-sm-4 mx-auto">Retour</button>
+            </a>
+            {{ form_end(sortieForm) }}
         </div>
-
-        <div class="row form-group offset-sm-1">
-            <label for="villeOrga" class="col-sm-3">Ville organisatrice : </label>
-            {{ sortie.organisateur.site.nom }}
-        </div>
-
-        <div class="row form-group offset-sm-1">
-            <label for="lieuSortie" class="col-sm-3">Lieu : </label>
-            {{ sortie.lieu.nom }}
-        </div>
-
-
-        {# Création du formulaire avec certains champs fixes #}
-        {{ form_start(sortieForm) }}
-        {{ form_widget(sortieForm) }}
-        <br>
-        <button type="submit" class="btn btn-outline-success col-sm-4 mx-auto">Enregistrer</button>
-        <a href="{{ path('sortiesapp_sortie_listsorties') }}">
-            <button type="button" class="btn btn-outline-warning col-sm-4 mx-auto">Retour</button>
-        </a>
-        {{ form_end(sortieForm) }}
     </div>
 {% endblock %}
