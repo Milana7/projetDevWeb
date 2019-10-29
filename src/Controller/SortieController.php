@@ -8,10 +8,10 @@ use App\Entity\Lieu;
 use App\Entity\Site;
 use App\Entity\Sortie;
 use App\Entity\Utilisateur;
-use App\Entity\Ville;
 use App\Form\AnnulerSortieType;
 use App\Form\CreerSortieType;
 use App\Form\FiltreSortieType;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -28,6 +28,7 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class SortieController extends Controller
 {
+
     /**
      * Affiche toutes les sorties disponibles
      *
@@ -67,30 +68,6 @@ class SortieController extends Controller
             'listUser' => $listUser,
             'dateJour' => $dateJour,
             'filtre' => $form->createView(),
-        ]);
-    }
-
-
-    /**
-     * Affiche les sorties qui ont une date expirée
-     *
-     * @Route("/sortiesPassees", name="sortiesExpired")
-     * @param Request $request
-     * @return Response
-     */
-    public function listSortiesExpired(Request $request)
-    {
-        $repository = $this
-            ->getDoctrine()
-            ->getManager()
-            ->getRepository('App:Sortie');
-
-        $listSortie = $repository->listSortiesExpired();
-
-
-        return $this->render('sortie/sortiesExpired.html.twig', [
-            'controller_name' => 'SortieController',
-            'listSortie' => $listSortie,
         ]);
     }
 
@@ -187,16 +164,13 @@ class SortieController extends Controller
      * @param $sortieId
      * @return Response
      */
-    public function afficherSortie(Request $request, $sortieId)
+    public function afficherSortie($sortieId)
     {
         $sortie = $this->getDoctrine()->getRepository(Sortie::class)->find($sortieId);
-        dump($sortie);
-        $form = $this->createForm(CreerSortieType::class, $sortie);
+        $sortie->setIdLieu($sortie->getLieu()->getId());
         $site = $sortie->getOrganisateur()->getSite();
-        dump($site);
-        $form->get('villeOrganisatrice')->setData($this->getDoctrine()->getRepository(Site::class)->find($site)->getNom());
-        $form->handleRequest($request);
-        return $this->render('sortie/creerSortie.html.twig', ['form' => $form->createView()]);
+
+        return $this->render('sortie/afficherSortie.html.twig', ['sortie' => $sortie, 'site' => $site]);
     }
 
     // INSCRIPTION/DESISTEMENT
@@ -211,12 +185,13 @@ class SortieController extends Controller
     {
         $sortie = $this->getDoctrine()->getRepository(Sortie::class)->find($sortieId);
         $utilisateur = $this->getDoctrine()->getRepository(Utilisateur::class)->find($this->getUser()->getId());
+
         $etat = $sortie->getEtat();
 
         if ($etat->getId() === 2) {
             $now = new \DateTime('now');
             // TODO verification sur nb max d'inscriptions + nb inscription en cours
-            if ($sortie->getDateLimiteInscription() > $now) {
+            if($sortie->getDateLimiteInscription() > $now){
 
                 $sortie->addUtilisateur($utilisateur);
 
@@ -247,7 +222,7 @@ class SortieController extends Controller
         $utilisateur = $this->getDoctrine()->getRepository(Utilisateur::class)->find($this->getUser()->getId());
 
         $now = new \DateTime('now');
-        if ($sortie->getDateHeureDebut() > $now) {
+        if($sortie->getDateHeureDebut() > $now){
 
             $sortie->removeUtilisateur($utilisateur);
 

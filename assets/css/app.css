@@ -55,3 +55,32 @@ footer {
     margin: 0 1em;
     padding: 0.3em 1em;
 }
+
+/* AFFICHER SORTIE */
+ #inscriptionsTable {
+     height: 15em;
+     overflow-y: scroll;
+ }
+
+
+/* GERER SITES */
+.deleteLink{
+    cursor: pointer;
+    color: red;
+}
+.deleteLink:hover{
+    text-decoration: underline;
+}
+
+
+/* MODIFIER PROFIL */
+
+#modifierProfilContainer{
+    margin: 2em 0;
+    width: 100%;
+}
+
+#modifierProfil-btnGroupe {
+    margin: 1em auto;
+
+}
