@@ -55,3 +55,12 @@ footer {
     margin: 0 1em;
     padding: 0.3em 1em;
 }
+
+/* GERER SITES */
+.deleteLink{
+    cursor: pointer;
+    color: red;
+}
+.deleteLink:hover{
+    text-decoration: underline;
+}

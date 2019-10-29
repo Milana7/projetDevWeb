@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SiteRepository")
@@ -18,6 +19,12 @@ class Site
 
     /**
      * @ORM\Column(type="string", length=30)
+     * @Assert\NotBlank
+     * @Assert\Length(
+     *     max=30,
+     *     maxMessage = "Le nom de la sortie doit être composé d'au moins {{ limit }} caractères"
+     *
+     * )
      */
     private $nom;
 
@@ -26,6 +33,11 @@ class Site
      * @ORM\JoinColumn(nullable=false)
      */
     private $utilisateursSite;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isActif;
 
     public function getId(): ?int
     {
@@ -59,5 +71,23 @@ class Site
     {
         $this->utilisateursSite = $utilisateursSite;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getIsActif()
+    {
+        return $this->isActif;
+    }
+
+    /**
+     * @param mixed $isActif
+     */
+    public function setIsActif($isActif): void
+    {
+        $this->isActif = $isActif;
+    }
+
+
 
 }
