@@ -44,7 +44,10 @@ class SortieController extends Controller
 
         if ($request->isMethod('POST')) {
             $form->handleRequest($request);
+            $date = $form->getData();
         }
+
+
         $repositoryS = $this
             ->getDoctrine()
             ->getManager()
