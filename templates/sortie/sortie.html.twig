@@ -56,7 +56,7 @@
                             <a href="{{ path('sorties_afficherSortie', {'sortieId': sortie.id}) }}"> Afficher</a>
                             {% set utilInscrit = false %}
                             {% for utilInscrits in sortie.utilisateurs %} {# utilisateurs inscrits #}
-                                {% if (utilInscrits.id != null and sortie.etat.id != 3 and app.user.id != sortie.organisateur.id) %} {# si on est déjà inscrit à la sortie (donc on est pas l'organisateur) #}
+                                {% if (utilInscrits.id == app.user.id and sortie.etat.id != 3 and app.user.id != sortie.organisateur.id) %} {# si on est déjà inscrit à la sortie (donc on est pas l'organisateur) #}
                                     {% set utilInscrit =  true %}
                                     <a href="{{ path('sorties_desistement', {'sortieId': sortie.id}) }}"> Se
                                         désister</a>
@@ -78,15 +78,15 @@
                             {% endif %}
 
                             {% if (sortie.organisateur.id == app.user.id and sortie.etat.id == 1) %} {# si on est l'organisateur de la sortie, on peut la modifier #}
-                                <a href="">Modifier</a>
+                                <a href="{{ path('sortiesmodifier_sortie', {'sortieId': sortie.id}) }}">Modifier</a>
                             {% endif %}
 
                             {% if (sortie.organisateur.id == app.user.id and sortie.utilisateurs.count == 0) %} {# si on est l'organisateur de la sortie et s'il y a 0 inscrits on peut annuler #}
-                                <a href="">Annuler</a>
+                                <a href="{{ path('sortiessortie_annulerSortie', {'id': sortie.id} ) }}">Annuler</a>
                             {% endif %}
 
                             {% if (sortie.organisateur.id == app.user.id and sortie.etat.id == 1) %} {# si on est l'organisateur de la sortie et s'il y a 0 inscrits on peut annuler #}
-                                <a href="">Publier</a>
+                                <a href="{{ path('sortiespublier', {'sortieId': sortie.id}) }}">Publier</a>
                             {% endif %}
                         </td>
                     </tr>
@@ -94,9 +94,4 @@
             </table>
         </div>
     </div>
-    <a href="{{ path('sortiescreer_sortie') }}" class="btn btn-outline-primary">Créer une sortie</a>
-    <a href="{{ path('sorties_inscription', {'sortieId': 2}) }}" class="btn btn-outline-primary">S'inscrire</a>
-    <a href="{{ path('sorties_desistement', {'sortieId': 2}) }}" class="btn btn-outline-primary">Se désister</a>
-    <a href="{{ path('sorties_afficherSortie', {'sortieId': 2}) }}" class="btn btn-outline-primary">Afficher sortie</a>
-    <a href="{{ path('sortiesmodifier_sortie', {'sortieId': 4}) }}" class="btn btn-outline-primary">Modifier sortie</a>
 {% endblock %}

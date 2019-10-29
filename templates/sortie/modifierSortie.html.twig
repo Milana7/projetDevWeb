@@ -7,37 +7,37 @@
         <div class="col-sm-6">
             {{ form_start(form) }}
             <div class="form-group row">
-                {{ form_label(form.nom, null, {'label_attr': {'class': 'col-sm-4 offset-sm-2 col-form-label'}}) }}
+                {{ form_label(form.nom, null, {'label_attr': {'class': 'col-sm-4 offset-sm-2 col-form-label bg-light'}}) }}
                 <div class="col-sm-6">
                     {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
                 </div>
             </div>
             <div class="form-group row">
-                {{ form_label(form.dateHeureDebut, null, {'label_attr': {'class': 'col-sm-4 offset-sm-2 col-form-label'}}) }}
+                {{ form_label(form.dateHeureDebut, null, {'label_attr': {'class': 'col-sm-4 offset-sm-2 col-form-label bg-light'}}) }}
                 <div class="col-sm-6">
                     {{ form_widget(form.dateHeureDebut, {'attr': {'class': 'form-control'}}) }}
                 </div>
             </div>
             <div class="form-group row">
-                {{ form_label(form.dateLimiteInscription, null, {'label_attr': {'class': 'col-sm-4 offset-sm-2 col-form-label'}}) }}
+                {{ form_label(form.dateLimiteInscription, null, {'label_attr': {'class': 'col-sm-4 offset-sm-2 col-form-label bg-light'}}) }}
                 <div class="col-sm-6">
                     {{ form_widget(form.dateLimiteInscription, {'attr': {'class': 'form-control'}}) }}
                 </div>
             </div>
             <div class="form-group row">
-                {{ form_label(form.nbInscriptionsMax, null, {'label_attr': {'class': 'col-sm-4 offset-sm-2 col-form-label'}}) }}
+                {{ form_label(form.nbInscriptionsMax, null, {'label_attr': {'class': 'col-sm-4 offset-sm-2 col-form-label bg-light'}}) }}
                 <div class="col-sm-6">
                     {{ form_widget(form.nbInscriptionsMax, {'attr': {'class': 'form-control'}}) }}
                 </div>
             </div>
             <div class="form-group row">
-                {{ form_label(form.duree, null, {'label_attr': {'class': 'col-sm-4 offset-sm-2 col-form-label'}}) }}
+                {{ form_label(form.duree, null, {'label_attr': {'class': 'col-sm-4 offset-sm-2 col-form-label bg-light'}}) }}
                 <div class="col-sm-6">
                     {{ form_widget(form.duree, {'attr': {'class': 'form-control'}}) }}
                 </div>
             </div>
             <div class="form-group row">
-                {{ form_label(form.infosSortie, null, {'label_attr': {'class': 'col-sm-4 offset-sm-2 col-form-label'}}) }}
+                {{ form_label(form.infosSortie, null, {'label_attr': {'class': 'col-sm-4 offset-sm-2 col-form-label bg-light'}}) }}
                 <div class="col-sm-6">
                     {{ form_widget(form.infosSortie, {'attr': {'class': 'form-control', 'rows': 4}}) }}
                 </div>
@@ -45,20 +45,20 @@
         </div>
         <div class="col-sm-6">
             <div class="form-group row">
-                {{ form_label(form.villeOrganisatrice, null, {'label_attr': {'class': 'col-sm-4 offset-sm-1 col-form-label'}}) }}
+                {{ form_label(form.villeOrganisatrice, null, {'label_attr': {'class': 'col-sm-4 offset-sm-1 col-form-label bg-light'}}) }}
                 <div class="col-sm-6">
-                    {{ form_widget(form.villeOrganisatrice, {'attr': {'class': 'form-control-plaintext'}}) }}
+                    {{ form_widget(form.villeOrganisatrice, {'attr': {'class': 'form-control', 'disabled':'disabled'}}) }}
                 </div>
             </div>
             <div class="form-group row">
-                {{ form_label(form.villes, null, {'label_attr': {'class': 'col-sm-4 offset-sm-1 col-form-label'}}) }}
+                {{ form_label(form.villes, null, {'label_attr': {'class': 'col-sm-4 offset-sm-1 col-form-label bg-light'}}) }}
                 <div class="col-sm-6">
                     {{ form_widget(form.villes, {'attr': {'class': 'form-control'}}) }}
                     <input type="hidden" id="ville" value="">
                 </div>
             </div>
             <div class="form-group row">
-                <label for="selectLieu" class="col-sm-4 offset-sm-1 col-form-label">Lieu</label>
+                <label for="selectLieu" class="col-sm-4 offset-sm-1 col-form-label bg-light">Lieu</label>
                 <div class="col-sm-6">
                     <select class="form-control" id="selectLieu">
                         <option>Sélectionner une ville</option>
@@ -67,27 +67,27 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label for="rue" class="col-sm-4 offset-sm-1 col-form-label">Rue</label>
+                <label for="rue" class="col-sm-4 offset-sm-1 col-form-label bg-light">Rue</label>
                 <div class="col-sm-6">
-                    <input id="rue" type="text" class="form-control-plaintext" value="">
+                    <input id="rue" type="text" class="form-control" disabled="disabled" value="">
                 </div>
             </div>
             <div class="form-group row">
-                <label for="codePostal" class="col-sm-4 offset-sm-1 col-form-label">Code postal</label>
+                <label for="codePostal" class="col-sm-4 offset-sm-1 col-form-label bg-light">Code postal</label>
                 <div class="col-sm-6">
-                    <input id="codePostal" type="text" class="form-control-plaintext" value="">
+                    <input id="codePostal" type="text" class="form-control" disabled="disabled"  value="">
                 </div>
             </div>
             <div class="form-group row">
-                <label for="latitude" class="col-sm-4 offset-sm-1 col-form-label">Latitude</label>
+                <label for="latitude" class="col-sm-4 offset-sm-1 col-form-label bg-light">Latitude</label>
                 <div class="col-sm-6">
-                    <input id="latitude" type="text" class="form-control-plaintext" value="">
+                    <input id="latitude" type="text" class="form-control" disabled="disabled" value="">
                 </div>
             </div>
             <div class="form-group row">
-                <label for="longitude" class="col-sm-4 offset-sm-1 col-form-label">Longitude</label>
+                <label for="longitude" class="col-sm-4 offset-sm-1 col-form-label bg-light">Longitude</label>
                 <div class="col-sm-6">
-                    <input id="longitude" type="text" class="form-control-plaintext" value="">
+                    <input id="longitude" type="text" class="form-control" disabled="disabled" value="">
                 </div>
             </div>
         </div>

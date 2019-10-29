@@ -147,21 +147,18 @@ class SortieController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
 
             // On adapte l'état en fonction du bouton sélectionné (publier/enregistrer)
-            // Si l'état était publié avant la modification, on ne met pas le statut à jour
-            if ($form->getClickedButton() && 'save' === $form->getClickedButton()->getName() && $sortie->getEtat()->getId() == 1 ) {
+            if ($form->getClickedButton() && 'save' === $form->getClickedButton()->getName()) {
                 $etat = $this->getDoctrine()->getRepository(Etat::class)->find(1);
-                $sortie->setEtat($etat);
             }
             if ($form->getClickedButton() && 'publish' === $form->getClickedButton()->getName()) {
                 $etat = $this->getDoctrine()->getRepository(Etat::class)->find(2);
-                $sortie->setEtat($etat);
             }
 
             $lieu = $this->getDoctrine()->getRepository(Lieu::class)->find($form->get('idLieu')->getData());
 
             // Construction de la sortie à insérer en base
             $sortie = $form->getData();
-
+            $sortie->setEtat($etat);
             $sortie->setLieu($lieu);
 
             // Ajout en BDD
@@ -174,6 +171,28 @@ class SortieController extends Controller
         return $this->render('sortie/modifierSortie.html.twig', ['form' => $form->createView()]);
     }
 
+    /**
+     * Modifie l'état d'une sortie en Publiée/Ouverte
+     * @Route("/publier", name="publier", methods={"GET"})
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function publierSortie(Request $request)
+    {
+        $idSortie = $request->query->get('sortieId');
+
+        $repo = $this->getDoctrine()->getRepository(Sortie::class);
+        $sortie = $repo->find($idSortie);
+
+        $etat = $this->getDoctrine()->getRepository(Etat::class)->find(2);
+        $sortie->setEtat($etat);
+
+        // Ajout en BDD
+        $em = $this->getDoctrine()->getManager();
+        $em->flush();
+
+        return $this->redirectToRoute('sortiesapp_sortie_listsorties');
+    }
 
     /**
      * Retourne la liste des lieux en fonction de l'id passé en paramètre
