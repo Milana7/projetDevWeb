@@ -43,7 +43,7 @@ class SortieRepository extends ServiceEntityRepository
 
         if ($filtreSortie->getNomSite() != null) {
             $requete
-                ->where('si.nom LIKE :nomSite')
+                ->where('dateLimiteInscription < :date')
                 ->setParameter('nomSite', '%' . $filtreSortie->getNomSite() . '%');
         }
 
@@ -65,6 +65,11 @@ class SortieRepository extends ServiceEntityRepository
                 ->setParameter('dateFin', $filtreSortie->getDatefin());
         }
 
+/*        if ($filtreSortie->getMesSortiesOrg() == true) {
+            $requete
+                ->andwhere('s.organisateur');
+        }*/
+
         if ($filtreSortie->getSortiesExpirees() == true) {
             $date = new \DateTime();
             $requete
@@ -85,7 +90,7 @@ class SortieRepository extends ServiceEntityRepository
         //TODO à modifier une fois que la connexion admin est créée
         return $this
             ->createQueryBuilder('s')
-            ->innerJoin(Utilisateur::class, 'u')
+            ->innerJoin('s.organisateur', 'u')
             ->where('s.organisateur = :id') //ou juste id
             ->andWhere('u.id = :id')
             ->setParameter('id', $idOrg)

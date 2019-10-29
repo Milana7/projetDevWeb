@@ -48,7 +48,7 @@ class UtilisateurController extends Controller
                 if ($file != null) {
                     $extension = strtolower($file->getClientOriginalExtension());
                     $fileDownload = md5(uniqid(mt_rand(), true)) . '.' . $extension;
-                    //$file->move($this->getParameter('path_dir').'download/', $fileDownload);
+
                     $file->move($this->getParameter('download_dir'), $fileDownload);
                     $utilisateur->setFile($fileDownload);
                 }

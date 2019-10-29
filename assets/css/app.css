@@ -62,3 +62,12 @@ footer {
      overflow-y: scroll;
  }
 
+
+/* GERER SITES */
+.deleteLink{
+    cursor: pointer;
+    color: red;
+}
+.deleteLink:hover{
+    text-decoration: underline;
+}
