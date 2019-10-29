@@ -121,6 +121,79 @@ class SortieController extends Controller
         return $this->render('sortie/creerSortie.html.twig', ['form' => $form->createView()]);
     }
 
+    // MODIFICATION SORTIE
+
+    /**
+     * @Route("/modifierSortie/{sortieId}", name="modifier_sortie")
+     * Traitement du formulaire de modification de sortie (affichage vue ou création en base)
+     */
+    public function modifierSortie(Request $request, $sortieId)
+    {
+        // Récupération de l'organisateur (utilisateur en session)
+        $organisateur = $this->getDoctrine()->getRepository(Utilisateur::class)->find($this->getUser()->getId());
+
+        $sortie = $this->getDoctrine()->getRepository(Sortie::class)->find($sortieId);
+
+        $form = $this->createForm(CreerSortieType::class, $sortie);
+        $form->handleRequest($request);
+
+        if(!$form->isSubmitted())
+        {
+            $site = $this->getDoctrine()->getRepository(Site::class)->find($organisateur->getSite())->getNom();
+            $idLieu = $sortie->getLieu()->getId();
+            $form->get('villeOrganisatrice')->setData($site);
+            $form->get('idLieu')->setData($idLieu);
+        }
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            // On adapte l'état en fonction du bouton sélectionné (publier/enregistrer)
+            if ($form->getClickedButton() && 'save' === $form->getClickedButton()->getName()) {
+                $etat = $this->getDoctrine()->getRepository(Etat::class)->find(1);
+            }
+            if ($form->getClickedButton() && 'publish' === $form->getClickedButton()->getName()) {
+                $etat = $this->getDoctrine()->getRepository(Etat::class)->find(2);
+            }
+
+            $lieu = $this->getDoctrine()->getRepository(Lieu::class)->find($form->get('idLieu')->getData());
+
+            // Construction de la sortie à insérer en base
+            $sortie = $form->getData();
+            $sortie->setEtat($etat);
+            $sortie->setLieu($lieu);
+
+            // Ajout en BDD
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
+
+            return $this->redirectToRoute('sortiesapp_sortie_listsorties');
+        }
+
+        return $this->render('sortie/modifierSortie.html.twig', ['form' => $form->createView()]);
+    }
+
+    /**
+     * Modifie l'état d'une sortie en Publiée/Ouverte
+     * @Route("/publier", name="publier", methods={"GET"})
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function publierSortie(Request $request)
+    {
+        $idSortie = $request->query->get('sortieId');
+
+        $repo = $this->getDoctrine()->getRepository(Sortie::class);
+        $sortie = $repo->find($idSortie);
+
+        $etat = $this->getDoctrine()->getRepository(Etat::class)->find(2);
+        $sortie->setEtat($etat);
+
+        // Ajout en BDD
+        $em = $this->getDoctrine()->getManager();
+        $em->flush();
+
+        return $this->redirectToRoute('sortiesapp_sortie_listsorties');
+    }
+
     /**
      * Retourne la liste des lieux en fonction de l'id passé en paramètre
      * Retour au format json
@@ -238,12 +311,15 @@ class SortieController extends Controller
 
     /**
      * @Route("/annulerSortie/{id}", name="sortie_annulerSortie")
+     * @param int $id
+     * @param Request $request
+     * @param EntityManagerInterface $em
+     * @return RedirectResponse|Response
      */
     public function annulerSortie(int $id, Request $request, EntityManagerInterface $em)
     {
         $repo = $em->getRepository(Sortie::class);
         $sortie = $repo->find($id);
-        dump($sortie);
 
         $sortieForm = $this->createForm(AnnulerSortieType::class, $sortie);
         $sortieForm->handleRequest($request);
@@ -254,8 +330,6 @@ class SortieController extends Controller
             $repo = $em->getRepository(Etat::class);
             $etat = $repo->find(6);
             $sortie->setEtat($etat);
-
-            dump($sortie);
 
             $sortie->setId(6);
 

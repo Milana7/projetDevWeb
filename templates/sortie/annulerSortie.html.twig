@@ -7,46 +7,46 @@
     <br>
     <div class="row" id="annulerSortieContainer">
 
-    <div class="col-sm-6">
-        <div class="form-group row">
-            <label for="nomSortie" class="col-sm-4 offset-sm-2 col-form-label bg-light">Nom de la sortie : </label>
-            <div class="col-sm-6 form-control">
-                {{ sortie.nom }}
-            </div>
-        </div>
-        <div class="form-group row">
-            <label for="dateSortie" class="col-sm-4 offset-sm-2 col-form-label bg-light">Date de la sortie : </label>
-            <div class="col-sm-6 form-control">
-                {{ sortie.dateHeureDebut }}
-            </div>
-        </div>
-        <div class="form-group row">
-            <label for="villeOrga" class="col-sm-4 offset-sm-2 col-form-label bg-light">Ville organisatrice : </label>
-            <div class="col-sm-6 form-control">
-                {{ sortie.organisateur.site.nom }}
-            </div>
-        </div>
-        <div class="form-group row">
-            <label for="lieuSortie" class="col-sm-4 offset-sm-2 col-form-label bg-light">Lieu : </label>
-            <div class="col-sm-6 form-control">
-                {{ sortie.lieu.nom }}
-            </div>
-        </div>
-
-        <div class="col-sm-6">
-            {{ form_start(sortieForm) }}
+        <div class="col-sm-6 offset-sm-2">
             <div class="form-group row">
-                {{ form_label(sortieForm.nom, null, {'label_attr': {'class': 'col-sm-4 offset-sm-2 col-form-label bg-light'}}) }}
+                <label for="nomSortie" class="col-sm-4 offset-sm-2 col-form-label bg-light">Nom de la sortie : </label>
                 <div class="col-sm-6">
-                    {{ form_widget(sortieForm.nom, {'attr': {'class': 'form-control'}}) }}
+                    <input id="nomSortie" class="form-control" disabled="disabled" type="text" value="{{ sortie.nom }}">
                 </div>
             </div>
-            <br>
-            <button type="submit" class="btn btn-outline-success col-sm-4 mx-auto">Enregistrer</button>
-            <a href="{{ path('sortiesapp_sortie_listsorties') }}">
-                <button type="button" class="btn btn-outline-warning col-sm-4 mx-auto">Retour</button>
-            </a>
+            <div class="form-group row">
+                <label for="dateSortie" class="col-sm-4 offset-sm-2 col-form-label bg-light">Date de la sortie : </label>
+                <div class="col-sm-6">
+                    <input id="dateSortie" class="form-control" disabled="disabled" type="text" value="{{ sortie.dateHeureDebut|date('d/m/Y H:i') }}">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="villeOrga" class="col-sm-4 offset-sm-2 col-form-label bg-light">Ville organisatrice : </label>
+                <div class="col-sm-6">
+                    <input id="villeOrga" class="form-control" disabled="disabled" type="text" value="{{ sortie.organisateur.nom }}">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="lieuSortie" class="col-sm-4 offset-sm-2 col-form-label bg-light">Lieu : </label>
+                <div class="col-sm-6">
+                    <input id="lieuSortie" class="form-control" disabled="disabled" type="text" value="{{ sortie.lieu.nom }}">
+                </div>
+            </div>
+            {{ form_start(sortieForm) }}
+            <div class="form-group row">
+                {{ form_label(sortieForm.motif, null, {'label_attr': {'class': 'col-sm-4 offset-sm-2 col-form-label bg-light'}}) }}
+                <div class="col-sm-6">
+                    {{ form_widget(sortieForm.motif, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 offset-sm-5">
+                <button type="submit" class="btn btn-outline-success">Enregistrer</button>
+                <a href="{{ path('sortiesapp_sortie_listsorties') }}" class="btn btn-outline-warning">Retour</a>
+                </div>
+            </div>
             {{ form_end(sortieForm) }}
         </div>
+
     </div>
 {% endblock %}
