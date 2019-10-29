@@ -48,12 +48,13 @@ security:
   access_control:
     - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
     - { path: ^/, roles: ROLE_USER }
-    - { path: ^/, roles: ROLE_ADMIN }
+    - { path: ^/admin, roles: ROLE_ADMIN }
+
   #  - { path: ^/utilisateur, roles: ROLE_USER }
   #  - { path: ^/main, roles: ROLE_USER }
   #  - { path: ^/connexion, roles: ROLE_USER }
 
       #hierarchy des roles: ici ROLE_ADMIN a aussi les droits de ROLE_USER
-      # role_hierarchy:
-      # ROLE_ADMIN: ROLE_USER
+  role_hierarchy:
+       ROLE_ADMIN: ROLE_USER
 

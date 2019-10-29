@@ -27,9 +27,9 @@ class UtilisateurController extends Controller
     }
 
     /**
-     * @Route("/utilisateur/ajouter", name="utilisateur_ajouter")
+     * @Route("/utilisateur/modifierProfil", name="utilisateur_modifierProfil")
      */
-    public function ajouter(Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $passwordEncoder)
+    public function modifierProfil(Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $passwordEncoder)
     {
         $utilisateur = $this->getUser();
 

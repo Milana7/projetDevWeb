@@ -50,7 +50,7 @@ class Utilisateur implements UserInterface
     private $prenom;
 
     /**
-     * * @Assert\Regex(pattern="/^[0-9]+$/i", message="Votre nom doit seulement contenir des chiffres !")
+     * @Assert\Regex(pattern="/^[0-9]+$/i", message="Votre nom doit seulement contenir des chiffres !")
      * @ORM\Column(type="string", length=10)
      */
     private $telephone;
@@ -329,8 +329,7 @@ class Utilisateur implements UserInterface
      */
     public function getRoles()
     {
-        //return $this->roles;
-        return ['ROLE_USER'];
+        return $this->roles;
     }
 
     public function setRoles($roles): ?self

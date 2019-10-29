@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Site;
 use App\Form\ModifierSiteType;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class GererSitesController extends Controller
 {
     /**
-     * @Route("/gererSites",name="gererSites")
+     * @Route("/admin/gererSites",name="gererSites")
      */
     public function listSites()
     {
@@ -26,7 +25,7 @@ class GererSitesController extends Controller
     }
 
     /**
-     * @Route("/modifierSite/{idSite}", name="_modifierSite")
+     * @Route("/admin/modifierSite/{idSite}", name="_modifierSite")
      *
      */
     public function modifierSite (Request $request, EntityManagerInterface $em, $idSite) {

@@ -71,3 +71,16 @@ footer {
 .deleteLink:hover{
     text-decoration: underline;
 }
+
+
+/* MODIFIER PROFIL */
+
+#modifierProfilContainer{
+    margin: 2em 0;
+    width: 100%;
+}
+
+#modifierProfil-btnGroupe {
+    margin: 1em auto;
+
+}
