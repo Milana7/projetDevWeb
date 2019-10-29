@@ -94,13 +94,13 @@ class Sortie
     private $idLieu;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Lieu", inversedBy="sorties")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Lieu", inversedBy="sorties", fetch="EAGER")
      * @ORM\JoinColumn(nullable=false)
      */
     private $lieu;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Utilisateur", mappedBy="idSortie")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Utilisateur", mappedBy="idSortie", fetch="EAGER")
      */
     private $utilisateurs; //participants à la sortie
 

@@ -8,10 +8,10 @@ use App\Entity\Lieu;
 use App\Entity\Site;
 use App\Entity\Sortie;
 use App\Entity\Utilisateur;
-use App\Entity\Ville;
 use App\Form\AnnulerSortieType;
 use App\Form\CreerSortieType;
 use App\Form\FiltreSortieType;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -222,16 +222,14 @@ class SortieController extends Controller
      * @param $sortieId
      * @return Response
      */
-    public function afficherSortie(Request $request, $sortieId)
+    public function afficherSortie($sortieId)
     {
         $sortie = $this->getDoctrine()->getRepository(Sortie::class)->find($sortieId);
+        $sortie->setIdLieu($sortie->getLieu()->getId());
         dump($sortie);
-        $form = $this->createForm(CreerSortieType::class, $sortie);
         $site = $sortie->getOrganisateur()->getSite();
-        dump($site);
-        $form->get('villeOrganisatrice')->setData($this->getDoctrine()->getRepository(Site::class)->find($site)->getNom());
-        $form->handleRequest($request);
-        return $this->render('sortie/creerSortie.html.twig', ['form' => $form->createView()]);
+
+        return $this->render('sortie/afficherSortie.html.twig', ['sortie' => $sortie, 'site' => $site]);
     }
 
     // INSCRIPTION/DESISTEMENT
@@ -246,11 +244,12 @@ class SortieController extends Controller
         $sortie = $this->getDoctrine()->getRepository(Sortie::class)->find($sortieId);
         $utilisateur = $this->getDoctrine()->getRepository(Utilisateur::class)->find($this->getUser()->getId());
 
-        if($sortie->getEtat()->getid() == 2){
-            $now = new \DateTime('now');
-            // TODO verification sur nb max d'inscriptions + nb inscription en cours
-            if($sortie->getDateLimiteInscription() < $now){
+        $etat = $sortie->getEtat();
 
+        if($etat->getId() == 2){
+            $now = new DateTime('now');
+            // TODO verification sur nb max d'inscriptions + nb inscription en cours
+            if($sortie->getDateLimiteInscription() > $now){
                 $sortie->addUtilisateur($utilisateur);
 
                 $em = $this->getDoctrine()->getManager();
@@ -259,10 +258,10 @@ class SortieController extends Controller
 
                 return $this->redirectToRoute('sortiesapp_sortie_listsorties');
             }
-        } else {
-            // TODO renvoyer une erreur
-            return null;
         }
+        //TODO return error msg
+        return "ERROR";
+
     }
 
     /**
@@ -275,8 +274,8 @@ class SortieController extends Controller
         $sortie = $this->getDoctrine()->getRepository(Sortie::class)->find($sortieId);
         $utilisateur = $this->getDoctrine()->getRepository(Utilisateur::class)->find($this->getUser()->getId());
 
-        $now = new \DateTime('now');
-        if($sortie->getDateHeureDebut() < $now){
+        $now = new DateTime('now');
+        if($sortie->getDateHeureDebut() > $now){
 
             $sortie->removeUtilisateur($utilisateur);
 
@@ -285,10 +284,9 @@ class SortieController extends Controller
             $em->flush();
 
             return $this->redirectToRoute('sortiesapp_sortie_listsorties');
-        } else{
-            // TODO renvoyer une erreur
-            return null;
         }
+        //TODO return error msg
+        return "ERROR";
     }
 
     /**
