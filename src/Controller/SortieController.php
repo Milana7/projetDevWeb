@@ -29,28 +29,6 @@ use Symfony\Component\Routing\Annotation\Route;
 class SortieController extends Controller
 {
     /**
-     * Les inscriptions
-     *
-     * @Route("/inscriptions", name="sortiesFiltrees")
-     * @param Request $request
-     * @return Response
-     */
-    public function inscriptions(Request $request)
-    {
-        $repository = $this
-            ->getDoctrine()
-            ->getManager()
-            ->getRepository('App:Sortie');
-
-        $listSortie = $repository->listSortiesAll();
-
-        return $this->render('sortie/sortie.html.twig', [
-            'controller_name' => 'SortieController',
-            'listSortie' => $listSortie,
-        ]);
-    }
-
-    /**
      * Affiche toutes les sorties disponibles
      *
      * @Route("/")
@@ -71,8 +49,7 @@ class SortieController extends Controller
             ->getManager()
             ->getRepository('App:Sortie');
 
-        $listSortie = $repositoryS->listSortiesAll($filtre);
-
+        $listSortie = $repositoryS->listSortiesAll($filtre, $this->getUser()->getId());
         $user = new Sortie();
         $u = $user->getUtilisateurs()->current();
 
@@ -93,35 +70,6 @@ class SortieController extends Controller
         ]);
     }
 
-    /**
-     * Affiche les sorties par identifiant de l'organisateur
-     *
-     * @Route("/mesSortiesOrganisees/{idOrg}", name="sortieByIdOrg")
-     * @param Request $request
-     * @param int $idOrg
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function listSortiesByIdOrg(Request $request, $idOrg)
-    {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        /**
-         * @var Utilisateur $user
-         */
-        $user = $this->getUser();
-
-        $repository = $this
-            ->getDoctrine()
-            ->getManager()
-            ->getRepository('App:Sortie');
-
-        $listSortie = $repository->listByOrganiser($user->getId());
-
-
-        return $this->render('sortie/sortiesByOrganiser.html.twig', [
-            'controller_name' => 'SortieController',
-            'listSortie' => $listSortie,
-        ]);
-    }
 
     /**
      * Affiche les sorties qui ont une date expirée
@@ -162,8 +110,7 @@ class SortieController extends Controller
         $form = $this->createForm(CreerSortieType::class, $nouvelleSortie);
         $form->handleRequest($request);
 
-        if(!$form->isSubmitted())
-        {
+        if (!$form->isSubmitted()) {
             $site = $this->getDoctrine()->getRepository(Site::class)->find($organisateur->getSite())->getNom();
             $form->get('villeOrganisatrice')->setData($site);
         }
@@ -260,14 +207,16 @@ class SortieController extends Controller
      * @return RedirectResponse
      * @throws Exception
      */
-    public function inscription($sortieId){
+    public function inscription($sortieId)
+    {
         $sortie = $this->getDoctrine()->getRepository(Sortie::class)->find($sortieId);
         $utilisateur = $this->getDoctrine()->getRepository(Utilisateur::class)->find($this->getUser()->getId());
         $etat = $sortie->getEtat();
-        if($etat->getId() === 2){
+
+        if ($etat->getId() === 2) {
             $now = new \DateTime('now');
             // TODO verification sur nb max d'inscriptions + nb inscription en cours
-            if($sortie->getDateLimiteInscription() > $now){
+            if ($sortie->getDateLimiteInscription() > $now) {
 
                 $sortie->addUtilisateur($utilisateur);
 
@@ -277,9 +226,13 @@ class SortieController extends Controller
 
                 return $this->redirectToRoute('sortiesapp_sortie_listsorties');
             }
+        } else {
+            return
+                $this->addFlash('warning','Vous ne pouvez pas vous inscire à cette sortie');
         }
         // TODO return errorMsg
-        return "ERROR";
+
+        return $this->redirectToRoute('sortiesapp_sortie_listsorties');
     }
 
     /**
@@ -288,12 +241,13 @@ class SortieController extends Controller
      * @return RedirectResponse
      * @throws Exception
      */
-    public function desistement($sortieId){
+    public function desistement($sortieId)
+    {
         $sortie = $this->getDoctrine()->getRepository(Sortie::class)->find($sortieId);
         $utilisateur = $this->getDoctrine()->getRepository(Utilisateur::class)->find($this->getUser()->getId());
 
         $now = new \DateTime('now');
-        if($sortie->getDateHeureDebut() > $now){
+        if ($sortie->getDateHeureDebut() > $now) {
 
             $sortie->removeUtilisateur($utilisateur);
 
