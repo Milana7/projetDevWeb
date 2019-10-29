@@ -7,37 +7,37 @@
             <div class="form-group row">
                 <label class="col-sm-4 offset-sm-3 col-form-label bg-light" for="nom">Nom de la sortie</label>
                 <div class="col-sm-5">
-                    <input type="text" id="nom" class="form-control" value="{{ sortie.nom }}">
+                    <input type="text" id="nom" class="form-control" disabled="disabled" value="{{ sortie.nom }}">
                 </div>
             </div>
             <div class="form-group row">
                 <label class="col-sm-4 offset-sm-3 col-form-label bg-light" for="dateDebut">Date et heure de la sortie</label>
                 <div class="col-sm-5">
-                    <input type="text" id="dateDebut" class="form-control" value="{{ sortie.dateHeureDebut|date('d/m/Y H:i') }}">
+                    <input type="text" id="dateDebut" class="form-control" disabled="disabled" value="{{ sortie.dateHeureDebut|date('d/m/Y H:i') }}">
                 </div>
             </div>
             <div class="form-group row">
                 <label class="col-sm-4 offset-sm-3 col-form-label bg-light" for="dateInscription">Date limite d'inscription</label>
                 <div class="col-sm-5">
-                    <input type="text" id="dateInscription" class="form-control" value="{{ sortie.dateLimiteInscription|date('d/m/Y H:i') }}">
+                    <input type="text" id="dateInscription" class="form-control" disabled="disabled" value="{{ sortie.dateLimiteInscription|date('d/m/Y H:i') }}">
                 </div>
             </div>
             <div class="form-group row">
                 <label class="col-sm-4 offset-sm-3 col-form-label bg-light" for="nbPlaces">Nombre de places</label>
                 <div class="col-sm-5">
-                    <input type="text" id="nbPlaces" class="form-control" value="{{ sortie.nbInscriptionsMax }}">
+                    <input type="text" id="nbPlaces" class="form-control" disabled="disabled" value="{{ sortie.nbInscriptionsMax }}">
                 </div>
             </div>
             <div class="form-group row">
                 <label class="col-sm-4 offset-sm-3 col-form-label bg-light" for="duree">Durée</label>
                 <div class="col-sm-5">
-                    <input type="text" id="duree" class="form-control" value="{{ sortie.duree }}">
+                    <input type="text" id="duree" class="form-control" disabled="disabled" value="{{ sortie.duree }}">
                 </div>
             </div>
             <div class="form-group row">
                 <label class="col-sm-4 offset-sm-3 col-form-label bg-light" for="infosSortie">Description et infos</label>
                 <div class="col-sm-5">
-                    <input type="text" id="infosSortie" class="form-control" value="{{ sortie.infosSortie }}">
+                    <input type="text" id="infosSortie" class="form-control" disabled="disabled" value="{{ sortie.infosSortie }}">
                 </div>
             </div>
         </div>
@@ -45,37 +45,37 @@
             <div class="form-group row">
                 <label class="col-sm-4 offset-sm-1 col-form-label bg-light" for="villeOrganisatrice">Ville organisatrice</label>
                 <div class="col-sm-5">
-                    <input type="text" id="villeOrganisatrice" class="form-control" value="{{ sortie.lieu.idVille.nom }}">
+                    <input type="text" id="villeOrganisatrice" class="form-control" disabled="disabled" value="{{ sortie.lieu.idVille.nom }}">
                 </div>
             </div>
             <div class="form-group row">
                 <label class="col-sm-4 offset-sm-1 col-form-label bg-light" for="ville">Ville</label>
                 <div class="col-sm-5">
-                    <input type="text" id="ville" class="form-control" value="{{ sortie.lieu.nom }}">
+                    <input type="text" id="ville" class="form-control" disabled="disabled" value="{{ sortie.lieu.nom }}">
                 </div>
             </div>
             <div class="form-group row">
                 <label class="col-sm-4 offset-sm-1 col-form-label bg-light" for="rue">Rue</label>
                 <div class="col-sm-5">
-                    <input type="text" id="rue" class="form-control" value="{{ sortie.lieu.rue }}">
+                    <input type="text" id="rue" class="form-control" disabled="disabled" value="{{ sortie.lieu.rue }}">
                 </div>
             </div>
             <div class="form-group row">
                 <label class="col-sm-4 offset-sm-1 col-form-label bg-light" for="codePostal">Code postal</label>
                 <div class="col-sm-5">
-                    <input type="text" id="codePostal" class="form-control" value="{{ sortie.lieu.idVille.codePostal }}">
+                    <input type="text" id="codePostal" class="form-control" disabled="disabled" value="{{ sortie.lieu.idVille.codePostal }}">
                 </div>
             </div>
             <div class="form-group row">
                 <label class="col-sm-4 offset-sm-1 col-form-label bg-light" for="latitude">Latitude</label>
                 <div class="col-sm-5">
-                    <input type="text" id="latitude" class="form-control" value="{{ sortie.lieu.latitude }}">
+                    <input type="text" id="latitude" class="form-control" disabled="disabled" value="{{ sortie.lieu.latitude }}">
                 </div>
             </div>
             <div class="form-group row">
                 <label class="col-sm-4 offset-sm-1 col-form-label bg-light" for="longitude">Longitude</label>
                 <div class="col-sm-5">
-                    <input type="text" id="longitude" class="form-control" value="{{ sortie.lieu.longitude }}">
+                    <input type="text" id="longitude" class="form-control" disabled="disabled" value="{{ sortie.lieu.longitude }}">
                 </div>
             </div>
         </div>

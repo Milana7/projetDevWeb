@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class GererSitesController extends Controller
 {
     /**
-     * @Route("/gererSites",name="gererSites")
+     * @Route("/admin/gererSites",name="gererSites")
      */
     public function listSites()
     {
@@ -25,7 +25,7 @@ class GererSitesController extends Controller
     }
 
     /**
-     * @Route("/modifierSite/{idSite}", name="_modifierSite")
+     * @Route("/admin/modifierSite/{idSite}", name="_modifierSite")
      *
      */
     public function modifierSite (Request $request, EntityManagerInterface $em, $idSite) {
