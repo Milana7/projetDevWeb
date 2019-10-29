@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Site;
 use App\Form\ModifierSiteType;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
