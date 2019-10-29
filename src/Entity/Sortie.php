@@ -105,7 +105,7 @@ class Sortie
     private $utilisateurs; //participants à la sortie
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Utilisateur", inversedBy="sortieOrg")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Utilisateur", inversedBy="sortieOrg", fetch="EAGER")
      * @ORM\JoinColumn(nullable=false)
      */
     private $organisateur;

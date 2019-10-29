@@ -311,12 +311,15 @@ class SortieController extends Controller
 
     /**
      * @Route("/annulerSortie/{id}", name="sortie_annulerSortie")
+     * @param int $id
+     * @param Request $request
+     * @param EntityManagerInterface $em
+     * @return RedirectResponse|Response
      */
     public function annulerSortie(int $id, Request $request, EntityManagerInterface $em)
     {
         $repo = $em->getRepository(Sortie::class);
         $sortie = $repo->find($id);
-        dump($sortie);
 
         $sortieForm = $this->createForm(AnnulerSortieType::class, $sortie);
         $sortieForm->handleRequest($request);
@@ -327,8 +330,6 @@ class SortieController extends Controller
             $repo = $em->getRepository(Etat::class);
             $etat = $repo->find(6);
             $sortie->setEtat($etat);
-
-            dump($sortie);
 
             $sortie->setId(6);
 
