@@ -3,48 +3,58 @@
 {% block title %}Gérer les sites | {{ parent() }}{% endblock %}
 
 {% block body %}
-    <style>
-        .example-wrapper {
-            margin: 1em auto;
-            max-width: 800px;
-            width: 95%;
-            font: 18px/1.5 sans-serif;
-        }
 
-        .example-wrapper code {
-            background: #F5F5F5;
-            padding: 2px 6px;
-        }
-    </style>
 
-    <div class="example-wrapper">
-        <h1 class="text-center">Liste des sites organisateurs : </h1>
-        <br>
-        <br>
-        <br>
-        <table class=" offset-4" border="1">
-        {% for site in listSite %}
-            <tr>
-                <td>{{ site.nom }}
-                <td>{% if(site.isActif) %}
-                        Actif
-                    {% else %}
-                        Inactif
-                    {% endif %}
-                </td>
-                <td><a href="{{ path('_modifierSite', {'idSite': site.id}) }}">Modifier</a>
-                <td><span class="deleteLink" onclick="validateDeleteSite({{ site.id }})">Supprimer</span>
-                </td>
+    <h1 class="text-center" xmlns="http://www.w3.org/1999/html">Liste des sites organisateurs : </h1>
 
-            </tr>
-        {% endfor %}
-        </table>
-        <br>
-        <div id="modifierProfil-btnGroupe ">
-            <a href="{{ path('sortiesapp_sortie_listsorties') }}">
-                <button type="button" class="btn btn-outline-danger offset-5">Annuler</button>
-            </a>
+
+    <h5 class="offset-3" id="filtrerLesSites"> Filtrer les sites </h5> <
+    <div class="form-group row">
+        <label class="col-sm-1 offset-sm-3 t">Le nom contient :</label>
+        <nav class="navbar navbar-light bg-light">
+            <form class="form-inline">
+                <input class="form-control mr-sm-2" type="search">
+
+                <button type="button" class="btn btn-outline-danger">Rechercher</button>
+            </form>
+        </nav>
+    </div>
+    <div class="row" id="gererSiteContainer">
+
+        <div class="col-sm-6 offset-3">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">Ville</th>
+                    <th scope="col"></th>
+                    <th scope="col">Actions</th>
+                </tr>
+                </thead>
+                <tr>
+                    {% for site in listSite %}
+                <tr>
+                    <td>{{ site.nom }}
+                    <td></td>
+                    <td>{% if(site.isActif) %}
+                            Actif
+                        {% else %}
+                            Inactif
+                        {% endif %}
+                    </td>
+                    <td><a href="{{ path('_modifierSite', {'idSite': site.id}) }}">Modifier</a>
+                    <td><span class="deleteLink" onclick="validateDeleteSite({{ site.id }})">Supprimer</span>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
         </div>
+    </div>
+    <br>
+    <div id="modifierProfil-btnGroupe ">
+        <a href="{{ path('sortiesapp_sortie_listsorties') }}">
+            <button type="button" class="btn btn-outline-danger offset-6">Annuler</button>
+        </a>
+    </div>
     </div>
 
 {% endblock %}

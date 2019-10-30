@@ -71,6 +71,12 @@ footer {
     text-decoration: underline;
 }
 
+#gererSiteContainer {
+    margin: 2em 0;
+    width: 100%;
+
+}
+
 /* MODIFIER SITE */
 
 #modifierSiteContainer{
