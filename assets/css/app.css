@@ -97,3 +97,17 @@ footer {
 #modifierProfil-btnGroupe {
     margin: 1em auto;
 }
+
+/* LISTE SORTIES */
+#sortieContainer .form-group{
+    margin-bottom: 0.35rem;
+}
+
+#sortieContainer{
+    margin-top: 2em;
+    padding: 1em 0;
+}
+
+#btnFiltrer{
+    margin-top: 1em;
+}
