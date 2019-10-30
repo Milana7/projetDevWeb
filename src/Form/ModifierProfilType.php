@@ -8,10 +8,10 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class ModifierProfilType extends AbstractType
 {
@@ -49,10 +49,12 @@ class ModifierProfilType extends AbstractType
                         ->orderBy('c.nom', 'ASC');
                 }
             ))
-            ->add("fileTemp", FileType::class, [
+            ->add('imageFile', VichImageType::class, [
                 "label" => "Télécharger vers le serveur : ",
                 "required" => false,
-                'error_bubbling' => true
+                'error_bubbling' => true,
+                'download_uri' => false,
+                'image_uri' => false
             ]);
     }
 
