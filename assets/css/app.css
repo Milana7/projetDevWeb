@@ -110,8 +110,9 @@ footer {
 #modifierProfil-btnGroupe {
     margin: 1em auto;
 }
-#creerLieuContainer{
+#creerLieuContainer {
     margin-top: 4em;
+}
 
 /* LISTE SORTIES */
 #sortieContainer .form-group {
@@ -125,7 +126,4 @@ footer {
 
 #btnFiltrer {
     margin-top: 1em;
-}
-
-
 }
