@@ -22,6 +22,7 @@
                 </a>
                 <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                     <ul class="navbar-nav">
+                        {% set connected = false %}
                         {% if is_granted("ROLE_ADMIN") %}
                             <li class="nav-item"><a href="{{ path("gererSites") }}" class="nav-link"
                                                     title="Gérer les Sites">Gérer les Sites</a></li>
