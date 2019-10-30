@@ -9,15 +9,14 @@
 
 
     <h5 class="offset-3" id="filtrerLesSites"> Filtrer les sites </h5> <
-    <div class="form-group row">
-        <label class="col-sm-1 offset-sm-3 t">Le nom contient :</label>
-        <nav class="navbar navbar-light bg-light">
+    <div class="form-group row ">
+        <label id="labelLeNomContient" class="col-sm-1 offset-sm-3 col-form-label">Le nom contient :</label>
+        <div class="form-group row ">
             <form class="form-inline">
-                <input class="form-control mr-sm-2" type="search">
-
-                <button type="button" class="btn btn-outline-danger">Rechercher</button>
+                <input class="form-control mr-sm-5" type="search">
+                <button type="submit" class="btn btn-outline-secondary">Rechercher</button>
             </form>
-        </nav>
+        </div>
     </div>
     <div class="row" id="gererSiteContainer">
 
@@ -50,12 +49,18 @@
         </div>
     </div>
     <br>
+
     <div id="modifierProfil-btnGroupe ">
+
+        <a href="{{ path('_ajouterSite') }}">
+        <button type="button" class="btn btn-outline-primary offset-3"> ajouter</button>
+        </a>
+
         <a href="{{ path('sortiesapp_sortie_listsorties') }}">
-            <button type="button" class="btn btn-outline-danger offset-6">Annuler</button>
+            <button type="button" class="btn btn-outline-danger offset-3">Annuler</button>
         </a>
     </div>
-    </div>
+
 
 {% endblock %}
 {% block javascripts %}
