@@ -96,7 +96,7 @@
                 <td>{{ sortie.dateLimiteInscription | date('d/m/Y H:i') }} </td>
                 <td>{{ sortie.utilisateurs.count }} / {{ sortie.nbInscriptionsMax }}</td>
                 <td>
-                    {% if (sortie.dateLimiteInscription >= dateJour) %}
+                    {% if (sortie.dateLimiteInscription <= dateJour) %}
                         Fermé
                     {% else %}
                         {{ sortie.etat.libelle }}
