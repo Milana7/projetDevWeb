@@ -59,6 +59,11 @@ footer {
     padding: 0.3em 1em;
 }
 
+/*MODIFIER SORTIE*/
+#btnBackModifierSortie{
+    margin-top: 2em;
+}
+
 /* AFFICHER SORTIE */
  #inscriptionsTable {
      height: 15em;

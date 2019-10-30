@@ -81,27 +81,30 @@
         </div>
         <div class="col-sm-6 row">
             <div class="col-sm-8 offset-sm-3">
-            <br>
-            <h3>Liste des participants inscrits</h3>
-            <div id="inscriptionsTable">
-                <table class="table table-hover">
-                    <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">Pseudo</th>
-                        <th scope="col">Nom</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for user in sortie.utilisateurs %}
+                <br>
+                <h3>Liste des participants inscrits</h3>
+                <div id="inscriptionsTable">
+                    <table class="table table-hover">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Pseudo</th>
+                            <th scope="col">Nom</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for user in sortie.utilisateurs %}
                             <tr onclick="window.location='{{ path("utilisateur_detailProfil", {"id" : user.id })}}'">
                                 <td>{{ user.pseudo }}</td>
                                 <td>{{ user.prenom }} {{ user.nom}}</td>
                             </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
+        <div class=col-sm-6" id="btnBackModifierSortie">
+            <a href="{{ path('sortiesapp_sortie_listsorties')}}" class="btn btn-outline-warning btn-lg">Retour</a>
         </div>
     </div>
 {% endblock %}

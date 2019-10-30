@@ -35,6 +35,7 @@ class SortieController extends Controller
      * @Route("/")
      * @param Request $request
      * @return Response
+     * @throws Exception
      */
     public function listSorties(Request $request)
     {
@@ -171,7 +172,7 @@ class SortieController extends Controller
             return $this->redirectToRoute('sortiesapp_sortie_listsorties');
         }
 
-        return $this->render('sortie/modifierSortie.html.twig', ['form' => $form->createView()]);
+        return $this->render('sortie/modifierSortie.html.twig', ['form' => $form->createView(), 'sortieId' => $sortieId]);
     }
 
     /**
@@ -236,7 +237,6 @@ class SortieController extends Controller
     /**
      * @Route("/afficherSortie/{sortieId}", name="_afficherSortie")
      * Affichage d'une sortie
-     * @param Request $request
      * @param $sortieId
      * @return Response
      */
@@ -346,5 +346,25 @@ class SortieController extends Controller
             "sortieForm" => $sortieForm->createView(),
             "sortie" => $sortie
         ]);
+    }
+
+
+    /**
+     * @Route("/supprimerSortie/{id}", name="_supprimerSortie")
+     * @param int $id
+     * @param EntityManagerInterface $em
+     * @return RedirectResponse|Response
+     */
+    public function supprimerSortie($id, EntityManagerInterface $em){
+        $repo = $em->getRepository(Sortie::class);
+        $sortie = $repo->find($id);
+
+        if($sortie->getEtat()->getId() == 1 && $sortie != null){
+            $em->remove($sortie);
+            $em->flush();
+        }
+
+        return $this->redirectToRoute("sortiesapp_sortie_listsorties");
+
     }
 }
