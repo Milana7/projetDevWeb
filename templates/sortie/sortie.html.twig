@@ -3,7 +3,7 @@
 {% block title %}Liste des sorties{% endblock %}
 {% block body %}
 
-
+    <div id="dateDuJour" style="float:right">Date du jour: {{ dateJour| date('d/m/Y') }}</div>
         <div class="row" id="sortieContainer">
             <div class="col-sm-4 offset-sm-2">
                 {{ form_start(filtre) }}

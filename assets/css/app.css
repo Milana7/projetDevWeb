@@ -5,12 +5,20 @@
     padding: 0;
 }
 
-.row{
+.row {
     margin-left: 0;
 }
 
-.table-hover{
+.table-hover {
     cursor: pointer;
+}
+
+/* NAVBAR */
+
+#affichageUtilisateur{
+    font-family: "Comic Sans MS", cursive;
+    font-style: italic;
+    color: white;
 }
 
 /* HEADER */
@@ -45,7 +53,7 @@ footer {
 
 /* CREER SORTIE */
 
-#creerSortieContainer{
+#creerSortieContainer {
     margin: 2em 0;
     width: 100%;
 }
@@ -60,36 +68,41 @@ footer {
 }
 
 /*MODIFIER SORTIE*/
-#btnBackModifierSortie{
+#btnBackModifierSortie {
     margin-top: 2em;
 }
 
 /* AFFICHER SORTIE */
- #inscriptionsTable {
-     height: 15em;
-     overflow-y: scroll;
- }
+#dateDuJour{
+    margin-right: 20px;
+    font-style: oblique;
+}
+
+#inscriptionsTable {
+    height: 15em;
+    overflow-y: scroll;
+}
 
 /* GERER SITES */
-.deleteLink{
+.deleteLink {
     cursor: pointer;
     color: red;
 }
 
-.deleteLink:hover{
+.deleteLink:hover {
     text-decoration: underline;
 }
 
 /* MODIFIER SITE */
 
-#modifierSiteContainer{
+#modifierSiteContainer {
     margin: 2em 0;
     width: 100%;
 }
 
 /* MODIFIER PROFIL */
 
-#modifierProfilContainer{
+#modifierProfilContainer {
     margin: 2em 0;
     width: 100%;
 }
@@ -99,15 +112,15 @@ footer {
 }
 
 /* LISTE SORTIES */
-#sortieContainer .form-group{
+#sortieContainer .form-group {
     margin-bottom: 0.35rem;
 }
 
-#sortieContainer{
+#sortieContainer {
     margin-top: 2em;
     padding: 1em 0;
 }
 
-#btnFiltrer{
+#btnFiltrer {
     margin-top: 1em;
 }
