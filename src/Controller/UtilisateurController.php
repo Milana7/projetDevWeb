@@ -8,8 +8,8 @@ use App\Form\ModifierProfilType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -149,4 +149,33 @@ class UtilisateurController extends Controller
 
     }
 
+    /**
+     * @Route("/gestionUtilisateur", name="_gestionUtilisateur")
+     */
+    public function getUtilisateurs(EntityManagerInterface $em)
+    {
+        $utilisateurs = $em->getRepository(Utilisateur::class)->findAll();
+        return $this->render('utilisateur/listeUtilisateurs.html.twig', ['utilisateurs' => $utilisateurs]);
+    }
+
+    /**
+     * @Route("/changerStatutUtilisateurs", name="_changerStatutUtilisateurs")
+     * @param EntityManagerInterface $em
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function changerStatutUtilisateurs(EntityManagerInterface $em, Request $request){
+        $selectedElements = $request->get('selectedElements');
+        $items = explode(',', $selectedElements);
+        $userRepo = $em->getRepository(Utilisateur::class);
+        if(count($items) > 0){
+            foreach ($items as $userId){
+                $utilisateur = $userRepo->find($userId);
+                $utilisateur->setActif(!$utilisateur->getActif());
+            }
+            $em->flush();
+        }
+        $utilisateurs = $em->getRepository(Utilisateur::class)->findAllUser();
+        return new JsonResponse($utilisateurs);
+    }
 }

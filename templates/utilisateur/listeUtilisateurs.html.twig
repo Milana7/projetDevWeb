@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+{% block title %}Gestion des utilisateurs{% endblock %}
+{% block body %}
+    <div id="utilisateursTableContainer" class="row">
+        <div class="col-sm-6 offset-sm-3">
+        <table class="table" id="utilisateursTable">
+            <thead class="thead-light">
+            <tr>
+                <th scope="col">Pseudo</th>
+                <th scope="col">Nom</th>
+                <th scope="col">Statut</th>
+                <th scope="col" class="text-center">Sélection</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for user in utilisateurs %}
+                <tr>
+                    <td>{{ user.pseudo }}</td>
+                    <td>{{ user.prenom }} {{ user.nom}}</td>
+                    <td>
+                        {% if(user.actif) %}
+                            Actif
+                        {% else %}
+                            Inactif
+                        {% endif %}
+                    </td>
+                    <td class="text-center">
+                        <input type="checkbox" class="isSelected" data-id="{{ user.id }}">
+                    </td>
+                </tr>
+            {% endfor %}
+            <tr>
+                <td><button class="btn btn-outline-success" onclick="">Ajouter un utilisateur</button></td>
+                <td colspan="2"></td>
+                <td class="text-center">
+                    <button class="btn btn-outline-primary" onclick="changeStatus()">Changer le statut</button>
+                    <input type="hidden" id="selectedElements" value="">
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
+    <script>
+        // A chaque fois qu'un évènement sur une checkbox est détecté
+    $(".isSelected").change(function() {
+        // On crée un tableau vide
+        $selectedElements = [];
+        // On remplit ce tableau avec l'id d'utilisateur associé à chaque checkbox
+        $.each($(".isSelected:checked"), function(){
+            $selectedElements.push($(this).data('id'));
+        });
+        $('#selectedElements').val($selectedElements);
+    });
+
+    function changeStatus(){
+        if($('#selectedElements').val() != ""){
+            $.ajax({
+                type: 'POST',
+                url: "{{path('_changerStatutUtilisateurs')}}",
+                data: {
+                    'selectedElements':  $('#selectedElements').val(),
+                },
+                success: function(data){
+                    document.location.reload(true);
+                },
+
+            });
+        }
+    }
+
+    </script>
+{% endblock %}
