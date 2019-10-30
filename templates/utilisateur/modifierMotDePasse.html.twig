@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
-
+{% form_theme motDePasseForm '/themes/form_errors.html.twig' %}
 {% block body %}
 
     <h1 class="text-center">Modifier votre mot de passe</h1>
     <br>
     <div class="row" id="modifierMotDePasseContainer">
-        <div class="col-sm-6">
+        <div class="col-sm-6 offset-2">
             {{ form_start(motDePasseForm) }}
             <div class="form-group row">
                 {{ form_label(motDePasseForm.password, null, {'label_attr': {'class': 'col-sm-4 offset-sm-2 col-form-label bg-light'}}) }}
@@ -21,14 +21,16 @@
                     {{ form_errors(motDePasseForm.password.second) }}
                 </div>
             </div>
-
             <br>
-
             <div id="modifierProfil-btnGroupe">
                 <button type="submit" class="btn btn-outline-success offset-6">Enregistrer</button>
                 <a href="{{ path('utilisateur_modifierMotDePasse') }}">
                     <button type="button" class="btn btn-outline-danger">Annuler</button>
                 </a>
+            </div>
+            {# Afficher message erreurs #}
+            <div id="errorMsg" class="col-sm-12 text-center">
+                {{ form_errors(motDePasseForm, {'attr': {'class': 'form-control'}}) }}
             </div>
 
             {# Message flash qui informe que le mot de passe a été modifié #}

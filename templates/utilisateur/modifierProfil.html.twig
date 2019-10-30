@@ -1,5 +1,6 @@
 {% extends 'base.html.twig' %}
-
+{% form_theme utilisateurForm '/themes/form_errors.html.twig' %}
+{% block title %}Modifier votre profil | {{ parent() }}{% endblock %}
 {% block body %}
 
     <h1 class="text-center">Mon Profil</h1>
@@ -15,7 +16,7 @@
                 {{ form_label(utilisateurForm.pseudo, null, {'label_attr': {'class': 'col-sm-4 offset-sm-2 col-form-label bg-light'}}) }}
                 <div class="col-sm-6">
                     {{ form_widget(utilisateurForm.pseudo, {'attr': {'class': 'form-control'}}) }}
-                    {{ form_errors(utilisateurForm.pseudo, {'attr': {'class': 'text-sm-left font-italic text-danger'}}) }}
+                    {{ form_errors(utilisateurForm.pseudo) }}
                 </div>
             </div>
             <div class="form-group row">
@@ -46,21 +47,21 @@
                     {{ form_errors(utilisateurForm.mail) }}
                 </div>
             </div>
-{#
-            <div class="form-group row">
-                {{ form_label(utilisateurForm.password, null, {'label_attr': {'class': 'col-sm-4 offset-sm-2 col-form-label bg-light'}}) }}
-                <div class="col-sm-6">
-                    {{ form_widget(utilisateurForm.password.first, { 'attr': {'class': 'form-control', 'placeholder': 'Mot de passe'}}) }}
-                    {{ form_errors(utilisateurForm.password.first) }}
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-sm-6 offset-sm-6">
-                    {{ form_widget(utilisateurForm.password.second, { 'attr': {'class': 'form-control', 'placeholder': 'Confirmer le mot de passe'}}) }}
-                    {{ form_errors(utilisateurForm.password.second) }}
-                </div>
-            </div>
-#}
+            {#
+                        <div class="form-group row">
+                            {{ form_label(utilisateurForm.password, null, {'label_attr': {'class': 'col-sm-4 offset-sm-2 col-form-label bg-light'}}) }}
+                            <div class="col-sm-6">
+                                {{ form_widget(utilisateurForm.password.first, { 'attr': {'class': 'form-control', 'placeholder': 'Mot de passe'}}) }}
+                                {{ form_errors(utilisateurForm.password.first) }}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-6 offset-sm-6">
+                                {{ form_widget(utilisateurForm.password.second, { 'attr': {'class': 'form-control', 'placeholder': 'Confirmer le mot de passe'}}) }}
+                                {{ form_errors(utilisateurForm.password.second) }}
+                            </div>
+                        </div>
+            #}
             <br>
             <div class="form-group row">
                 {{ form_label(utilisateurForm.site, null, {'label_attr': {'class': 'col-sm-4 offset-sm-2 col-form-label bg-light'}}) }}
@@ -77,6 +78,9 @@
                     {{ form_widget(utilisateurForm.fileTemp, {'attr': {'class': 'form-control'}}) }}
                     {{ form_errors(utilisateurForm.fileTemp) }}
                 </div>
+            </div>
+            <div id="errorMsg" class="col-sm-12 text-center">
+                {{ form_errors(utilisateurForm, {'attr': {'class': 'form-control'}}) }}
             </div>
             <br>
             <div id="modifierProfil-btnGroupe">
@@ -107,4 +111,3 @@
     </div>
 {% endblock %}
 
-{% block title %}Modifier votre profil | {{ parent() }}{% endblock %}

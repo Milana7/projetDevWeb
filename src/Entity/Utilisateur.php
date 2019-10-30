@@ -44,20 +44,20 @@ class Utilisateur implements UserInterface
     private $nom;
 
     /**
-     * @Assert\Regex(pattern="/^[a-z]+$/i", message="Votre nom doit seulement contenir des lettres !")
+     * @Assert\Regex(pattern="/^[a-z]+$/i", message="Votre prenom doit seulement contenir des lettres !")
      * @ORM\Column(type="string", length=30)
      */
     private $prenom;
 
     /**
-     * @Assert\Regex(pattern="/^[0-9]+$/i", message="Votre nom doit seulement contenir des chiffres !")
+     * @Assert\Regex(pattern="/^[0-9]+$/i", message="Votre numéro de téléphone doit seulement contenir des chiffres !")
      * @ORM\Column(type="string", length=10)
      */
     private $telephone;
 
     /**
-     * @Assert\NotBlank(message="Votre mail ne doit pas être vide !")
-     * @Assert\Email(message="Votre mail n'est pas valide !")
+     * @Assert\NotBlank(message="Votre E-mail ne doit pas être vide !")
+     * @Assert\Email(message="Votre E-mail n'est pas valide !")
      *
      * @ORM\Column(type="string", length=60, unique=true)
      */

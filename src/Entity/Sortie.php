@@ -56,6 +56,11 @@ class Sortie
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Assert\Type("integer", message="La durée doit être un entier positif")
+     * @Assert\GreaterThan(
+     *     0,
+     *     message = "La durée doit être supérieure à 0"
+     * )
      */
     private $duree;
 
@@ -77,6 +82,11 @@ class Sortie
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Type("integer", message="Le nombre de places doit être un entier positif")
+     * @Assert\GreaterThan(
+     *     0,
+     *     message = "Le nombre de place doit être supérieure à 0"
+     * )
      */
     private $nbInscriptionsMax;
 

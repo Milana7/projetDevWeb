@@ -9,6 +9,10 @@
     margin-left: 0;
 }
 
+.table-hover{
+    cursor: pointer;
+}
+
 /* HEADER */
 .imageSortir {
     width: 4em;

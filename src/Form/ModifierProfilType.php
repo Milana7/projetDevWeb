@@ -19,13 +19,16 @@ class ModifierProfilType extends AbstractType
     {
         $builder
             ->add('pseudo', TextType::class, [
-                "label" => "Votre Pseudo : "
+                "label" => "Votre Pseudo : ",
+                'error_bubbling' => true
             ])
             ->add('nom', TextType::class, [
-                "label" => "Votre Nom : "
+                "label" => "Votre Nom : ",
+                'error_bubbling' => true
             ])
             ->add('prenom', TextType::class, [
-                "label" => "Votre Prénom : "
+                "label" => "Votre Prénom : ",
+                'error_bubbling' => true
             ])
             ->add('telephone', TextType::class, [
                 "label" => "Votre numéro de portable : "
@@ -48,7 +51,8 @@ class ModifierProfilType extends AbstractType
             ))
             ->add("fileTemp", FileType::class, [
                 "label" => "Télécharger vers le serveur : ",
-                "required" => false
+                "required" => false,
+                'error_bubbling' => true
             ]);
     }
 
@@ -56,6 +60,7 @@ class ModifierProfilType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Utilisateur::class,
+            'error_bubbling' => true
         ]);
     }
 }
