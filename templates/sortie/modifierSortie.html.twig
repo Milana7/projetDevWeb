@@ -97,6 +97,7 @@
         <div id="creerSortie-btnGroupe">
             {{ form_widget(form.save, {'attr': {'class': 'btn btn-outline-success'}}) }}
             {{ form_widget(form.publish, {'attr': {'class': 'btn btn-outline-primary'}}) }}
+            <a href="{{ path('sorties_supprimerSortie', {'id': sortieId })}}" class="btn btn-outline-danger">Supprimer la sortie</a>
             <a href="{{ path('sortiesapp_sortie_listsorties')}}" class="btn btn-outline-danger">Annuler</a>
         </div>
         {{ form_end(form) }}

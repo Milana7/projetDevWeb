@@ -114,6 +114,7 @@ class Utilisateur implements UserInterface
     /**
      * @Assert\File(
      *     maxSize = "2Mi",
+     *     mimeTypes={ "image/png", "image/jpeg" },
      *     uploadErrorMessage="Le fichier n'a pas été téléchargé !",
      *     maxSizeMessage ="Le fichier est trop lourd : {{ limit }} {{ suffix }} !",
      * )
