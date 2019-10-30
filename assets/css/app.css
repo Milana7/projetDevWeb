@@ -9,6 +9,10 @@
     margin-left: 0;
 }
 
+.table-hover{
+    cursor: pointer;
+}
+
 /* HEADER */
 .imageSortir {
     width: 4em;
@@ -53,6 +57,11 @@ footer {
 #creerSortie-btnGroupe .btn {
     margin: 0 1em;
     padding: 0.3em 1em;
+}
+
+/*MODIFIER SORTIE*/
+#btnBackModifierSortie{
+    margin-top: 2em;
 }
 
 /* AFFICHER SORTIE */

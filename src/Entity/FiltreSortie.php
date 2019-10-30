@@ -32,12 +32,12 @@ class FiltreSortie
         return $this->id;
     }
 
-    public function getNomSite(): ?string
+    public function getNomSite(): ?Site
     {
         return $this->nomSite;
     }
 
-    public function setNomSite(?string $nomSite): self
+    public function setNomSite(?Site $nomSite): self
     {
         $this->nomSite = $nomSite;
 

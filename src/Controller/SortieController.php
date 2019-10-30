@@ -35,6 +35,7 @@ class SortieController extends Controller
      * @Route("/")
      * @param Request $request
      * @return Response
+     * @throws Exception
      */
     public function listSorties(Request $request)
     {
@@ -44,7 +45,10 @@ class SortieController extends Controller
 
         if ($request->isMethod('POST')) {
             $form->handleRequest($request);
+            $date = $form->getData();
         }
+
+
         $repositoryS = $this
             ->getDoctrine()
             ->getManager()
@@ -168,7 +172,7 @@ class SortieController extends Controller
             return $this->redirectToRoute('sortiesapp_sortie_listsorties');
         }
 
-        return $this->render('sortie/modifierSortie.html.twig', ['form' => $form->createView()]);
+        return $this->render('sortie/modifierSortie.html.twig', ['form' => $form->createView(), 'sortieId' => $sortieId]);
     }
 
     /**
@@ -233,7 +237,6 @@ class SortieController extends Controller
     /**
      * @Route("/afficherSortie/{sortieId}", name="_afficherSortie")
      * Affichage d'une sortie
-     * @param Request $request
      * @param $sortieId
      * @return Response
      */
@@ -263,8 +266,8 @@ class SortieController extends Controller
 
         if ($etat->getId() === 2) {
             $now = new \DateTime('now');
-            // TODO verification sur nb max d'inscriptions + nb inscription en cours
-            if($sortie->getDateLimiteInscription() > $now){
+
+            if($sortie->getDateLimiteInscription() > $now && $sortie->getUtilisateurs()->count() < $sortie->getNbInscriptionsMax()){
 
                 $sortie->addUtilisateur($utilisateur);
 
@@ -274,12 +277,8 @@ class SortieController extends Controller
 
                 return $this->redirectToRoute('sortiesapp_sortie_listsorties');
             }
-        } else {
-            return
-                $this->addFlash('warning','Vous ne pouvez pas vous inscrire à cette sortie');
         }
-        // TODO return errorMsg
-
+        $this->addFlash('warning','Vous ne pouvez pas vous inscrire à cette sortie');
         return $this->redirectToRoute('sortiesapp_sortie_listsorties');
     }
 
@@ -305,8 +304,8 @@ class SortieController extends Controller
 
             return $this->redirectToRoute('sortiesapp_sortie_listsorties');
         }
-        // TODO return errorMsg
-        return "ERROR";
+        $this->addFlash('warning','Vous ne pouvez plus vous désister pour cette sortie');
+        return $this->redirectToRoute('sortiesapp_sortie_listsorties');
     }
 
     /**
@@ -347,5 +346,25 @@ class SortieController extends Controller
             "sortieForm" => $sortieForm->createView(),
             "sortie" => $sortie
         ]);
+    }
+
+
+    /**
+     * @Route("/supprimerSortie/{id}", name="_supprimerSortie")
+     * @param int $id
+     * @param EntityManagerInterface $em
+     * @return RedirectResponse|Response
+     */
+    public function supprimerSortie($id, EntityManagerInterface $em){
+        $repo = $em->getRepository(Sortie::class);
+        $sortie = $repo->find($id);
+
+        if($sortie->getEtat()->getId() == 1 && $sortie != null){
+            $em->remove($sortie);
+            $em->flush();
+        }
+
+        return $this->redirectToRoute("sortiesapp_sortie_listsorties");
+
     }
 }

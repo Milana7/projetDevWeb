@@ -9,7 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -20,12 +20,33 @@ class UtilisateurController extends Controller
     /**
      * @Route("/utilisateur/{id}", name="utilisateur_detailProfil", requirements={"id": "\d+"})
      */
-    public function detailProfil(int $id, EntityManagerInterface $em)
+    public function detailProfil(int $id, EntityManagerInterface $em, Request $request)
     {
+        // On récupère l'url dont vient l'utilisateur afin de l'utiliser pour revenir en arrière si besoin
+        $session = $request->getSession();
+        $referer = filter_var($request->headers->get('referer'), FILTER_SANITIZE_URL);
+
+        $session->set('referer', $referer);
+
         $repo = $em->getRepository(Utilisateur::class);
         $utilisateur = $repo->find($id);
 
         return $this->render("utilisateur/afficherProfil.html.twig", ["utilisateur" => $utilisateur]);
+    }
+
+    /**
+     * @Route("/back", name="_back")
+     */
+    public function back(Request $request)
+    {
+        // On recupere le referer en session (referer = url dont vient l'utilisateur)
+        $session = $request->getSession();
+        $referer = $session->get('referer');
+
+        if($referer == null || empty($referer)){
+            return $this->redirectToRoute('sortiesapp_sortie_listsorties');
+        }
+        return $this->redirect($referer);
     }
 
     /**
@@ -105,6 +126,7 @@ class UtilisateurController extends Controller
         ]);
     }
 
+
     /**
      * @Route("/login", name="login")
      */
@@ -124,5 +146,7 @@ class UtilisateurController extends Controller
      */
     public function logout()
     {
+
     }
+
 }
