@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion | {{ parent() }}
+{% endblock %}
+
+{% block body %}
+
+    <h1 class="text-center">Créer Lieu</h1>
+<div id="creerLieuContainer">
+    {{ form_start(form) }}
+    <div class="form-group row">
+        {{ form_label(form.nom, null, {'label_attr': {'class': 'col-sm-1 offset-sm-4 col-form-label bg-light'}}) }}
+        <div class="col-sm-3">
+            {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        </div>
+    </div>
+    <div class="form-group row">
+        {{ form_label(form.rue, null, {'label_attr': {'class': 'col-sm-1 offset-sm-4 col-form-label bg-light'}}) }}
+        <div class="col-sm-3">
+            {{ form_widget(form.rue, {'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+    <div class="form-group row">
+        {{ form_label(form.idVille, null, {'label_attr': {'class': 'col-sm-1 offset-sm-4 col-form-label bg-light'}}) }}
+        <div class="col-sm-3">
+            {{ form_widget(form.idVille, {'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+    <div class="form-group row">
+        {{ form_label(form.latitude, null, {'label_attr': {'class': 'col-sm-1 offset-sm-4 col-form-label bg-light'}}) }}
+        <div class="col-sm-3">
+            {{ form_widget(form.latitude, {'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+    <div class="form-group row">
+        {{ form_label(form.longitude, null, {'label_attr': {'class': 'col-sm-1 offset-sm-4 col-form-label bg-light'}}) }}
+        <div class="col-sm-3">
+            {{ form_widget(form.longitude, {'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+    <div class="col-sm-1 offset-sm-6">
+    {{ form_widget(form.save, {'attr': {'class': 'btn btn-outline-success'}}) }}
+    </div>
+    {{ form_end(form) }}
+</div>
+
+
+{% endblock %}
+
