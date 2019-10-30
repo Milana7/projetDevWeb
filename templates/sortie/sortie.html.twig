@@ -108,7 +108,7 @@
                             {% endif %}
                         {% endfor %}
                     </td>
-                    <td> {{ sortie.organisateur.prenom }} {{ sortie.organisateur.nom|first }}.</td>
+                    <td> <a href="{{ path('utilisateur_detailProfil', {"id": sortie.organisateur.id}) }}">{{ sortie.organisateur.prenom }} {{ sortie.organisateur.nom|first }} </a></td>
                     <td>
                         <a href="{{ path('sorties_afficherSortie', {'sortieId': sortie.id}) }}"> Afficher</a>
                         {% set utilInscrit = false %}

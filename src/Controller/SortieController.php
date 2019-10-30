@@ -266,8 +266,8 @@ class SortieController extends Controller
 
         if ($etat->getId() === 2) {
             $now = new \DateTime('now');
-            // TODO verification sur nb max d'inscriptions + nb inscription en cours
-            if($sortie->getDateLimiteInscription() > $now){
+
+            if($sortie->getDateLimiteInscription() > $now && $sortie->getUtilisateurs()->count() < $sortie->getNbInscriptionsMax()){
 
                 $sortie->addUtilisateur($utilisateur);
 
@@ -277,12 +277,8 @@ class SortieController extends Controller
 
                 return $this->redirectToRoute('sortiesapp_sortie_listsorties');
             }
-        } else {
-            return
-                $this->addFlash('warning','Vous ne pouvez pas vous inscrire à cette sortie');
         }
-        // TODO return errorMsg
-
+        $this->addFlash('warning','Vous ne pouvez pas vous inscrire à cette sortie');
         return $this->redirectToRoute('sortiesapp_sortie_listsorties');
     }
 
@@ -308,8 +304,8 @@ class SortieController extends Controller
 
             return $this->redirectToRoute('sortiesapp_sortie_listsorties');
         }
-        // TODO return errorMsg
-        return "ERROR";
+        $this->addFlash('warning','Vous ne pouvez plus vous désister pour cette sortie');
+        return $this->redirectToRoute('sortiesapp_sortie_listsorties');
     }
 
     /**
