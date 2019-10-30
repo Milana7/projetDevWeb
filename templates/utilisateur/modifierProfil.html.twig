@@ -7,7 +7,7 @@
     <br>
     <div class="row" id="modifierProfilContainer">
         <div class="image col-sm-3 col-xs-12 mb-4 ml-4 mr-4">
-            <img src="{{ asset('image/profil.jpg') }}" class="img-thumbnail rounded">
+            <img src="{{ asset('image/user.jpg') }}" class="img-thumbnail rounded">
         </div>
 
         <div class="col-sm-6">
@@ -58,10 +58,10 @@
             <br>
             {# FICHIER #}
             <div class="form-group row">
-                {{ form_label(utilisateurForm.fileTemp, null, {'label_attr': {'class': 'col-sm-4 offset-sm-2 col-form-label bg-light'}}) }}
+                {{ form_label(utilisateurForm.imageFile, null, {'label_attr': {'class': 'col-sm-4 offset-sm-2 col-form-label bg-light'}}) }}
                 <div class="col-sm-6">
-                    {{ form_widget(utilisateurForm.fileTemp, {'attr': {'class': 'form-control'}}) }}
-                    {{ form_errors(utilisateurForm.fileTemp) }}
+                    {{ form_widget(utilisateurForm.imageFile, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(utilisateurForm.imageFile) }}
                 </div>
             </div>
             <div id="errorMsg" class="col-sm-12 text-center">
@@ -69,12 +69,12 @@
             </div>
             <br>
             <div id="modifierProfil-btnGroupe">
-                <button type="submit" class="btn btn-outline-success offset-6">Enregistrer</button>
+                <button type="submit" class="btn btn-outline-success offset-3 col-sm-2 offset-sm-0.5">Enregistrer</button>
                 <a href="{{ path('sortiesapp_sortie_listsorties') }}">
-                    <button type="button" class="btn btn-outline-danger">Annuler</button>
+                    <button type="button" class="btn btn-outline-danger col-sm-2 offset-sm-0.5">Annuler</button>
                 </a>
                 <a href="{{ path('utilisateur_modifierMotDePasse') }}">
-                    <button type="button" class="btn btn-outline-info">Modifier le mot de passe</button>
+                    <button type="button" class="btn btn-outline-info col-sm-3 offset-sm-0.5">Modifier le mot de passe</button>
                 </a>
             </div>
 

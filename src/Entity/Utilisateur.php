@@ -2,9 +2,12 @@
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -12,10 +15,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  *
  * @UniqueEntity(fields={"pseudo"}, message="Ce pseudo n'est pas disponible !")
- *
  * @ORM\Entity(repositoryClass="App\Repository\UtilisateurRepository")
+ * @Vich\Uploadable
  */
-class Utilisateur implements UserInterface
+class Utilisateur implements UserInterface,  \Serializable
 {
     /**
      * @ORM\Id()
@@ -107,24 +110,38 @@ class Utilisateur implements UserInterface
     private $site;
 
     /**
-     * @ORM\Column(type="text", length=255, nullable=true)
-     */
-    private $file;
-
-    /**
-     * @Assert\File(
+     * NOTE: This is not a mapped field of entity metadata, just a simple property.
+     ** @Assert\File(
      *     maxSize = "2Mi",
      *     mimeTypes={ "image/png", "image/jpeg" },
      *     uploadErrorMessage="Le fichier n'a pas été téléchargé !",
-     *     maxSizeMessage ="Le fichier est trop lourd : {{ limit }} {{ suffix }} !",
-     * )
+     *     maxSizeMessage ="Le fichier est trop lourd : {{ limit }} {{ suffix }} !")
+     *
+     * @Vich\UploadableField(mapping="profils", fileNameProperty="imageName")
+     *
+     * @var File
      */
-    private $fileTemp;
+    private $imageFile;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     *
+     * @var string
+     */
+    private $imageName;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     *
+     * @var dateTime
+     */
+    private $updatedAt;
 
     public function __construct()
     {
         $this->idSortie = new ArrayCollection();
         $this->sortieOrg = new ArrayCollection();
+        $this->updatedAt = new \DateTime();
     }
 
     public function getId(): ?int
@@ -157,7 +174,6 @@ class Utilisateur implements UserInterface
     public function setNom(string $nom): self
     {
         $this->nom = $nom;
-
         return $this;
     }
 
@@ -169,7 +185,6 @@ class Utilisateur implements UserInterface
     public function setPrenom(string $prenom): self
     {
         $this->prenom = $prenom;
-
         return $this;
     }
 
@@ -181,7 +196,6 @@ class Utilisateur implements UserInterface
     public function setTelephone(string $telephone): self
     {
         $this->telephone = $telephone;
-
         return $this;
     }
 
@@ -193,7 +207,6 @@ class Utilisateur implements UserInterface
     public function setMail(string $mail): self
     {
         $this->mail = $mail;
-
         return $this;
     }
 
@@ -216,7 +229,6 @@ class Utilisateur implements UserInterface
     public function setAdministrateur(bool $administrateur): self
     {
         $this->administrateur = $administrateur;
-
         return $this;
     }
 
@@ -228,7 +240,6 @@ class Utilisateur implements UserInterface
     public function setActif(bool $actif): self
     {
         $this->actif = $actif;
-
         return $this;
     }
 
@@ -242,26 +253,6 @@ class Utilisateur implements UserInterface
         $this->site = $site;
     }
 
-    public function getFile()
-    {
-        return $this->file;
-    }
-
-    public function setFile($file): void
-    {
-        $this->file = $file;
-    }
-
-    public function getFileTemp()
-    {
-        return $this->fileTemp;
-    }
-
-    public function setFileTemp($fileTemp): void
-    {
-        $this->fileTemp = $fileTemp;
-    }
-
     public function getIdSortie(): Collection
     {
         return $this->idSortie;
@@ -272,7 +263,6 @@ class Utilisateur implements UserInterface
         if (!$this->idSortie->contains($idSortie)) {
             $this->idSortie[] = $idSortie;
         }
-
         return $this;
     }
 
@@ -281,7 +271,6 @@ class Utilisateur implements UserInterface
         if ($this->idSortie->contains($idSortie)) {
             $this->idSortie->removeElement($idSortie);
         }
-
         return $this;
     }
 
@@ -296,7 +285,6 @@ class Utilisateur implements UserInterface
             $this->sortieOrg[] = $sortieOrg;
             $sortieOrg->setOrganisateur($this);
         }
-
         return $this;
     }
 
@@ -309,8 +297,42 @@ class Utilisateur implements UserInterface
                 $sortieOrg->setOrganisateur(null);
             }
         }
-
         return $this;
+    }
+
+    /**
+     * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
+     * of 'UploadedFile' is injected into this setter to trigger the update. If this
+     * bundle's configuration parameter 'inject_on_load' is set to 'true' this setter
+     * must be able to accept an instance of 'File' as the bundle will inject one here
+     * during Doctrine hydration.
+     *
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $imageFile
+     */
+    public function setImageFile(?File $imageFile = null): void
+    {
+        $this->imageFile = $imageFile;
+
+        if (null !== $imageFile) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+    }
+
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    public function setImageName(?string $imageName): void
+    {
+        $this->imageName = $imageName;
+    }
+
+    public function getImageName(): ?string
+    {
+        return $this->imageName;
     }
 
 
@@ -352,6 +374,7 @@ class Utilisateur implements UserInterface
 
     public function getSalt()
     {
+
     }
 
     public function setUsername($username): self
@@ -380,5 +403,39 @@ class Utilisateur implements UserInterface
      */
     public function eraseCredentials()
     {
+
+    }
+
+    /**
+     * String representation of object
+     * @link https://php.net/manual/en/serializable.serialize.php
+     * @return string the string representation of the object or null
+     * @since 5.1.0
+     */
+    public function serialize()
+    {
+        return serialize([
+            $this->id,
+            $this->mail,
+            $this->password
+        ]);
+    }
+
+    /**
+     * Constructs the object
+     * @link https://php.net/manual/en/serializable.unserialize.php
+     * @param string $serialized <p>
+     * The string representation of the object.
+     * </p>
+     * @return void
+     * @since 5.1.0
+     */
+    public function unserialize($serialized)
+    {
+        list(
+            $this->id,
+            $this->mail,
+            $this->password
+            ) = unserialize($serialized);
     }
 }
