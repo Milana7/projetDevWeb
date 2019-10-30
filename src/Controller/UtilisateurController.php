@@ -7,9 +7,7 @@ use App\Form\ModifierMotDePasseType;
 use App\Form\ModifierProfilType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -61,35 +59,13 @@ class UtilisateurController extends Controller
 
         if ($utilisateurForm->isSubmitted() && $utilisateurForm->isValid()) {
 
-            $error = false;
 
-            //file
-            try {
-                $file = $utilisateurForm->get('fileTemp')->getData();
-                //fichier optionnel
-                if ($file != null) {
-                    $extension = strtolower($file->getClientOriginalExtension());
-                    $fileDownload = md5(uniqid(mt_rand(), true)) . '.' . $extension;
+            $em->persist($utilisateur);
+            $em->flush();
 
-                    $file->move($this->getParameter('download_dir'), $fileDownload);
-                    $utilisateur->setFile($fileDownload);
-                }
-            } catch (\Exception $e) {
-                //Si il y a une erreur : bloquer l'insertion
-                dump($e->getMessage());
+            $this->addFlash("success", "Le profil a été modifié !");
+            return $this->redirectToRoute("utilisateur_detailProfil", ["id" => $utilisateur->getId()]);
 
-                //Ajout d'une erreur depuis le controller
-                $utilisateurForm->get('fileTemp')->addError(new FormError("Une erreur est survenue avec le fichier !"));
-                $error = true;
-            }
-
-            if (!$error) {
-                $em->persist($utilisateur);
-                $em->flush();
-
-                $this->addFlash("success", "Le profil a été modifié !");
-                return $this->redirectToRoute("utilisateur_detailProfil", ["id" => $utilisateur->getId()]);
-            }
         }
 
         return $this->render("utilisateur/modifierProfil.html.twig", [
@@ -126,6 +102,12 @@ class UtilisateurController extends Controller
         ]);
     }
 
+    public function afficherAvatar(Request $request, EntityManagerInterface $em)
+    {
+        $utilisateur = $this->getUser();
+
+
+    }
 
     /**
      * @Route("/login", name="login")
