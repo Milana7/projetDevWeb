@@ -263,8 +263,8 @@ class SortieController extends Controller
 
         if ($etat->getId() === 2) {
             $now = new \DateTime('now');
-            // TODO verification sur nb max d'inscriptions + nb inscription en cours
-            if($sortie->getDateLimiteInscription() > $now){
+
+            if($sortie->getDateLimiteInscription() > $now && $sortie->getUtilisateurs()->count() < $sortie->getNbInscriptionsMax()){
 
                 $sortie->addUtilisateur($utilisateur);
 
