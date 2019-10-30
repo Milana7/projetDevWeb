@@ -13,6 +13,14 @@
     cursor: pointer;
 }
 
+/* NAVBAR */
+
+#affichageUtilisateur{
+    font-family: "Comic Sans MS", cursive;
+    font-style: italic;
+    color: white;
+}
+
 /* HEADER */
 .imageSortir {
     width: 4em;
@@ -65,10 +73,15 @@ footer {
 }
 
 /* AFFICHER SORTIE */
- #inscriptionsTable {
-     height: 15em;
-     overflow-y: scroll;
- }
+#dateDuJour{
+    margin-right: 20px;
+    font-style: oblique;
+}
+
+#inscriptionsTable {
+    height: 15em;
+    overflow-y: scroll;
+}
 
 /* GERER SITES */
 .deleteLink{
@@ -96,4 +109,26 @@ footer {
 
 #modifierProfil-btnGroupe {
     margin: 1em auto;
+}
+#creerLieuContainer {
+    margin-top: 4em;
+}
+
+/* LISTE SORTIES */
+#sortieContainer .form-group {
+    margin-bottom: 0.35rem;
+}
+
+#sortieContainer {
+    margin-top: 2em;
+    padding: 1em 0;
+}
+
+#btnFiltrer {
+    margin-top: 1em;
+}
+
+/* GESTION UTILISATEURS */
+#utilisateursTableContainer{
+    margin-top : 2em;
 }

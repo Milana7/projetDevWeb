@@ -7,6 +7,8 @@ use App\Form\ModifierMotDePasseType;
 use App\Form\ModifierProfilType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -59,13 +61,35 @@ class UtilisateurController extends Controller
 
         if ($utilisateurForm->isSubmitted() && $utilisateurForm->isValid()) {
 
+            $error = false;
 
-            $em->persist($utilisateur);
-            $em->flush();
+            //file
+            try {
+                $file = $utilisateurForm->get('fileTemp')->getData();
+                //fichier optionnel
+                if ($file != null) {
+                    $extension = strtolower($file->getClientOriginalExtension());
+                    $fileDownload = md5(uniqid(mt_rand(), true)) . '.' . $extension;
 
-            $this->addFlash("success", "Le profil a été modifié !");
-            return $this->redirectToRoute("utilisateur_detailProfil", ["id" => $utilisateur->getId()]);
+                    $file->move($this->getParameter('download_dir'), $fileDownload);
+                    $utilisateur->setFile($fileDownload);
+                }
+            } catch (\Exception $e) {
+                //Si il y a une erreur : bloquer l'insertion
+                dump($e->getMessage());
 
+                //Ajout d'une erreur depuis le controller
+                $utilisateurForm->get('fileTemp')->addError(new FormError("Une erreur est survenue avec le fichier !"));
+                $error = true;
+            }
+
+            if (!$error) {
+                $em->persist($utilisateur);
+                $em->flush();
+
+                $this->addFlash("success", "Le profil a été modifié !");
+                return $this->redirectToRoute("utilisateur_detailProfil", ["id" => $utilisateur->getId()]);
+            }
         }
 
         return $this->render("utilisateur/modifierProfil.html.twig", [
@@ -102,12 +126,6 @@ class UtilisateurController extends Controller
         ]);
     }
 
-    public function afficherAvatar(Request $request, EntityManagerInterface $em)
-    {
-        $utilisateur = $this->getUser();
-
-
-    }
 
     /**
      * @Route("/login", name="login")
@@ -131,4 +149,33 @@ class UtilisateurController extends Controller
 
     }
 
+    /**
+     * @Route("/gestionUtilisateur", name="_gestionUtilisateur")
+     */
+    public function getUtilisateurs(EntityManagerInterface $em)
+    {
+        $utilisateurs = $em->getRepository(Utilisateur::class)->findAll();
+        return $this->render('utilisateur/listeUtilisateurs.html.twig', ['utilisateurs' => $utilisateurs]);
+    }
+
+    /**
+     * @Route("/changerStatutUtilisateurs", name="_changerStatutUtilisateurs")
+     * @param EntityManagerInterface $em
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function changerStatutUtilisateurs(EntityManagerInterface $em, Request $request){
+        $selectedElements = $request->get('selectedElements');
+        $items = explode(',', $selectedElements);
+        $userRepo = $em->getRepository(Utilisateur::class);
+        if(count($items) > 0){
+            foreach ($items as $userId){
+                $utilisateur = $userRepo->find($userId);
+                $utilisateur->setActif(!$utilisateur->getActif());
+            }
+            $em->flush();
+        }
+        $utilisateurs = $em->getRepository(Utilisateur::class)->findAllUser();
+        return new JsonResponse($utilisateurs);
+    }
 }
