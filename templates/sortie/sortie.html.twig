@@ -2,156 +2,152 @@
 
 {% block title %}Liste des sorties{% endblock %}
 {% block body %}
-<style>
-    .example-wrapper {
-        margin: 1em auto;
-        max-width: 800px;
-        width: 95%;
-        font: 18px/1.5 sans-serif;
-    }
 
-    .example-wrapper code {
-        background: #F5F5F5;
-        padding: 2px 6px;
-    }
-</style>
+    <div>
+        <h1 class="text-center">Liste des sorties </h1>
+        <br>
+        <br>
 
-<div class="example-wrapper">
-    <h1 class="text-center">Liste des sorties </h1>
+        <h5 class='offset-1'>Filtrer les sorties </h5>
 
-    <h5>Filtrer les sorties </h5>
+        <div class="row" id="sortieContainer">
+            <div class="col-sm-5">
+                {{ form_start(filtre) }}
 
-    <div class="row" id="sortieContainer">
-        <div class="col-sm-10">
-            {{ form_start(filtre) }}
+                <div class="form-group row">
+                    {{ form_label(filtre.nomSite, null, {'label_attr': {'class': 'col-sm-4 offset-sm-2 col-form-label bg-light'}}) }}
+                    <div class="col-sm-6">
+                        {{ form_widget(filtre.nomSite, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
 
-            <div class="form-group row">
-                {{ form_label(filtre.nomSite, null, {'label_attr': {'class': 'col-sm-4 offset-sm-2 col-form-label bg-light'}}) }}
-                <div class="col-sm-6">
-                    {{ form_widget(filtre.nomSite, {'attr': {'class': 'form-control'}}) }}
+                <div class="form-group row">
+                    {{ form_label(filtre.nomSortie, null, {'label_attr': {'class': 'col-sm-4 offset-sm-2 col-form-label bg-light'}}) }}
+                    <div class="col-sm-6">
+                        {{ form_widget(filtre.nomSortie, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    {{ form_label(filtre.dateDebut, null, {'label_attr': {'class': 'col-sm-1 offset-sm-2 col-form-label bg-light'}}) }}
+                    <div class="col-sm-3">
+                        {{ form_widget(filtre.dateDebut, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    {#</div>#}
+
+                    {#<div class="form-group row">#}
+                    {{ form_label(filtre.datefin, null, {'label_attr': {'class': 'col-sm-1 offset-sm-1 col-form-label bg-light'}}) }}
+                    <div class="col-sm-3">
+                        {{ form_widget(filtre.datefin, {'attr': {'class': 'form-control'}}) }}
+                    </div>
                 </div>
             </div>
 
-            <div class="form-group row">
-                {{ form_label(filtre.nomSortie, null, {'label_attr': {'class': 'col-sm-4 offset-sm-2 col-form-label bg-light'}}) }}
-                <div class="col-sm-6">
-                    {{ form_widget(filtre.nomSortie, {'attr': {'class': 'form-control'}}) }}
+            <div class="col-sm-5">
+                <div class="form-group row">
+                    {{ form_label(filtre.mesSortiesOrg, null, {'label_attr': {'class': 'col-sm-5 offset-sm-1 col-form-label bg-light'}}) }}
+                    <div class="col-sm-6">
+                        {{ form_widget(filtre.mesSortiesOrg) }}
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    {{ form_label(filtre.mesSortiesInscr, null, {'label_attr': {'class': 'col-sm-5 offset-sm-1 col-form-label bg-light'}}) }}
+                    <div class="col-sm-6">
+                        {{ form_widget(filtre.mesSortiesInscr) }}
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    {{ form_label(filtre.sortiesNonInscr, null, {'label_attr': {'class': 'col-sm-5 offset-sm-1 col-form-label bg-light'}}) }}
+                    <div class="col-sm-6">
+                        {{ form_widget(filtre.sortiesNonInscr) }}
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    {{ form_label(filtre.sortiesExpirees, null, {'label_attr': {'class': 'col-sm-5 offset-sm-1 col-form-label bg-light'}}) }}
+                    <div class="col-sm-6">
+                        {{ form_widget(filtre.sortiesExpirees) }}
+                    </div>
                 </div>
             </div>
 
-            <div class="form-group row">
-                {{ form_label(filtre.dateDebut, null, {'label_attr': {'class': 'col-sm-4 offset-sm-2 col-form-label bg-light'}}) }}
-                <div class="col-sm-6">
-                    {{ form_widget(filtre.dateDebut, {'attr': {'class': 'form-control'}}) }}
-                </div>
+            <div class="col-sm-2">
+                <button type="submit" class="btn btn-outline-secondary">Rechercher</button>
             </div>
 
-            <div class="form-group row">
-                {{ form_label(filtre.datefin, null, {'label_attr': {'class': 'col-sm-4 offset-sm-2 col-form-label bg-light'}}) }}
-                <div class="col-sm-6">
-                    {{ form_widget(filtre.datefin, {'attr': {'class': 'form-control'}}) }}
-                </div>
-            </div>
-
-            <div class="form-group row">
-                {{ form_label(filtre.mesSortiesOrg, null, {'label_attr': {'class': 'col-sm-4 offset-sm-2 col-form-label bg-light'}}) }}
-                <div class="col-sm-6">
-                    {{ form_widget(filtre.mesSortiesOrg, {'attr': {'class': 'form-control'}}) }}
-                </div>
-            </div>
-
-            <div class="form-group row">
-                {{ form_label(filtre.mesSortiesInscr, null, {'label_attr': {'class': 'col-sm-4 offset-sm-2 col-form-label bg-light'}}) }}
-                <div class="col-sm-6">
-                    {{ form_widget(filtre.mesSortiesInscr, {'attr': {'class': 'form-control'}}) }}
-                </div>
-            </div>
-
-            <div class="form-group row">
-                {{ form_label(filtre.sortiesNonInscr, null, {'label_attr': {'class': 'col-sm-4 offset-sm-2 col-form-label bg-light'}}) }}
-                <div class="col-sm-6">
-                    {{ form_widget(filtre.sortiesNonInscr, {'attr': {'class': 'form-control'}}) }}
-                </div>
-            </div>
-
-            <div class="form-group row">
-                {{ form_label(filtre.sortiesExpirees, null, {'label_attr': {'class': 'col-sm-4 offset-sm-2 col-form-label bg-light'}}) }}
-                <div class="col-sm-6">
-                    {{ form_widget(filtre.sortiesExpirees, {'attr': {'class': 'form-control'}}) }}
-                </div>
-            </div>
-
+        </div>
             {{ form_end(filtre) }}
-        </div>
-        <br>
-        <br>
-        <br>
-        <div id="tableSorties">
-            <table border="1">
-                <tr>
-                    <td height="100px">Nom de la sortie</td>
-                    <td>Date de la sortie</td>
-                    <td>Clôture</td>
-                    <td>Inscrits/Places</td>
-                    <td>Etat</td>
-                    <td>Inscrit</td>
-                    <td>Organisateur</td>
-                    <td>Actions</td>
-                </tr>
-                {% for sortie in listSortie %}
-                    <tr>
-                        <td>{{ sortie.nom }} </td>
-                        <td>{{ sortie.dateHeureDebut | date('d/m/Y H:i') }} </td>
-                        <td>{{ sortie.dateLimiteInscription | date('d/m/Y H:i') }} </td>
-                        <td>{{ sortie.utilisateurs.count }} / {{ sortie.nbInscriptionsMax }}</td>
-                        <td>{{ sortie.etat.libelle }}</td>
-                        <td>{% for user in sortie.utilisateurs %}
-                                {% if (user.id == app.user.id) %}
-                                    X
-                                {% endif %}
-                            {% endfor %}
-                        </td>
-                        <td> {{ sortie.organisateur.prenom }} {{ sortie.organisateur.nom|first }}.</td>
-                        <td>
-                            <a href="{{ path('sorties_afficherSortie', {'sortieId': sortie.id}) }}"> Afficher</a>
-                            {% set utilInscrit = false %}
-                            {% for utilInscrits in sortie.utilisateurs %} {# utilisateurs inscrits #}
-                                {% if (utilInscrits.id == app.user.id and sortie.etat.id != 3 and app.user.id != sortie.organisateur.id) %} {# si on est déjà inscrit à la sortie (donc on est pas l'organisateur) #}
-                                    {% set utilInscrit =  true %}
-                                    <a href="{{ path('sorties_desistement', {'sortieId': sortie.id}) }}"> Se
-                                        désister</a>
-                                {% endif %}
-                            {% endfor %}
-
-                            {# Pour s'inscrire : - je ne dois pas être l'organisateur
-                                                 - etat = Ouvert
-                                                 - date non dépassée
-                                                 - il doit rester au moins une place
-                                                 - je ne dois pas être déjà inscrit
-                             #}
-                            {% if (sortie.organisateur.id != app.user.id
-                                and sortie.etat.id == 2
-                                and sortie.utilisateurs.count < sortie.nbInscriptionsMax
-                                and date(sortie.dateLimiteInscription) > date(dateJour)
-                                and utilInscrit == false) %} {# on peut s'inscrire si on et pas l'utilisateur, s'il reste de la place et si la sortie n'est pas fermée ou expirée #}
-                                <a href="{{ path('sorties_inscription', {'sortieId': sortie.id}) }}">S'inscrire</a>
-                            {% endif %}
-
-                            {% if (sortie.organisateur.id == app.user.id and sortie.etat.id == 1) %} {# si on est l'organisateur de la sortie, on peut la modifier #}
-                                <a href="{{ path('sortiesmodifier_sortie', {'sortieId': sortie.id}) }}">Modifier</a>
-                            {% endif %}
-
-                            {% if (sortie.organisateur.id == app.user.id and sortie.utilisateurs.count == 0) %} {# si on est l'organisateur de la sortie et s'il y a 0 inscrits on peut annuler #}
-                                <a href="{{ path('sortiessortie_annulerSortie', {'id': sortie.id} ) }}">Annuler</a>
-                            {% endif %}
-
-                            {% if (sortie.organisateur.id == app.user.id and sortie.etat.id == 1) %} {# si on est l'organisateur de la sortie et s'il y a 0 inscrits on peut annuler #}
-                                <a href="{{ path('sortiespublier', {'sortieId': sortie.id}) }}">Publier</a>
-                            {% endif %}
-                        </td>
-                    </tr>
-                {% endfor %}
-            </table>
-        </div>
     </div>
-    {% endblock %}
+    <br>
+    <br>
+    <br>
+    <div class="col-sm-10 text-center" id="tableSorties">
+        <table class="table offset-1" >
+            <tr>
+                <th scope="col" height="70px">Nom de la sortie</th>
+                <th scope="col">Date de la sortie</th>
+                <th scope="col">Clôture</th>
+                <th scope="col">Inscrits/Places</th>
+                <th scope="col">Etat</th>
+                <th scope="col">Inscrit</th>
+                <th scope="col">Organisateur</th>
+                <th scope="col"s>Actions</th>
+            </tr>
+            {% for sortie in listSortie %}
+                <tr>
+                    <td>{{ sortie.nom }} </td>
+                    <td>{{ sortie.dateHeureDebut | date('d/m/Y H:i') }} </td>
+                    <td>{{ sortie.dateLimiteInscription | date('d/m/Y H:i') }} </td>
+                    <td>{{ sortie.utilisateurs.count }} / {{ sortie.nbInscriptionsMax }}</td>
+                    <td>{{ sortie.etat.libelle }}</td>
+                    <td>{% for user in sortie.utilisateurs %}
+                            {% if (user.id == app.user.id) %}
+                                X
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td> {{ sortie.organisateur.prenom }} {{ sortie.organisateur.nom|first }}.</td>
+                    <td>
+                        <a href="{{ path('sorties_afficherSortie', {'sortieId': sortie.id}) }}"> Afficher</a>
+                        {% set utilInscrit = false %}
+                        {% for utilInscrits in sortie.utilisateurs %} {# utilisateurs inscrits #}
+                            {% if (utilInscrits.id == app.user.id and sortie.etat.id != 3 and app.user.id != sortie.organisateur.id) %} {# si on est déjà inscrit à la sortie (donc on est pas l'organisateur) #}
+                                {% set utilInscrit =  true %}
+                                <a href="{{ path('sorties_desistement', {'sortieId': sortie.id}) }}"> Se
+                                    désister</a>
+                            {% endif %}
+                        {% endfor %}
+
+                        {# Pour s'inscrire : - je ne dois pas être l'organisateur
+                                             - etat = Ouvert
+                                             - date non dépassée
+                                             - il doit rester au moins une place
+                                             - je ne dois pas être déjà inscrit
+                         #}
+                        {% if (sortie.organisateur.id != app.user.id
+                            and sortie.etat.id == 2
+                            and sortie.utilisateurs.count < sortie.nbInscriptionsMax
+                            and date(sortie.dateLimiteInscription) > date(dateJour)
+                            and utilInscrit == false) %} {# on peut s'inscrire si on et pas l'utilisateur, s'il reste de la place et si la sortie n'est pas fermée ou expirée #}
+                            <a href="{{ path('sorties_inscription', {'sortieId': sortie.id}) }}">S'inscrire</a>
+                        {% endif %}
+
+                        {% if (sortie.organisateur.id == app.user.id and sortie.etat.id == 1) %} {# si on est l'organisateur de la sortie, on peut la modifier #}
+                            <a href="{{ path('sortiesmodifier_sortie', {'sortieId': sortie.id}) }}">Modifier</a>
+                        {% endif %}
+
+                        {% if (sortie.organisateur.id == app.user.id and sortie.utilisateurs.count == 0) %} {# si on est l'organisateur de la sortie et s'il y a 0 inscrits on peut annuler #}
+                            <a href="{{ path('sortiessortie_annulerSortie', {'id': sortie.id} ) }}">Annuler</a>
+                        {% endif %}
+
+                        {% if (sortie.organisateur.id == app.user.id and sortie.etat.id == 1) %} {# si on est l'organisateur de la sortie et s'il y a 0 inscrits on peut annuler #}
+                            <a href="{{ path('sortiespublier', {'sortieId': sortie.id}) }}">Publier</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}

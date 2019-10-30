@@ -65,8 +65,7 @@ class FiltreSortieType extends AbstractType
                 [
                     'label' => 'Sorties passées.',
                     'required' => false,
-                ])
-            ->add('Rechercher', SubmitType::class);
+                ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
