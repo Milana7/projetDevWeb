@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -104,7 +105,6 @@ class UtilisateurController extends Controller
         ]);
     }
 
-
     /**
      * @Route("/login", name="login")
      */
@@ -124,7 +124,5 @@ class UtilisateurController extends Controller
      */
     public function logout()
     {
-
     }
-
 }
