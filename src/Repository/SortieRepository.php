@@ -37,6 +37,7 @@ class SortieRepository extends ServiceEntityRepository
                     ->getQuery()
                     ->getResult();*/
 
+        dump($filtreSortie);
         $requete = $this
             ->createQueryBuilder('s')
             ->innerJoin('s.organisateur', 'o')
@@ -45,9 +46,10 @@ class SortieRepository extends ServiceEntityRepository
 
         if ($filtreSortie->getNomSite() !== null) {
             $requete
-                ->andwhere('dateLimiteInscription < :date')
-                ->setParameter('nomSite', '%' . $filtreSortie->getNomSite() . '%');
+                ->andwhere('si.id = :id')
+                ->setParameter('id',$filtreSortie->getNomSite()->getId());
         }
+
 
         if ($filtreSortie->getNomSortie() !== null) {
             $requete
