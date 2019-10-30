@@ -67,6 +67,15 @@ footer {
     padding: 0.3em 1em;
 }
 
+#btnAjoutLieu{
+    padding: 0;
+}
+
+#btnAjoutLieu a {
+    font-weight: bold;
+}
+
+
 /*MODIFIER SORTIE*/
 #btnBackModifierSortie{
     margin-top: 2em;
