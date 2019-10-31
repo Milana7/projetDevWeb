@@ -109,21 +109,26 @@
 {% block javascripts %}
     {{ encore_entry_script_tags('app') }}
     <script>
+        // Détection d'un évènement sur la liste de sélection des villes
         $(document).on('change', '#creer_sortie_villes', function(){
             $idVille = $('#creer_sortie_villes option:selected').val();
             getLieuxByIdVille($idVille);
         });
 
+        // Détection d'un évènement sur la liste de sélection des lieux
         $(document).on('change', '#selectLieu', function(){
             $idLieu = $('#selectLieu option:selected').val();
             getDetailsLieu($idLieu);
         });
 
+        // Récupération des lieux liés à la ville
         function getLieuxByIdVille($idVille){
             $.get("./getLieuxByVille", { idVille : $idVille },
                 function(data){
                     let $dropdown = $("#selectLieu");
+                    // On vide la liste de sélection des lieux
                     $dropdown.empty();
+                    // On remplit la liste de sélection des lieux
                     $.each(data, function() {
                         $dropdown.append($("<option />").val(this.id).text(this.nom));
                     });
@@ -132,10 +137,11 @@
                 });
         }
 
+        // Récupération des informations liées au lieu
         function getDetailsLieu($idLieu){
-            console.log('idLieu : '+ $idLieu);
             $.get("./getDetailsLieu", { idLieu : $idLieu },
                 function(data){
+                // On remplit les différents input contenant les infos du lieux
                     $('#rue').val(data[0].rue);
                     $('#codePostal').val(data[0].idVille.codePostal);
                     $('#latitude').val(data[0].latitude);
