@@ -15,21 +15,26 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label for="dateSortie" class="col-sm-4 offset-sm-2 col-form-label bg-light">Date de la sortie : </label>
+                <label for="dateSortie" class="col-sm-4 offset-sm-2 col-form-label bg-light">Date de la sortie
+                    : </label>
                 <div class="col-sm-6">
-                    <input id="dateSortie" class="form-control" disabled="disabled" type="text" value="{{ sortie.dateHeureDebut|date('d/m/Y H:i') }}">
+                    <input id="dateSortie" class="form-control" disabled="disabled" type="text"
+                           value="{{ sortie.dateHeureDebut|date('d/m/Y H:i') }}">
                 </div>
             </div>
             <div class="form-group row">
-                <label for="villeOrga" class="col-sm-4 offset-sm-2 col-form-label bg-light">Ville organisatrice : </label>
+                <label for="villeOrga" class="col-sm-4 offset-sm-2 col-form-label bg-light">Ville organisatrice
+                    : </label>
                 <div class="col-sm-6">
-                    <input id="villeOrga" class="form-control" disabled="disabled" type="text" value="{{ sortie.organisateur.nom }}">
+                    <input id="villeOrga" class="form-control" disabled="disabled" type="text"
+                           value="{{ sortie.organisateur.nom }}">
                 </div>
             </div>
             <div class="form-group row">
                 <label for="lieuSortie" class="col-sm-4 offset-sm-2 col-form-label bg-light">Lieu : </label>
                 <div class="col-sm-6">
-                    <input id="lieuSortie" class="form-control" disabled="disabled" type="text" value="{{ sortie.lieu.nom }}">
+                    <input id="lieuSortie" class="form-control" disabled="disabled" type="text"
+                           value="{{ sortie.lieu.nom }}">
                 </div>
             </div>
             {{ form_start(sortieForm) }}
@@ -41,8 +46,11 @@
             </div>
             <div class="row">
                 <div class="col-sm-6 offset-sm-5">
-                <button type="submit" class="btn btn-outline-success">Enregistrer</button>
-                <a href="{{ path('sortiesapp_sortie_listsorties') }}" class="btn btn-outline-warning">Retour</a>
+                    <a href="{{ path('sortiesapp_sortie_listsorties') }}">
+                        <button type="submit" class="btn btn-outline-success">Enregistrer</button>
+                    </a>
+
+                    <a href="{{ path('sortiesapp_sortie_listsorties') }}" class="btn btn-outline-warning">Retour</a>
                 </div>
             </div>
             {{ form_end(sortieForm) }}

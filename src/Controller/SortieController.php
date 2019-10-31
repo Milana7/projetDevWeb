@@ -330,14 +330,13 @@ class SortieController extends Controller
 
             $repo = $em->getRepository(Etat::class);
             $etat = $repo->find(6);
+            dump($etat);
             $sortie->setEtat($etat);
-
-            $sortie->setId(6);
+            dump($sortie);
 
             $error = false;
 
             if (!$error) {
-                $em->persist($sortie);
                 $em->flush();
 
                 $this->addFlash("success", "La sortie a été annulée !");

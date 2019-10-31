@@ -74,7 +74,7 @@
             </div>
 
             <div class="col-sm-2">
-                <button type="submit" class="btn btn-outline-secondary">Rechercher</button>
+                <button  type="submit" class="btn btn-outline-secondary">Rechercher</button>
             </div>
 
         </div>
@@ -89,7 +89,7 @@
             <tr>
                 <th scope="col" height="70px">Nom de la sortie</th>
                 <th scope="col">Date de la sortie</th>
-                <th scope="col">Clôture</th>
+                <th scope="col">Clôture de l'inscription</th>
                 <th scope="col">Inscrits/Places</th>
                 <th scope="col">Etat</th>
                 <th scope="col">Inscrit</th>
@@ -105,10 +105,10 @@
                 <td>{{ sortie.dateLimiteInscription | date('d/m/Y H:i') }} </td>
                 <td>{{ sortie.utilisateurs.count }} / {{ sortie.nbInscriptionsMax }}</td>
                 <td>
-                    {% if (sortie.dateLimiteInscription >= dateJour) %}
+                    {% if (sortie.dateLimiteInscription <= dateJour) %}
                         Clôturée
                     {% else %}
-                        {{ sortie.etat.id  }}
+                        {{ sortie.etat.libelle  }}
                     {% endif %}
                 </td>
                 <td>{% for user in sortie.utilisateurs %}
@@ -126,8 +126,7 @@
                     {% for utilInscrits in sortie.utilisateurs %} {# utilisateurs inscrits #}
                         {% if (utilInscrits.id == app.user.id and sortie.etat.id != 3 and app.user.id != sortie.organisateur.id) %} {# si on est déjà inscrit à la sortie (donc on est pas l'organisateur) #}
                             {% set utilInscrit =  true %}
-                            <a href="{{ path('sorties_desistement', {'sortieId': sortie.id}) }}"> Se
-                                désister</a>
+                            <a href="{{ path('sorties_desistement', {'sortieId': sortie.id}) }}"> Se désister</a>
                         {% endif %}
                     {% endfor %}
 
@@ -149,7 +148,7 @@
                         <a href="{{ path('sortiesmodifier_sortie', {'sortieId': sortie.id}) }}">Modifier</a>
                     {% endif %}
 
-                    {% if (sortie.organisateur.id == app.user.id and sortie.utilisateurs.count == 0 and sortie.etat.id != 6) %} {# si on est l'organisateur de la sortie et s'il y a 0 inscrits on peut annuler #}
+                    {% if ( ((sortie.organisateur.id == app.user.id and sortie.utilisateurs.count == 0) or is_granted("ROLE_ADMIN")) and (sortie.etat.id != 6 and sortie.dateLimiteInscription < sortie.dateHeureDebut and sortie.etat.id != 6) ) %}
                         <a href="{{ path('sortiessortie_annulerSortie', {'id': sortie.id} ) }}">Annuler</a>
                     {% endif %}
 
