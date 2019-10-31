@@ -337,6 +337,7 @@ class SortieController extends Controller
             $error = false;
 
             if (!$error) {
+                dump("test");
                 $em->flush();
 
                 $this->addFlash("success", "La sortie a été annulée !");
