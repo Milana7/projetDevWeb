@@ -2,8 +2,6 @@
 
 
 namespace App\Controller;
-
-
 use App\Entity\Lieu;
 use App\Form\GererLieuType;
 use Doctrine\ORM\EntityManagerInterface;
