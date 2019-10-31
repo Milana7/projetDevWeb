@@ -117,8 +117,7 @@
                     {% for utilInscrits in sortie.utilisateurs %} {# utilisateurs inscrits #}
                         {% if (utilInscrits.id == app.user.id and sortie.etat.id != 3 and app.user.id != sortie.organisateur.id) %} {# si on est déjà inscrit à la sortie (donc on est pas l'organisateur) #}
                             {% set utilInscrit =  true %}
-                            <a href="{{ path('sorties_desistement', {'sortieId': sortie.id}) }}"> Se
-                                désister</a>
+                            <a href="{{ path('sorties_desistement', {'sortieId': sortie.id}) }}"> Se désister</a>
                         {% endif %}
                     {% endfor %}
 
@@ -140,7 +139,7 @@
                         <a href="{{ path('sortiesmodifier_sortie', {'sortieId': sortie.id}) }}">Modifier</a>
                     {% endif %}
 
-                    {% if (sortie.organisateur.id == app.user.id and sortie.utilisateurs.count == 0 and sortie.etat.id != 6) %} {# si on est l'organisateur de la sortie et s'il y a 0 inscrits on peut annuler #}
+                    {% if ( ((sortie.organisateur.id == app.user.id and sortie.utilisateurs.count == 0) or is_granted("ROLE_ADMIN")) and (sortie.etat.id != 6 and sortie.dateLimiteInscription < sortie.dateHeureDebut and sortie.etat.id != 6) ) %}
                         <a href="{{ path('sortiessortie_annulerSortie', {'id': sortie.id} ) }}">Annuler</a>
                     {% endif %}
 

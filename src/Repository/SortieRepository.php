@@ -4,10 +4,8 @@ namespace App\Repository;
 
 use App\Entity\FiltreSortie;
 use App\Entity\Sortie;
-use App\Entity\Utilisateur;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * @method Sortie|null find($id, $lockMode = null, $lockVersion = null)
@@ -94,9 +92,6 @@ class SortieRepository extends ServiceEntityRepository
                 ->andWhere('su.id != :id')
                 ->setParameter('id', $userId);
         }
-        //dump($requete->getQuery()->getSQL());
-
-
         return $requete->getQuery()->getResult();
     }
 
