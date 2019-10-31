@@ -3,80 +3,89 @@
 {% block title %}Liste des sorties{% endblock %}
 {% block body %}
 
-    <div id="dateDuJour" style="float:right">Date du jour: {{ dateJour| date('d/m/Y') }}</div>
+    <div>
+        <h1 class="text-center">Liste des sorties </h1>
+        <br>
+        <br>
+
+        <h5 class='offset-1'>Filtrer les sorties </h5>
+
         <div class="row" id="sortieContainer">
-            <div class="col-sm-4 offset-sm-2">
+            <div class="col-sm-5">
                 {{ form_start(filtre) }}
-                <h5 class='offset-1'>Filtrer les sorties </h5>
+
                 <div class="form-group row">
-                    {{ form_label(filtre.nomSite, null, {'label_attr': {'class': 'col-sm-5 offset-sm-1 col-form-label bg-light'}}) }}
+                    {{ form_label(filtre.nomSite, null, {'label_attr': {'class': 'col-sm-4 offset-sm-2 col-form-label bg-light'}}) }}
                     <div class="col-sm-6">
                         {{ form_widget(filtre.nomSite, {'attr': {'class': 'form-control'}}) }}
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    {{ form_label(filtre.nomSortie, null, {'label_attr': {'class': 'col-sm-5 offset-sm-1 col-form-label bg-light'}}) }}
+                    {{ form_label(filtre.nomSortie, null, {'label_attr': {'class': 'col-sm-4 offset-sm-2 col-form-label bg-light'}}) }}
                     <div class="col-sm-6">
                         {{ form_widget(filtre.nomSortie, {'attr': {'class': 'form-control'}}) }}
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    {{ form_label(filtre.dateDebut, null, {'label_attr': {'class': 'col-sm-1 offset-sm-1 col-form-label bg-light'}}) }}
-                    <div class="col-sm-4">
+                    {{ form_label(filtre.dateDebut, null, {'label_attr': {'class': 'col-sm-1 offset-sm-2 col-form-label bg-light'}}) }}
+                    <div class="col-sm-3">
                         {{ form_widget(filtre.dateDebut, {'attr': {'class': 'form-control'}}) }}
                     </div>
                     {#</div>#}
 
                     {#<div class="form-group row">#}
-                    {{ form_label(filtre.datefin, null, {'label_attr': {'class': 'col-sm-1 col-form-label bg-light'}}) }}
-                    <div class="col-sm-4">
+                    {{ form_label(filtre.datefin, null, {'label_attr': {'class': 'col-sm-1 offset-sm-1 col-form-label bg-light'}}) }}
+                    <div class="col-sm-3">
                         {{ form_widget(filtre.datefin, {'attr': {'class': 'form-control'}}) }}
                     </div>
                 </div>
             </div>
 
-            <div class="col-sm-4">
+            <div class="col-sm-5">
                 <div class="form-group row">
-                    {{ form_label(filtre.mesSortiesOrg, null, {'label_attr': {'class': 'col-sm-10 col-form-label bg-light'}}) }}
-                    <div class="col-sm-2">
+                    {{ form_label(filtre.mesSortiesOrg, null, {'label_attr': {'class': 'col-sm-5 offset-sm-1 col-form-label bg-light'}}) }}
+                    <div class="col-sm-6">
                         {{ form_widget(filtre.mesSortiesOrg) }}
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    {{ form_label(filtre.mesSortiesInscr, null, {'label_attr': {'class': 'col-sm-10  col-form-label bg-light'}}) }}
-                    <div class="col-sm-2">
+                    {{ form_label(filtre.mesSortiesInscr, null, {'label_attr': {'class': 'col-sm-5 offset-sm-1 col-form-label bg-light'}}) }}
+                    <div class="col-sm-6">
                         {{ form_widget(filtre.mesSortiesInscr) }}
                     </div>
                 </div>
 
-                <div class="form-group row" >
-                    {{ form_label(filtre.sortiesNonInscr, null, {'label_attr': {'class': 'col-sm-10  col-form-label bg-light'}}) }}
-                    <div class="col-sm-2">
+                <div class="form-group row">
+                    {{ form_label(filtre.sortiesNonInscr, null, {'label_attr': {'class': 'col-sm-5 offset-sm-1 col-form-label bg-light'}}) }}
+                    <div class="col-sm-6">
                         {{ form_widget(filtre.sortiesNonInscr) }}
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    {{ form_label(filtre.sortiesExpirees, null, {'label_attr': {'class': 'col-sm-10 col-form-label bg-light'}}) }}
-                    <div class="col-sm-2">
+                    {{ form_label(filtre.sortiesExpirees, null, {'label_attr': {'class': 'col-sm-5 offset-sm-1 col-form-label bg-light'}}) }}
+                    <div class="col-sm-6">
                         {{ form_widget(filtre.sortiesExpirees) }}
                     </div>
                 </div>
             </div>
 
-            <div class="col-sm-6 offset-sm-3">
-                <button type="submit" id="btnFiltrer" class="btn btn-outline-secondary btn-block">Rechercher</button>
+            <div class="col-sm-2">
+                <button  type="submit" class="btn btn-outline-secondary">Rechercher</button>
             </div>
 
         </div>
         {{ form_end(filtre) }}
+    </div>
+    <br>
+    <br>
     <br>
     <div class="col-sm-10 text-center" id="tableSorties">
         <table class="table table-hover offset-1">
-            <thead class="thead-light">
+            <thead class="thead-dark">
             <tr>
                 <th scope="col" height="70px">Nom de la sortie</th>
                 <th scope="col">Date de la sortie</th>
@@ -96,10 +105,10 @@
                 <td>{{ sortie.dateLimiteInscription | date('d/m/Y H:i') }} </td>
                 <td>{{ sortie.utilisateurs.count }} / {{ sortie.nbInscriptionsMax }}</td>
                 <td>
-                    {% if (sortie.dateLimiteInscription <= dateJour) %}
-                        Fermé
+                    {% if (sortie.dateLimiteInscription >= dateJour) %}
+                        Clôturée
                     {% else %}
-                        {{ sortie.etat.libelle }}
+                        {{ sortie.etat.id  }}
                     {% endif %}
                 </td>
                 <td>{% for user in sortie.utilisateurs %}
@@ -151,9 +160,5 @@
             </tbody>
             {% endfor %}
         </table>
-    </div>
-    <br>
-    <div>
-        <a href="{{ path('sortiescreer_sortie')}}" class="btn btn-outline-primary offset-1">Créer une sortie</a>
     </div>
 {% endblock %}

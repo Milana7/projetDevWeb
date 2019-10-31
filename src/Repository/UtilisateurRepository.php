@@ -40,6 +40,15 @@ class UtilisateurRepository extends ServiceEntityRepository implements UserLoade
             ->getQuery()
             ->getOneOrNullResult();
     }
+
+
+    public function findAllUser()
+    {
+        return $this->createQueryBuilder('l')
+            ->getQuery()
+            ->getArrayResult()
+            ;
+    }
         // /**
         //  * @return Utilisateur[] Returns an array of Utilisateur objects
         //  */

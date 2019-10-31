@@ -67,6 +67,15 @@ footer {
     padding: 0.3em 1em;
 }
 
+#btnAjoutLieu{
+    padding: 0;
+}
+
+#btnAjoutLieu a {
+    font-weight: bold;
+}
+
+
 /*MODIFIER SORTIE*/
 #btnBackModifierSortie{
     margin-top: 2em;
@@ -93,6 +102,21 @@ footer {
     text-decoration: underline;
 }
 
+#gererSiteContainer {
+    margin: 2em 0;
+    width: 100%;
+
+}
+
+#filtrerLesSites {
+
+
+}
+
+#labelLeNomContient {
+
+
+}
 /* MODIFIER SITE */
 
 #modifierSiteContainer{
@@ -126,4 +150,9 @@ footer {
 
 #btnFiltrer {
     margin-top: 1em;
+}
+
+/* GESTION UTILISATEURS */
+#utilisateursTableContainer{
+    margin-top : 2em;
 }
