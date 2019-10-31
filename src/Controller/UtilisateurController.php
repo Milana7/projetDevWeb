@@ -31,6 +31,14 @@ class UtilisateurController extends Controller
         $repo = $em->getRepository(Utilisateur::class);
         $utilisateur = $repo->find($id);
 
+        dump($utilisateur);
+
+        if (empty($utilisateur->getImageName())) {
+            $utilisateur->setImageName('image/user.jpg');
+        } else {
+            $utilisateur->setImageName('images/profils/' . $utilisateur->getImageName());
+        }
+
         return $this->render("utilisateur/afficherProfil.html.twig", ["utilisateur" => $utilisateur]);
     }
 
@@ -43,7 +51,7 @@ class UtilisateurController extends Controller
         $session = $request->getSession();
         $referer = $session->get('referer');
 
-        if($referer == null || empty($referer)){
+        if ($referer == null || empty($referer)) {
             return $this->redirectToRoute('sortiesapp_sortie_listsorties');
         }
         return $this->redirect($referer);
@@ -60,16 +68,21 @@ class UtilisateurController extends Controller
         $utilisateurForm->handleRequest($request);
 
         if ($utilisateurForm->isSubmitted() && $utilisateurForm->isValid()) {
-                $em->persist($utilisateur);
-                $em->flush();
+            $em->persist($utilisateur);
+            $em->flush();
 
-                $this->addFlash("success", "Le profil a été modifié !");
-                return $this->redirectToRoute("utilisateur_detailProfil", ["id" => $utilisateur->getId()]);
-            }
+            $this->addFlash("success", "Le profil a été modifié !");
+            return $this->redirectToRoute("utilisateur_detailProfil", ["id" => $utilisateur->getId()]);
+        }
 
+        if (empty($utilisateur->getImageName())) {
+            $utilisateur->setImageName('image/user.jpg');
+        } else {
+            $utilisateur->setImageName('images/profils/' . $utilisateur->getImageName());
+        }
 
         return $this->render("utilisateur/modifierProfil.html.twig", [
-            "utilisateurForm" => $utilisateurForm->createView()
+            "utilisateurForm" => $utilisateurForm->createView(), "utilisateur" => $utilisateur
         ]);
     }
 
@@ -140,12 +153,13 @@ class UtilisateurController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function changerStatutUtilisateurs(EntityManagerInterface $em, Request $request){
+    public function changerStatutUtilisateurs(EntityManagerInterface $em, Request $request)
+    {
         $selectedElements = $request->get('selectedElements');
         $items = explode(',', $selectedElements);
         $userRepo = $em->getRepository(Utilisateur::class);
-        if(count($items) > 0){
-            foreach ($items as $userId){
+        if (count($items) > 0) {
+            foreach ($items as $userId) {
                 $utilisateur = $userRepo->find($userId);
                 $utilisateur->setActif(!$utilisateur->getActif());
             }
