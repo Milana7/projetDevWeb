@@ -89,7 +89,7 @@
             <tr>
                 <th scope="col" height="70px">Nom de la sortie</th>
                 <th scope="col">Date de la sortie</th>
-                <th scope="col">Clôture</th>
+                <th scope="col">Clôture de l'inscription</th>
                 <th scope="col">Inscrits/Places</th>
                 <th scope="col">Etat</th>
                 <th scope="col">Inscrit</th>
@@ -105,10 +105,10 @@
                 <td>{{ sortie.dateLimiteInscription | date('d/m/Y H:i') }} </td>
                 <td>{{ sortie.utilisateurs.count }} / {{ sortie.nbInscriptionsMax }}</td>
                 <td>
-                    {% if (sortie.dateLimiteInscription >= dateJour) %}
+                    {% if (sortie.dateLimiteInscription <= dateJour) %}
                         Clôturée
                     {% else %}
-                        {{ sortie.etat.id  }}
+                        {{ sortie.etat.libelle  }}
                     {% endif %}
                 </td>
                 <td>{% for user in sortie.utilisateurs %}
