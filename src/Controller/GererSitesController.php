@@ -18,7 +18,7 @@ class GererSitesController extends Controller
     public function listSites()
     {
         $listSites = $this->getDoctrine()->getRepository(Site::class)->listSites();
-        dump($listSites);
+
         return $this->render('gererSites/gererSites.html.twig', [
             'controller_name' => 'GererSitesController',
             'listSite' => $listSites,
@@ -44,12 +44,8 @@ class GererSitesController extends Controller
             $em->flush();
 
             return $this->redirectToRoute("gererSites");
-
         }
-
         return $this->render('gererSites/modifierSite.html.twig', ['form' => $form->createView()]);
-
-
     }
 
 
@@ -82,10 +78,12 @@ class GererSitesController extends Controller
         $site = new Site();
         $form = $this->createForm(AjouterSiteType::class, $site);
 
-
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
+
+            $site->setIsActif(true);
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($site);
             $em->flush();
@@ -93,13 +91,7 @@ class GererSitesController extends Controller
             //redirection
             return $this->redirectToRoute("gererSites");
         }
-
-
         // Ajout en BDD
-
-
         return $this->render('gererSites/ajouterSite.html.twig', ['ajouterForm' => $form->createView()]);
-
-
     }
 }

@@ -5,7 +5,7 @@
 {% block body %}
 
 
-    <h1 class="text-center" xmlns="http://www.w3.org/1999/html">Liste des sites organisateurs : </h1>
+    <h1 class="text-center" >Liste des sites organisateurs : </h1>
 
 
     <h5 class="offset-3" id="filtrerLesSites"> Filtrer les sites </h5> <
@@ -25,7 +25,7 @@
                 <thead>
                 <tr>
                     <th scope="col">Ville</th>
-                    <th scope="col"></th>
+                    <th scope="col">Statut</th>
                     <th scope="col">Actions</th>
                 </tr>
                 </thead>
@@ -33,15 +33,14 @@
                     {% for site in listSite %}
                 <tr>
                     <td>{{ site.nom }}
-                    <td></td>
                     <td>{% if(site.isActif) %}
                             Actif
                         {% else %}
                             Inactif
                         {% endif %}
                     </td>
-                    <td><a href="{{ path('_modifierSite', {'idSite': site.id}) }}">Modifier</a>
-                    <td><span class="deleteLink" onclick="validateDeleteSite({{ site.id }})">Supprimer</span>
+                    <td>
+                        <a href="{{ path('_modifierSite', {'idSite': site.id}) }}">Modifier</a>
                     </td>
                 </tr>
                 {% endfor %}
@@ -53,11 +52,11 @@
     <div id="modifierProfil-btnGroupe ">
 
         <a href="{{ path('_ajouterSite') }}">
-        <button type="button" class="btn btn-outline-primary offset-3"> ajouter</button>
+            <button type="button" class="btn btn-outline-success offset-3"> Ajouter</button>
         </a>
 
         <a href="{{ path('sortiesapp_sortie_listsorties') }}">
-            <button type="button" class="btn btn-outline-danger offset-3">Annuler</button>
+            <button type="button" class="btn btn-outline-danger offset-5">Annuler</button>
         </a>
     </div>
 

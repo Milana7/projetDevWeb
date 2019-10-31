@@ -98,6 +98,10 @@ footer {
     color: red;
 }
 
+#gererSiteTitle{
+    margin: 1em 0;
+}
+
 .deleteLink:hover{
     text-decoration: underline;
 }
@@ -121,14 +125,12 @@ footer {
 
 #modifierSiteContainer{
     margin: 2em 0;
-    width: 100%;
 }
 
 /* MODIFIER PROFIL */
 
 #modifierProfilContainer{
     margin: 2em 0;
-    width: 100%;
 }
 
 #modifierProfil-btnGroupe {

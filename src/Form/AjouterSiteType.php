@@ -17,15 +17,9 @@ class AjouterSiteType extends AbstractType
         $builder
             ->add('nom',TextType::class , [
 
-                'label' => 'Site :',
+                'label' =>'Site',
                 'required' => false,
-            ])
-            ->add('isActif', CheckboxType::class ,[
-                'label'=>'Etat :'
-
-
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

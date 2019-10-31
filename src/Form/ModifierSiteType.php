@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Site;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -14,7 +15,12 @@ class ModifierSiteType extends AbstractType
     {
         $builder
             ->add('nom', TextType::class, [
-                "label" => "Nom du site  : " ])
+                "label" => "Nom du site  : "
+            ])
+            ->add('isActif', CheckboxType::class ,[
+                'label'=>'Actif',
+                'required'=>false
+            ])
         ;
     }
 
