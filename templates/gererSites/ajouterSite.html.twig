@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<h1 class="text-center">Ajouter un nouveau site</h1>
+<br>
+<div class="row" id="modifierSiteContainer">
+
+    <div class="col-sm-6 offset-3">
+        {{ form_start(ajouterForm) }}
+        <div class="form-group row">
+            {{ form_label(ajouterForm.nom, null, {'label_attr': {'class': 'col-sm-4 offset-sm-1 col-form-label bg-light'}}) }}
+            <div class="col-sm-6">
+                {{ form_widget(ajouterForm.nom, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(ajouterForm.nom) }}
+            </div>
+        </div>
+
+        <div class="col-sm-6 offset-3">
+            <div class="form-group row">
+                {{ form_label(ajouterForm.isActif, null, {'label_attr': {'class': 'col-sm-4 offset-sm-2 col-form-label bg-light'}}) }}
+                <div class="col-sm-6">
+                    {{ form_widget(ajouterForm.isActif, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(ajouterForm.isActif) }}
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <div id="modifierProfil-btnGroupe">
+        <button type="submit" {{ path('_ajouterSite') }} class="btn btn-outline-success">Enregistrer</button>
+        <a href="{{ path('gererSites') }}">
+            <button type="button" class="btn btn-outline-danger">Annuler</button>
+        </a>
+    </div>
+</div>
+    {{ form_end(ajouterForm) }}
+
+
+    {% endblock %}
+
+    {% block title %}
+
+    {% endblock %}
+
+

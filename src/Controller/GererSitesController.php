@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Site;
+use App\Form\AjouterSiteType;
 use App\Form\ModifierSiteType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -28,13 +29,14 @@ class GererSitesController extends Controller
      * @Route("/admin/modifierSite/{idSite}", name="_modifierSite")
      *
      */
-    public function modifierSite (Request $request, EntityManagerInterface $em, $idSite) {
-        $site= $em->getRepository(Site::class)->find($idSite);
+    public function modifierSite(Request $request, EntityManagerInterface $em, $idSite)
+    {
+        $site = $em->getRepository(Site::class)->find($idSite);
 
         $form = $this->createForm(ModifierSiteType::class, $site);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
 
             // Ajout en BDD
             $em = $this->getDoctrine()->getManager();
@@ -57,7 +59,8 @@ class GererSitesController extends Controller
      * @param $idSite
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function supprimerSite (EntityManagerInterface $em, $idSite) {
+    public function supprimerSite(EntityManagerInterface $em, $idSite)
+    {
 
         $site = $em->getRepository(Site::class)->find($idSite);
         $site->setIsActif(false);
@@ -68,6 +71,35 @@ class GererSitesController extends Controller
         $em->flush();
 
         return $this->redirectToRoute("gererSites");
+
+    }
+
+    /**
+     * @Route("/ajouterSite/",name="_ajouterSite")
+     */
+    public function ajouterSite(EntityManagerInterface $em, Request $request)
+    {
+        $site = new Site();
+        $form = $this->createForm(AjouterSiteType::class, $site);
+
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($site);
+            $em->flush();
+
+            //redirection
+            return $this->redirectToRoute("gererSites");
+        }
+
+
+        // Ajout en BDD
+
+
+        return $this->render('gererSites/ajouterSite.html.twig', ['ajouterForm' => $form->createView()]);
+
 
     }
 }
